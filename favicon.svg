@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Background with gradient -->
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded background -->
+  <rect width="100" height="100" fill="url(#bg)" rx="22"/>
+
+  <!-- Platform layers (representing platform engineering) -->
+  <g transform="translate(50, 50)">
+    <!-- Bottom layer - Infrastructure -->
+    <rect x="-32" y="12" width="64" height="10" rx="2" fill="white" opacity="0.5"/>
+
+    <!-- Middle layer - Platform -->
+    <rect x="-28" y="-2" width="56" height="10" rx="2" fill="white" opacity="0.7"/>
+
+    <!-- Top layer - Applications -->
+    <rect x="-24" y="-16" width="48" height="10" rx="2" fill="white" opacity="0.9"/>
+
+    <!-- Kubernetes-style wheel icon on top -->
+    <g transform="translate(0, -28)">
+      <!-- Center circle -->
+      <circle cx="0" cy="0" r="4" fill="white"/>
+
+      <!-- Six spokes -->
+      <line x1="0" y1="-8" x2="0" y2="-4" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="6.9" y1="-4" x2="3.5" y2="-2" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="6.9" y1="4" x2="3.5" y2="2" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="0" y1="8" x2="0" y2="4" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="-6.9" y1="4" x2="-3.5" y2="2" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="-6.9" y1="-4" x2="-3.5" y2="-2" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+
+      <!-- Outer dots -->
+      <circle cx="0" cy="-8" r="1.5" fill="white"/>
+      <circle cx="6.9" cy="-4" r="1.5" fill="white"/>
+      <circle cx="6.9" cy="4" r="1.5" fill="white"/>
+      <circle cx="0" cy="8" r="1.5" fill="white"/>
+      <circle cx="-6.9" cy="4" r="1.5" fill="white"/>
+      <circle cx="-6.9" cy="-4" r="1.5" fill="white"/>
+    </g>
+  </g>
+</svg>
