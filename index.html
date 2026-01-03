@@ -6,17 +6,37 @@
     <meta name="description" content="Dipo Oginni - Senior Platform Engineer & SRE specializing in building internal developer platforms, infrastructure automation, and cost optimization at scale">
     <meta name="author" content="Dipo Oginni">
     <meta name="keywords" content="Platform Engineering, SRE, Site Reliability Engineering, Internal Developer Platform, FinOps, Kubernetes, AWS, Azure, Terraform, DevOps, Cloud Cost Optimization, Infrastructure Automation">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Dipo Oginni | Platform Engineer & SRE">
+    <meta property="og:description" content="Senior Platform Engineer with 7+ years building internal developer platforms, self-service infrastructure, and cost-optimized cloud systems.">
+    <meta property="og:url" content="https://dipops.com">
+    <meta property="og:site_name" content="Dipo Oginni">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Dipo Oginni | Platform Engineer & SRE">
+    <meta name="twitter:description" content="Senior Platform Engineer with 7+ years building internal developer platforms, self-service infrastructure, and cost-optimized cloud systems.">
+
     <title>Dipo Oginni | Platform Engineer & SRE</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <nav class="navbar">
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
         <div class="nav-container">
             <div class="nav-logo">
                 <a href="#hero">Dipo Oginni</a>
             </div>
-            <div class="nav-links">
+            <!-- Mobile menu toggle button -->
+            <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links">
+                <span class="hamburger"></span>
+            </button>
+            <div class="nav-links" id="nav-links">
                 <a href="#about">About</a>
                 <a href="#expertise">Expertise</a>
                 <a href="#projects">Projects</a>
@@ -25,8 +45,8 @@
         </div>
     </nav>
 
-    <main>
-        <section id="hero" class="hero">
+    <main id="main-content">
+        <section id="hero" class="hero" aria-label="Introduction">
             <div class="hero-content">
                 <div class="hero-badge">Platform Engineer | SRE | DevOps</div>
                 <h1 class="hero-title">Dipo Oginni</h1>
@@ -57,9 +77,9 @@
             </div>
         </section>
 
-        <section id="about" class="section">
+        <section id="about" class="section" aria-labelledby="about-title">
             <div class="container">
-                <h2 class="section-title">What I Do</h2>
+                <h2 class="section-title" id="about-title">What I Do</h2>
                 <div class="about-content">
                     <div class="about-text">
                         <p>
@@ -83,42 +103,42 @@
             </div>
         </section>
 
-        <section id="expertise" class="section section-alt">
+        <section id="expertise" class="section section-alt" aria-labelledby="expertise-title">
             <div class="container">
-                <h2 class="section-title">Core Expertise</h2>
+                <h2 class="section-title" id="expertise-title">Core Expertise</h2>
                 <div class="expertise-grid">
                     <div class="expertise-card">
-                        <div class="expertise-icon">🛠️</div>
+                        <div class="expertise-icon" aria-hidden="true">🛠️</div>
                         <h3>Platform Engineering & IDPs</h3>
                         <p>Build internal developer platforms with self-service infrastructure provisioning, automated deployments, and golden paths. Reduce cognitive load by abstracting Kubernetes complexity behind simple interfaces. Enable teams to ship faster without needing deep infrastructure knowledge.</p>
                     </div>
 
                     <div class="expertise-card">
-                        <div class="expertise-icon">💰</div>
+                        <div class="expertise-icon" aria-hidden="true">💰</div>
                         <h3>FinOps & Cost Optimization</h3>
                         <p>Cut cloud spending by 30%+ through rightsizing, commitment management, and waste reduction. Implement showback/chargeback systems, optimize Kubernetes resource allocation, and build cost-aware CI/CD pipelines. Saved over $1M in cloud costs.</p>
                     </div>
 
                     <div class="expertise-card">
-                        <div class="expertise-icon">📊</div>
+                        <div class="expertise-icon" aria-hidden="true">📊</div>
                         <h3>Observability Engineering</h3>
                         <p>Build observability platforms with distributed tracing, service mesh monitoring, and real-time SLO tracking. Move beyond basic monitoring to understand system behavior—logs, metrics, and traces correlated for root cause analysis in minutes, not hours.</p>
                     </div>
 
                     <div class="expertise-card">
-                        <div class="expertise-icon">⎈</div>
+                        <div class="expertise-icon" aria-hidden="true">⎈</div>
                         <h3>Kubernetes at Scale</h3>
                         <p>Multi-cluster Kubernetes platforms with GitOps, service mesh (Istio/Linkerd), and custom operators. Handle multi-tenancy, policy enforcement, and cluster federation. Zero-downtime upgrades across hundreds of services.</p>
                     </div>
 
                     <div class="expertise-card">
-                        <div class="expertise-icon">🔥</div>
+                        <div class="expertise-icon" aria-hidden="true">🔥</div>
                         <h3>Chaos Engineering & SRE</h3>
                         <p>Implement chaos experiments to prove system resilience. Define SLIs/SLOs, manage error budgets, and build self-healing systems. Reduced MTTR by 70% through automated incident response and blameless postmortems.</p>
                     </div>
 
                     <div class="expertise-card">
-                        <div class="expertise-icon">🔧</div>
+                        <div class="expertise-icon" aria-hidden="true">🔧</div>
                         <h3>Infrastructure Automation</h3>
                         <p>Everything as code—Terraform for infrastructure, Ansible for config, GitOps for deployments. Automated 2,000+ servers with zero-touch provisioning. Build CI/CD pipelines that detect drift and self-remediate.</p>
                     </div>
@@ -126,9 +146,9 @@
             </div>
         </section>
 
-        <section id="projects" class="section">
+        <section id="projects" class="section" aria-labelledby="projects-title">
             <div class="container">
-                <h2 class="section-title">Featured Projects</h2>
+                <h2 class="section-title" id="projects-title">Featured Projects</h2>
                 <div class="projects-grid">
                     <div class="project-card featured">
                         <div class="project-main">
@@ -272,31 +292,57 @@
             </div>
         </section>
 
-        <section id="contact" class="section">
+        <section id="contact" class="section" aria-labelledby="contact-title">
             <div class="container">
-                <h2 class="section-title">Let's Connect</h2>
+                <h2 class="section-title" id="contact-title">Let's Connect</h2>
                 <div class="contact-content">
                     <p class="contact-description">
                         Open to senior/staff platform engineering and SRE roles where I can build teams, set technical direction,
                         and solve complex infrastructure challenges at scale. Also available for technical advisory and consulting.
                     </p>
+
+                    <!-- Contact Form -->
+                    <form class="contact-form" action="https://formspree.io/f/your-form-id" method="POST" aria-label="Contact form">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required placeholder="Your name" autocomplete="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required placeholder="your@email.com" autocomplete="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" required placeholder="How can I help?">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required placeholder="Your message..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-submit">Send Message</button>
+                    </form>
+
+                    <div class="contact-divider">
+                        <span>or reach out directly</span>
+                    </div>
+
                     <div class="contact-links">
-                        <a href="mailto:dipo@dipops.com" class="contact-card">
-                            <div class="contact-icon">✉️</div>
+                        <a href="mailto:dipo@dipops.com" class="contact-card" aria-label="Email Dipo at dipo@dipops.com">
+                            <div class="contact-icon" aria-hidden="true">✉️</div>
                             <div class="contact-info">
                                 <h4>Email</h4>
                                 <p>dipo@dipops.com</p>
                             </div>
                         </a>
-                        <a href="tel:+19059810153" class="contact-card">
-                            <div class="contact-icon">📱</div>
+                        <a href="tel:+19059810153" class="contact-card" aria-label="Call Dipo at +1 905 981 0153">
+                            <div class="contact-icon" aria-hidden="true">📱</div>
                             <div class="contact-info">
                                 <h4>Phone</h4>
                                 <p>+1 (905) 981-0153</p>
                             </div>
                         </a>
-                        <a href="https://linkedin.com/in/dipo-oginni" target="_blank" rel="noopener noreferrer" class="contact-card">
-                            <div class="contact-icon">💼</div>
+                        <a href="https://linkedin.com/in/dipo-oginni" target="_blank" rel="noopener noreferrer" class="contact-card" aria-label="Connect with Dipo on LinkedIn">
+                            <div class="contact-icon" aria-hidden="true">💼</div>
                             <div class="contact-info">
                                 <h4>LinkedIn</h4>
                                 <p>dipo-oginni</p>
@@ -308,12 +354,59 @@
         </section>
     </main>
 
-    <footer class="footer">
+    <footer class="footer" role="contentinfo">
         <div class="container">
             <p>&copy; 2025 Dipo Oginni. All rights reserved.</p>
             <p class="footer-tagline">Platform Engineering • Cloud Architecture • FinOps • SRE</p>
             <p class="footer-tagline">Building platforms that enable teams to ship faster and sleep better.</p>
         </div>
     </footer>
+
+    <script>
+        // Mobile menu toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        navToggle.addEventListener('click', () => {
+            const isOpen = navLinks.classList.toggle('nav-open');
+            navToggle.classList.toggle('active');
+            navToggle.setAttribute('aria-expanded', isOpen);
+        });
+
+        // Close menu when clicking a link
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('nav-open');
+                navToggle.classList.remove('active');
+                navToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        // Active navigation highlighting on scroll
+        const sections = document.querySelectorAll('section[id]');
+        const navItems = document.querySelectorAll('.nav-links a');
+
+        function highlightNav() {
+            const scrollPos = window.scrollY + 100;
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
+
+                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                    navItems.forEach(item => {
+                        item.classList.remove('active');
+                        if (item.getAttribute('href') === '#' + sectionId) {
+                            item.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+
+        window.addEventListener('scroll', highlightNav);
+        highlightNav();
+    </script>
 </body>
 </html>
