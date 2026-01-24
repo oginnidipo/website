@@ -38,7 +38,10 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <nav class="navbar">
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
         <div class="nav-container">
             <div class="nav-logo">
                 <a href="#hero">Dipo Oginni</a>
@@ -59,8 +62,8 @@
         </div>
     </nav>
 
-    <main>
-        <section id="hero" class="hero">
+    <main id="main-content">
+        <section id="hero" class="hero" aria-label="Introduction">
             <div class="hero-content">
                 <div class="hero-badge">Platform Engineer | SRE | DevOps • Toronto, Canada 🇨🇦</div>
                 <h1 class="hero-title">Dipo Oginni</h1>
@@ -344,6 +347,29 @@
                         Open to senior/staff platform engineering and SRE roles where I can build teams, set technical direction,
                         and solve complex infrastructure challenges at scale. Also available for technical advisory and consulting.
                     </p>
+                    
+                    <form class="contact-form" action="https://formspree.io/dipo@dipops.com" method="POST" aria-label="Contact form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" required placeholder="Your name" autocomplete="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" required placeholder="your@email.com" autocomplete="email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="4" required placeholder="How can I help?"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-submit">Send Message</button>
+                    </form>
+
+                    <div class="contact-divider">
+                        <span>or reach out directly</span>
+                    </div>
+
                     <div class="contact-links">
                         <a href="mailto:dipo@dipops.com" class="contact-card">
                             <div class="contact-icon">✉️</div>
