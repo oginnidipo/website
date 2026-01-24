@@ -6,6 +6,33 @@
     <meta name="description" content="Dipo Oginni - Senior Platform Engineer & SRE specializing in building internal developer platforms, infrastructure automation, and cost optimization at scale">
     <meta name="author" content="Dipo Oginni">
     <meta name="keywords" content="Platform Engineering, SRE, Site Reliability Engineering, Internal Developer Platform, FinOps, Kubernetes, AWS, Azure, Terraform, DevOps, Cloud Cost Optimization, Infrastructure Automation">
+    
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oginnidipo.github.io/website/">
+    <meta property="og:title" content="Dipo Oginni | Platform Engineer & SRE">
+    <meta property="og:description" content="Senior Platform Engineer with 7+ years building internal developer platforms, self-service infrastructure, and cost-optimized cloud systems.">
+    <meta property="og:image" content="https://oginnidipo.github.io/website/og-image.svg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Dipo Oginni | Platform Engineer & SRE">
+    <meta name="twitter:description" content="Building platforms that scale companies, not just infrastructure.">
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Dipo Oginni",
+        "jobTitle": "Senior Platform Engineer",
+        "url": "https://oginnidipo.github.io/website/",
+        "sameAs": [
+            "https://linkedin.com/in/dipo-oginni",
+            "https://github.com/oginnidipo"
+        ],
+        "knowsAbout": ["Platform Engineering", "Kubernetes", "AWS", "Terraform", "SRE", "FinOps"]
+    }
+    </script>
+    
     <title>Dipo Oginni | Platform Engineer & SRE</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="styles.css">
@@ -16,11 +43,17 @@
             <div class="nav-logo">
                 <a href="#hero">Dipo Oginni</a>
             </div>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <div class="nav-links">
                 <a href="#about">About</a>
                 <a href="#expertise">Expertise</a>
                 <a href="#projects">Projects</a>
                 <a href="#contact">Contact</a>
+                <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
             </div>
         </div>
     </nav>
@@ -28,7 +61,7 @@
     <main>
         <section id="hero" class="hero">
             <div class="hero-content">
-                <div class="hero-badge">Platform Engineer | SRE | DevOps</div>
+                <div class="hero-badge">Platform Engineer | SRE | DevOps • Toronto, Canada 🇨🇦</div>
                 <h1 class="hero-title">Dipo Oginni</h1>
                 <p class="hero-subtitle">Building platforms that scale companies, not just infrastructure</p>
                 <p class="hero-description">
@@ -302,6 +335,13 @@
                                 <p>dipo-oginni</p>
                             </div>
                         </a>
+                        <a href="https://github.com/oginnidipo" target="_blank" rel="noopener noreferrer" class="contact-card">
+                            <div class="contact-icon">🐙</div>
+                            <div class="contact-info">
+                                <h4>GitHub</h4>
+                                <p>oginnidipo</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -310,10 +350,88 @@
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Dipo Oginni. All rights reserved.</p>
+            <p>&copy; 2026 Dipo Oginni. All rights reserved.</p>
             <p class="footer-tagline">Platform Engineering • Cloud Architecture • FinOps • SRE</p>
             <p class="footer-tagline">Building platforms that enable teams to ship faster and sleep better.</p>
         </div>
     </footer>
+    <!-- Back to Top Button -->
+    <button class="back-to-top" aria-label="Back to top" title="Back to top">↑</button>
+
+    <script>
+        // Dark mode toggle
+        const themeToggle = document.querySelector('.theme-toggle');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        function setTheme(dark) {
+            document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+            themeToggle.textContent = dark ? '☀️' : '🌙';
+            localStorage.setItem('theme', dark ? 'dark' : 'light');
+        }
+        
+        // Initialize theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            setTheme(savedTheme === 'dark');
+        } else {
+            setTheme(prefersDark.matches);
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            setTheme(!isDark);
+        });
+
+        // Mobile menu toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            navToggle.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking a link
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                navToggle.classList.remove('active');
+            });
+        });
+
+        // Back to top button
+        const backToTop = document.querySelector('.back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+        
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.expertise-card, .project-card, .contact-card, .about-text').forEach(el => {
+            el.classList.add('animate-target');
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>
