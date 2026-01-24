@@ -498,6 +498,56 @@ body {
 }
 
 
+/* Certifications Section */
+.certifications-grid {
+    display: flex;
+    justify-content: center;
+    gap: clamp(1rem, 2vw, 1.5rem);
+    flex-wrap: wrap;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.cert-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: white;
+    padding: clamp(1rem, 2vw, 1.5rem) clamp(1.25rem, 2.5vw, 2rem);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+    min-width: 260px;
+}
+
+.cert-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+    border-color: var(--primary);
+}
+
+.cert-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.cert-info h3 {
+    font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.cert-info p {
+    font-size: clamp(0.8rem, 1.3vw, 0.875rem);
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .cert-card {
+    background: var(--bg-secondary);
+}
+
 /* Contact Section */
 .contact-content {
     max-width: 800px;
