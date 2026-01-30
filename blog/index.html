@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Platform Engineering, SRE, and FinOps insights from Dipo Oginni">
+    <title>Blog | Dipo Oginni - Platform Engineering & SRE</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .blog-card {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .blog-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+        .blog-date {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        .blog-title {
+            font-size: 1.5rem;
+            margin: 0.5rem 0 1rem;
+            color: #1a1a1a;
+        }
+        .blog-excerpt {
+            color: #444;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .blog-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        .blog-tag {
+            background: #f0f0f0;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .read-more {
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .read-more:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="../index.html">Dipo Oginni</a>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html#about">About</a>
+                <a href="../index.html#expertise">Expertise</a>
+                <a href="../index.html#projects">Projects</a>
+                <a href="index.html">Blog</a>
+                <a href="../index.html#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="section">
+            <div class="container">
+                <h1 class="section-title">Platform Engineering Insights</h1>
+                <p style="text-align: center; color: #666; max-width: 700px; margin: 0 auto 2rem;">
+                    Practical guides on building internal developer platforms, cutting cloud costs, and improving system reliability.
+                </p>
+
+                <div class="blog-grid">
+                    <article class="blog-card">
+                        <div class="blog-date">January 30, 2026</div>
+                        <h2 class="blog-title">How I Cut Cloud Costs by 30% Without Sacrificing Performance</h2>
+                        <p class="blog-excerpt">
+                            Most companies are overspending on cloud infrastructure by 25-40%. Here's the systematic approach I use to identify waste, rightsize resources, and implement FinOps practices that actually stick.
+                        </p>
+                        <div class="blog-tags">
+                            <span class="blog-tag">FinOps</span>
+                            <span class="blog-tag">AWS</span>
+                            <span class="blog-tag">Cost Optimization</span>
+                        </div>
+                        <a href="cloud-cost-optimization.html" class="read-more">Read more →</a>
+                    </article>
+
+                    <article class="blog-card">
+                        <div class="blog-date">January 28, 2026</div>
+                        <h2 class="blog-title">Building an Internal Developer Platform: The Golden Path Approach</h2>
+                        <p class="blog-excerpt">
+                            Your developers shouldn't need to know Kubernetes to ship code. Learn how to build self-service platforms that abstract complexity while maintaining flexibility for power users.
+                        </p>
+                        <div class="blog-tags">
+                            <span class="blog-tag">Platform Engineering</span>
+                            <span class="blog-tag">Kubernetes</span>
+                            <span class="blog-tag">DevEx</span>
+                        </div>
+                        <a href="internal-developer-platform.html" class="read-more">Read more →</a>
+                    </article>
+
+                    <article class="blog-card">
+                        <div class="blog-date">January 25, 2026</div>
+                        <h2 class="blog-title">The Observability Stack That Actually Helps You Debug</h2>
+                        <p class="blog-excerpt">
+                            Logs, metrics, and traces are table stakes. Here's how to build an observability platform that correlates data intelligently and helps engineers find root causes in minutes, not hours.
+                        </p>
+                        <div class="blog-tags">
+                            <span class="blog-tag">Observability</span>
+                            <span class="blog-tag">OpenTelemetry</span>
+                            <span class="blog-tag">SRE</span>
+                        </div>
+                        <a href="observability-stack.html" class="read-more">Read more →</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Dipo Oginni. All rights reserved.</p>
+            <p class="footer-tagline">Platform Engineering • Cloud Architecture • FinOps • SRE</p>
+        </div>
+    </footer>
+</body>
+</html>

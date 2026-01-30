@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Proven strategies to reduce cloud costs by 20-30% without sacrificing performance. FinOps practices from a Senior Platform Engineer.">
+    <meta name="keywords" content="cloud cost optimization, FinOps, AWS cost reduction, Azure cost savings, cloud waste, rightsizing, reserved instances">
+    <title>How I Cut Cloud Costs by 30% Without Sacrificing Performance | Dipo Oginni</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        .article-header {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #eee;
+        }
+        .article-date {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+        .article-title {
+            font-size: 2.5rem;
+            line-height: 1.2;
+            margin: 1rem 0;
+            color: #1a1a1a;
+        }
+        .article-subtitle {
+            font-size: 1.25rem;
+            color: #555;
+            line-height: 1.6;
+            margin-top: 1rem;
+        }
+        .article-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #333;
+        }
+        .article-content h2 {
+            font-size: 1.8rem;
+            margin: 3rem 0 1.5rem;
+            color: #1a1a1a;
+        }
+        .article-content h3 {
+            font-size: 1.4rem;
+            margin: 2rem 0 1rem;
+            color: #2a2a2a;
+        }
+        .article-content ul, .article-content ol {
+            margin: 1.5rem 0;
+            padding-left: 2rem;
+        }
+        .article-content li {
+            margin: 0.75rem 0;
+        }
+        .highlight-box {
+            background: #f8f9fa;
+            border-left: 4px solid #0066cc;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        .stat-callout {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        .stat-callout h3 {
+            color: white;
+            margin: 0 0 0.5rem 0;
+            font-size: 2.5rem;
+        }
+        .cta-box {
+            background: #f0f8ff;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 3rem 0;
+            text-align: center;
+        }
+        .cta-box h3 {
+            margin-top: 0;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="../index.html">Dipo Oginni</a>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html#about">About</a>
+                <a href="../index.html#expertise">Expertise</a>
+                <a href="index.html">Blog</a>
+                <a href="../index.html#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <article class="article-container">
+            <header class="article-header">
+                <div class="article-date">January 30, 2026 · 8 min read</div>
+                <h1 class="article-title">How I Cut Cloud Costs by 30% Without Sacrificing Performance</h1>
+                <p class="article-subtitle">
+                    A systematic approach to cloud cost optimization that actually works. Real strategies from years of platform engineering work.
+                </p>
+            </header>
+
+            <div class="article-content">
+                <p>
+                    Most companies are throwing money away on cloud infrastructure. After working with dozens of organizations, I've seen the same pattern: rapid growth leads to sprawling infrastructure, and suddenly AWS/Azure bills are growing faster than revenue.
+                </p>
+
+                <div class="stat-callout">
+                    <h3>$1.2M</h3>
+                    <p>saved annually for one client through systematic FinOps practices</p>
+                </div>
+
+                <p>
+                    The good news? You can cut costs by 20-30% without impacting performance. Here's the systematic approach I use.
+                </p>
+
+                <h2>The Problem: How Cloud Waste Happens</h2>
+
+                <p>
+                    Cloud waste doesn't happen because engineers are careless. It happens because:
+                </p>
+
+                <ul>
+                    <li><strong>Move fast, optimize later mentality:</strong> Teams spin up resources for a project, then never revisit sizing</li>
+                    <li><strong>No cost visibility:</strong> Engineers don't see the bill, so they over-provision "to be safe"</li>
+                    <li><strong>Zombie resources:</strong> Test environments, old backups, detached volumes nobody remembers</li>
+                    <li><strong>Wrong purchasing strategy:</strong> Everything on-demand when 70% of workloads are predictable</li>
+                    <li><strong>Kubernetes resource requests:</strong> Developers set requests way higher than actual usage</li>
+                </ul>
+
+                <h2>The Framework: 5-Step Cost Optimization</h2>
+
+                <h3>1. Visibility First (Week 1)</h3>
+
+                <p>
+                    You can't optimize what you can't measure. Start with:
+                </p>
+
+                <ul>
+                    <li><strong>Tag everything:</strong> Environment, team, cost center, project. Non-negotiable.</li>
+                    <li><strong>Cost allocation dashboards:</strong> Break down spending by service, team, and environment</li>
+                    <li><strong>Set up anomaly detection:</strong> Get alerted when costs spike unexpectedly</li>
+                    <li><strong>Identify the top 20% of costs:</strong> This is where you'll focus first</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong>Quick Win:</strong> In most organizations, 80% of costs come from 20% of resources. Find those first.
+                </div>
+
+                <h3>2. Kill the Zombies (Week 1-2)</h3>
+
+                <p>
+                    Dead resources are everywhere:
+                </p>
+
+                <ul>
+                    <li>Unattached EBS volumes ($100-500/month each)</li>
+                    <li>Forgotten RDS snapshots</li>
+                    <li>Old load balancers with no targets</li>
+                    <li>NAT Gateways for deleted VPCs</li>
+                    <li>Elastic IPs not attached to instances</li>
+                    <li>Development environments running 24/7</li>
+                </ul>
+
+                <p>
+                    <strong>Action:</strong> Write scripts to find and report these. Get approval to delete. Typical savings: 5-10% immediately.
+                </p>
+
+                <h3>3. Rightsizing (Week 2-4)</h3>
+
+                <p>
+                    Most resources are over-provisioned by 40-60%. Here's how to fix it:
+                </p>
+
+                <ul>
+                    <li><strong>EC2 instances:</strong> Check CloudWatch metrics. If CPU is under 40% for 30 days, downsize.</li>
+                    <li><strong>RDS databases:</strong> Look at connection counts and IOPS. Many are 2-3x larger than needed.</li>
+                    <li><strong>Kubernetes pods:</strong> Compare resource requests vs actual usage. Most are requesting 2-5x what they use.</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong>Pro tip:</strong> Start with non-production first. Prove the approach works, then move to production with confidence.
+                </div>
+
+                <h3>4. Commitment-Based Discounts (Week 3-5)</h3>
+
+                <p>
+                    If you're running predictable workloads on-demand, you're overpaying by 40-70%.
+                </p>
+
+                <ul>
+                    <li><strong>AWS:</strong> Reserved Instances (1-3 year) or Savings Plans (more flexible)</li>
+                    <li><strong>Azure:</strong> Reserved VM Instances</li>
+                    <li><strong>Strategy:</strong> Commit to 60-70% of your baseline usage, keep 30-40% on-demand for burst</li>
+                </ul>
+
+                <p>
+                    <strong>Real example:</strong> Moved 70% of workloads to Savings Plans, saved $400K annually.
+                </p>
+
+                <h3>5. Architectural Improvements (Ongoing)</h3>
+
+                <p>
+                    Long-term, rethink your architecture:
+                </p>
+
+                <ul>
+                    <li><strong>Spot instances:</strong> For batch jobs, CI/CD runners, non-critical workloads (60-90% discount)</li>
+                    <li><strong>Auto-scaling:</strong> Scale down during off-hours (dev/staging environments)</li>
+                    <li><strong>Serverless for bursty workloads:</strong> Lambda/Functions for infrequent tasks</li>
+                    <li><strong>Data transfer costs:</strong> Keep traffic within regions, use VPC endpoints</li>
+                    <li><strong>Storage tiering:</strong> Move cold data to cheaper storage classes</li>
+                </ul>
+
+                <h2>Kubernetes-Specific Cost Optimization</h2>
+
+                <p>
+                    If you're running Kubernetes, there's a whole additional layer:
+                </p>
+
+                <ul>
+                    <li><strong>Vertical Pod Autoscaler (VPA):</strong> Automatically adjusts resource requests based on actual usage</li>
+                    <li><strong>Cluster autoscaling:</strong> Scale nodes down during low traffic</li>
+                    <li><strong>Spot instances for non-critical pods:</strong> Mix spot and on-demand nodes</li>
+                    <li><strong>Namespace resource quotas:</strong> Prevent teams from over-requesting resources</li>
+                    <li><strong>Monitoring:</strong> Track pod resource utilization vs requests</li>
+                </ul>
+
+                <div class="stat-callout">
+                    <h3>30%</h3>
+                    <p>average reduction in Kubernetes costs through proper resource management</p>
+                </div>
+
+                <h2>The Culture Shift: Making It Stick</h2>
+
+                <p>
+                    Technical fixes are easy. Making them stick requires culture change:
+                </p>
+
+                <ul>
+                    <li><strong>Cost visibility to teams:</strong> Show engineers what their services cost</li>
+                    <li><strong>Cost in code reviews:</strong> "Why does this need 4GB of RAM?" should be a normal question</li>
+                    <li><strong>Monthly cost reviews:</strong> 30-minute team meeting to review trends</li>
+                    <li><strong>FinOps champion:</strong> One person (or rotation) owns cost optimization</li>
+                </ul>
+
+                <h2>Results You Can Expect</h2>
+
+                <p>
+                    With this systematic approach:
+                </p>
+
+                <ul>
+                    <li><strong>Quick wins (Month 1):</strong> 5-10% savings from killing zombies</li>
+                    <li><strong>Medium-term (Month 2-3):</strong> 15-20% from rightsizing + commitments</li>
+                    <li><strong>Long-term (Month 4+):</strong> 25-35% through architectural improvements</li>
+                </ul>
+
+                <p>
+                    I've done this for companies spending $50K/month and $2M/month. The framework scales.
+                </p>
+
+                <div class="cta-box">
+                    <h3>Need Help Cutting Your Cloud Costs?</h3>
+                    <p>
+                        I offer cloud cost optimization assessments and implementation support. 
+                        Most clients see 20-30% reductions within 90 days.
+                    </p>
+                    <p>
+                        <a href="mailto:dipo@dipops.com" class="btn btn-primary">Get in touch</a>
+                    </p>
+                </div>
+
+                <h2>Key Takeaways</h2>
+
+                <ul>
+                    <li>Visibility must come first - you can't optimize what you don't measure</li>
+                    <li>Start with quick wins (zombies) to build momentum</li>
+                    <li>Rightsizing and commitments deliver the biggest immediate savings</li>
+                    <li>Make cost optimization a cultural practice, not a one-time project</li>
+                    <li>Track and report progress - celebrate wins publicly</li>
+                </ul>
+
+                <p>
+                    Cloud cost optimization isn't about suffering with less. It's about being smart with resources so you can invest more in features that matter.
+                </p>
+            </div>
+
+            <footer style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid #eee;">
+                <p><strong>About the author:</strong> Dipo Oginni is a Senior Platform Engineer specializing in cloud infrastructure, FinOps, and building internal developer platforms. He's helped companies save over $1M in cloud costs.</p>
+                <p><a href="mailto:dipo@dipops.com">dipo@dipops.com</a> | <a href="https://dipops.com">dipops.com</a></p>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Dipo Oginni. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
