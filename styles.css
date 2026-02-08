@@ -586,20 +586,94 @@ body {
 .footer {
     background: var(--text-primary);
     color: white;
-    padding: clamp(2.5rem, 4vh, 3rem) 0;
-    text-align: center;
+    padding: clamp(2.5rem, 4vh, 3rem) 0 clamp(1.5rem, 3vh, 2rem);
 }
 
-.footer p {
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 3vw, 2rem);
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: clamp(1.5rem, 3vh, 2rem);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: clamp(1.5rem, 3vh, 2rem);
+}
+
+.footer-brand h3 {
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
     margin-bottom: 0.5rem;
-    opacity: 0.9;
-    font-size: clamp(0.875rem, 1.5vw, 0.95rem);
+    font-weight: 700;
 }
 
 .footer-tagline {
-    font-size: clamp(0.8rem, 1.4vw, 0.95rem);
+    font-size: clamp(0.875rem, 1.4vw, 0.95rem);
     opacity: 0.7;
-    font-style: italic;
+    margin: 0;
+}
+
+.footer-links {
+    display: flex;
+    gap: clamp(1rem, 2vw, 1.5rem);
+    align-items: center;
+}
+
+.footer-social {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: white;
+    text-decoration: none;
+    font-size: clamp(0.875rem, 1.4vw, 0.95rem);
+    font-weight: 500;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    transition: all 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-social:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.footer-social svg {
+    width: 20px;
+    height: 20px;
+    opacity: 0.9;
+}
+
+.footer-bottom {
+    text-align: center;
+}
+
+.footer-bottom p {
+    margin: 0;
+    opacity: 0.6;
+    font-size: clamp(0.875rem, 1.4vw, 0.95rem);
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        gap: 2rem;
+        text-align: center;
+    }
+
+    .footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .footer-social {
+        flex: 0 1 auto;
+    }
 }
 
 /* Responsive Design - Minimal breakpoints needed with fluid typography */
