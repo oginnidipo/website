@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Proven strategies to reduce cloud costs by 20–30% without sacrificing performance. FinOps practices from a Senior Platform Engineer.">
+    <title>How I Cut Cloud Costs by 30% Without Sacrificing Performance | Dipo Oginni</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="../index.html">Dipo Oginni</a>
+            </div>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-links">
+                <a href="../index.html#about">About</a>
+                <a href="../index.html#expertise">Expertise</a>
+                <a href="../index.html#experience">Experience</a>
+                <a href="../index.html#projects">Projects</a>
+                <a href="index.html">Blog</a>
+                <a href="../index.html#contact">Contact</a>
+                <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main id="main-content" class="blog-post">
+        <article>
+            <header class="post-header">
+                <a href="index.html" class="back-to-blog">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+                    Back to Blog
+                </a>
+                <span class="section-eyebrow">FinOps</span>
+                <h1>How I Cut Cloud Costs by 30% Without Sacrificing Performance</h1>
+                <div class="post-meta">
+                    <time datetime="2026-01-30">January 30, 2026</time>
+                    <span class="blog-dot" aria-hidden="true"></span>
+                    <span>10 min read</span>
+                </div>
+            </header>
+
+            <div class="post-content">
+                <p class="lead">
+                    Most companies are throwing money away on cloud infrastructure. After working with dozens of organizations, I've seen the same pattern: rapid growth leads to sprawling infrastructure, and suddenly AWS/Azure bills are growing faster than revenue.
+                </p>
+
+                <blockquote>
+                    <strong>$1.2M</strong> saved annually for one client through systematic FinOps practices.
+                </blockquote>
+
+                <p>
+                    The good news? You can cut costs by 20–30% without impacting performance. Here's the systematic approach I use.
+                </p>
+
+                <h2>The Problem: How Cloud Waste Happens</h2>
+                <p>Cloud waste doesn't happen because engineers are careless. It happens because:</p>
+                <ul>
+                    <li><strong>Move fast, optimize later mentality:</strong> Teams spin up resources for a project, then never revisit sizing</li>
+                    <li><strong>No cost visibility:</strong> Engineers don't see the bill, so they over-provision "to be safe"</li>
+                    <li><strong>Zombie resources:</strong> Test environments, old backups, detached volumes nobody remembers</li>
+                    <li><strong>Wrong purchasing strategy:</strong> Everything on-demand when 70% of workloads are predictable</li>
+                    <li><strong>Kubernetes resource requests:</strong> Developers set requests way higher than actual usage</li>
+                </ul>
+
+                <h2>The Framework: 5-Step Cost Optimization</h2>
+
+                <h3>1. Visibility First (Week 1)</h3>
+                <p>You can't optimize what you can't measure. Start with:</p>
+                <ul>
+                    <li><strong>Tag everything:</strong> Environment, team, cost center, project. Non-negotiable.</li>
+                    <li><strong>Cost allocation dashboards:</strong> Break down spending by service, team, and environment</li>
+                    <li><strong>Set up anomaly detection:</strong> Get alerted when costs spike unexpectedly</li>
+                    <li><strong>Identify the top 20% of costs:</strong> This is where you'll focus first</li>
+                </ul>
+                <blockquote>
+                    <strong>Quick win:</strong> In most organizations, 80% of costs come from 20% of resources. Find those first.
+                </blockquote>
+
+                <h3>2. Kill the Zombies (Week 1–2)</h3>
+                <p>Dead resources are everywhere:</p>
+                <ul>
+                    <li>Unattached EBS volumes ($100–500/month each)</li>
+                    <li>Forgotten RDS snapshots</li>
+                    <li>Old load balancers with no targets</li>
+                    <li>NAT Gateways for deleted VPCs</li>
+                    <li>Elastic IPs not attached to instances</li>
+                    <li>Development environments running 24/7</li>
+                </ul>
+                <p>
+                    <strong>Action:</strong> Write scripts to find and report these. Get approval to delete. Typical savings: 5–10% immediately.
+                </p>
+
+                <h3>3. Rightsizing (Week 2–4)</h3>
+                <p>Most resources are over-provisioned by 40–60%. Here's how to fix it:</p>
+                <ul>
+                    <li><strong>EC2 instances:</strong> Check CloudWatch metrics. If CPU is under 40% for 30 days, downsize.</li>
+                    <li><strong>RDS databases:</strong> Look at connection counts and IOPS. Many are 2–3× larger than needed.</li>
+                    <li><strong>Kubernetes pods:</strong> Compare resource requests vs actual usage. Most are requesting 2–5× what they use.</li>
+                </ul>
+                <blockquote>
+                    <strong>Pro tip:</strong> Start with non-production first. Prove the approach works, then move to production with confidence.
+                </blockquote>
+
+                <h3>4. Commitment-Based Discounts (Week 3–5)</h3>
+                <p>If you're running predictable workloads on-demand, you're overpaying by 40–70%.</p>
+                <ul>
+                    <li><strong>AWS:</strong> Reserved Instances (1–3 year) or Savings Plans (more flexible)</li>
+                    <li><strong>Azure:</strong> Reserved VM Instances</li>
+                    <li><strong>Strategy:</strong> Commit to 60–70% of your baseline usage, keep 30–40% on-demand for burst</li>
+                </ul>
+                <p>
+                    <strong>Real example:</strong> Moved 70% of workloads to Savings Plans, saved $400K annually.
+                </p>
+
+                <h3>5. Architectural Improvements (Ongoing)</h3>
+                <p>Long-term, rethink your architecture:</p>
+                <ul>
+                    <li><strong>Spot instances:</strong> For batch jobs, CI/CD runners, non-critical workloads (60–90% discount)</li>
+                    <li><strong>Auto-scaling:</strong> Scale down during off-hours (dev/staging environments)</li>
+                    <li><strong>Serverless for bursty workloads:</strong> Lambda/Functions for infrequent tasks</li>
+                    <li><strong>Data transfer costs:</strong> Keep traffic within regions, use VPC endpoints</li>
+                    <li><strong>Storage tiering:</strong> Move cold data to cheaper storage classes</li>
+                </ul>
+
+                <h2>Kubernetes-Specific Cost Optimization</h2>
+                <p>If you're running Kubernetes, there's a whole additional layer:</p>
+                <ul>
+                    <li><strong>Vertical Pod Autoscaler (VPA):</strong> Automatically adjusts resource requests based on actual usage</li>
+                    <li><strong>Cluster autoscaling:</strong> Scale nodes down during low traffic</li>
+                    <li><strong>Spot instances for non-critical pods:</strong> Mix spot and on-demand nodes</li>
+                    <li><strong>Namespace resource quotas:</strong> Prevent teams from over-requesting resources</li>
+                    <li><strong>Monitoring:</strong> Track pod resource utilization vs requests</li>
+                </ul>
+                <blockquote>
+                    <strong>30%</strong> average reduction in Kubernetes costs through proper resource management.
+                </blockquote>
+
+                <h2>The Culture Shift: Making It Stick</h2>
+                <p>Technical fixes are easy. Making them stick requires culture change:</p>
+                <ul>
+                    <li><strong>Cost visibility to teams:</strong> Show engineers what their services cost</li>
+                    <li><strong>Cost in code reviews:</strong> "Why does this need 4GB of RAM?" should be a normal question</li>
+                    <li><strong>Monthly cost reviews:</strong> 30-minute team meeting to review trends</li>
+                    <li><strong>FinOps champion:</strong> One person (or rotation) owns cost optimization</li>
+                </ul>
+
+                <h2>Results You Can Expect</h2>
+                <p>With this systematic approach:</p>
+                <ul>
+                    <li><strong>Quick wins (Month 1):</strong> 5–10% savings from killing zombies</li>
+                    <li><strong>Medium-term (Month 2–3):</strong> 15–20% from rightsizing + commitments</li>
+                    <li><strong>Long-term (Month 4+):</strong> 25–35% through architectural improvements</li>
+                </ul>
+                <p>
+                    I've done this for companies spending $50K/month and $2M/month. The framework scales.
+                </p>
+
+                <h2>Key Takeaways</h2>
+                <ul>
+                    <li>Visibility must come first — you can't optimize what you don't measure</li>
+                    <li>Start with quick wins (zombies) to build momentum</li>
+                    <li>Rightsizing and commitments deliver the biggest immediate savings</li>
+                    <li>Make cost optimization a cultural practice, not a one-time project</li>
+                    <li>Track and report progress — celebrate wins publicly</li>
+                </ul>
+                <p>
+                    Cloud cost optimization isn't about suffering with less. It's about being smart with resources so you can invest more in features that matter.
+                </p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Dipo Oginni. All rights reserved.</p>
+            <div class="footer-social">
+                <a href="https://github.com/oginnidipo" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/dipo-oginni" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+            </div>
+            <p class="footer-tagline">Platform Engineering &middot; Cloud Architecture &middot; FinOps &middot; SRE</p>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggle = document.querySelector('.theme-toggle');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+        function setTheme(dark) {
+            document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+            themeToggle.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+            localStorage.setItem('theme', dark ? 'dark' : 'light');
+        }
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            setTheme(savedTheme === 'dark');
+        } else {
+            setTheme(prefersDark.matches);
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            setTheme(!isDark);
+        });
+
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            navToggle.classList.toggle('active');
+        });
+
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                navToggle.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

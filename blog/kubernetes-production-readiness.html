@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A practical guide to running Kubernetes in production — what actually matters vs what the docs tell you.">
+    <title>Kubernetes Production Readiness: What Actually Matters | Dipo Oginni</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="../index.html">Dipo Oginni</a>
+            </div>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-links">
+                <a href="../index.html#about">About</a>
+                <a href="../index.html#expertise">Expertise</a>
+                <a href="../index.html#experience">Experience</a>
+                <a href="../index.html#projects">Projects</a>
+                <a href="index.html">Blog</a>
+                <a href="../index.html#contact">Contact</a>
+                <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main id="main-content" class="blog-post">
+        <article>
+            <header class="post-header">
+                <a href="index.html" class="back-to-blog">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+                    Back to Blog
+                </a>
+                <span class="section-eyebrow">SRE</span>
+                <h1>Kubernetes Production Readiness: What Actually Matters</h1>
+                <div class="post-meta">
+                    <time datetime="2026-02-07">February 7, 2026</time>
+                    <span class="blog-dot" aria-hidden="true"></span>
+                    <span>8 min read</span>
+                </div>
+            </header>
+
+            <div class="post-content">
+                <p class="lead">
+                    I've migrated half a dozen companies to Kubernetes. Every time, the same patterns emerge: teams obsess over the wrong things early on, then scramble to fix the basics when things break at 2am. Here's what actually matters when running K8s in production.
+                </p>
+
+                <h2>The Reality Check</h2>
+                <p>
+                    Your first Kubernetes cluster will work fine. Your second cluster will have mysterious networking issues. Your third cluster will teach you that resource limits actually matter. By the fourth, you'll have a runbook for "why can't pods talk to each other" that's longer than your resume.
+                </p>
+                <p>This isn't a comprehensive guide. This is what breaks first.</p>
+
+                <h2>1. Resource Limits (Actually Set Them)</h2>
+                <p>
+                    Everyone knows you're supposed to set resource requests and limits. Almost nobody does it properly until a single pod eats all available memory and takes down the node.
+                </p>
+                <p><strong>What works:</strong></p>
+                <ul>
+                    <li>Start with requests based on actual usage (check your metrics)</li>
+                    <li>Set limits 20–30% above requests as a buffer</li>
+                    <li>Use <code>LimitRange</code> to enforce defaults — don't trust developers to remember</li>
+                    <li>Enable vertical pod autoscaling for workloads with unpredictable resource needs</li>
+                </ul>
+                <p><strong>What breaks:</strong></p>
+                <ul>
+                    <li>No limits → one bad deploy kills the cluster</li>
+                    <li>Limits way higher than requests → scheduler gets confused, nodes overcommit</li>
+                    <li>Requests too low → constant evictions and restarts</li>
+                </ul>
+
+                <h2>2. Networking (The DNS Always Breaks First)</h2>
+                <p>
+                    Kubernetes networking looks simple in the diagrams. In production, it's where most incidents start.
+                </p>
+                <p><strong>CoreDNS is your canary:</strong></p>
+                <ul>
+                    <li>Scale CoreDNS pods based on cluster size (2 pods won't cut it for 100+ services)</li>
+                    <li>Monitor DNS query latency — if it spikes, you're about to have a bad time</li>
+                    <li>Enable DNS caching at the node level with NodeLocal DNSCache</li>
+                    <li>Set proper connection limits and timeouts</li>
+                </ul>
+                <p><strong>Network Policies (actually use them):</strong></p>
+                <p>
+                    Don't wait until compliance asks. Start with a default-deny policy and explicitly allow what's needed. Yes, it's annoying. Yes, it'll save you when someone deploys a cryptominer.
+                </p>
+
+                <h2>3. Observability Before You Need It</h2>
+                <p>
+                    You can't troubleshoot what you can't see. Set this up before your first production deploy.
+                </p>
+                <p><strong>Minimum viable observability stack:</strong></p>
+                <ul>
+                    <li><strong>Metrics:</strong> Prometheus + Grafana (or managed equivalent)</li>
+                    <li><strong>Logs:</strong> Centralized logging (Loki, CloudWatch, whatever — just pick one)</li>
+                    <li><strong>Traces:</strong> Can wait initially, but you'll want it when debugging microservices</li>
+                    <li><strong>Dashboards:</strong> Node utilization, pod status, ingress traffic, DNS latency</li>
+                </ul>
+                <p><strong>Alert on what matters:</strong></p>
+                <ul>
+                    <li>Node NotReady for &gt; 2 minutes</li>
+                    <li>Pod CrashLoopBackOff</li>
+                    <li>PersistentVolume claim pending &gt; 5 minutes</li>
+                    <li>DNS query failures &gt; 1%</li>
+                    <li>API server latency p95 &gt; 1s</li>
+                </ul>
+
+                <h2>4. Autoscaling (Start Simple)</h2>
+                <p>
+                    Horizontal Pod Autoscaling works. Cluster autoscaling is trickier. Vertical pod autoscaling is still rough around the edges.
+                </p>
+                <p><strong>HPA basics:</strong></p>
+                <ul>
+                    <li>Start with CPU-based autoscaling (it's good enough for most workloads)</li>
+                    <li>Set min replicas to handle baseline traffic</li>
+                    <li>Test your HPA under load — scaling up is easy, scaling down gracefully is hard</li>
+                    <li>Use <code>PodDisruptionBudget</code> to prevent autoscaling from breaking during deployments</li>
+                </ul>
+                <p><strong>Cluster autoscaling gotchas:</strong></p>
+                <ul>
+                    <li>New nodes take 2–5 minutes to become ready — your app needs to handle that lag</li>
+                    <li>Mix of on-demand and spot instances needs careful config</li>
+                    <li>Scale-down can be overly aggressive — tune <code>scale-down-delay-after-add</code></li>
+                </ul>
+
+                <h2>5. Security (Do This First)</h2>
+                <p>
+                    Kubernetes security is a marathon, but some things need to happen immediately.
+                </p>
+                <p><strong>Day 1 security:</strong></p>
+                <ul>
+                    <li><strong>RBAC:</strong> Don't give admin to everyone. Use namespaces and role bindings properly.</li>
+                    <li><strong>Pod Security Standards:</strong> Enforce restricted profile for production namespaces</li>
+                    <li><strong>Network Policies:</strong> Default deny, explicit allows</li>
+                    <li><strong>Secret Management:</strong> External secrets operator + Vault / AWS Secrets Manager</li>
+                    <li><strong>Image Scanning:</strong> Scan on push, block high/critical CVEs in production</li>
+                </ul>
+                <p><strong>Don't run as root:</strong></p>
+                <pre><code>securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL</code></pre>
+
+                <h2>6. Persistent Storage (It Will Bite You)</h2>
+                <p>
+                    StatefulSets look simple in demos. In production, storage is where you'll spend most of your time troubleshooting.
+                </p>
+                <p><strong>Storage class decisions:</strong></p>
+                <ul>
+                    <li>Use managed storage (EBS, Azure Disks, GCE PD) unless you have a very good reason not to</li>
+                    <li>Set proper IOPS and throughput limits</li>
+                    <li>Enable volume snapshots and test restores</li>
+                    <li>Monitor PV usage — running out of space in a pod is a terrible way to debug</li>
+                </ul>
+                <p><strong>Backup strategy:</strong></p>
+                <p>
+                    Velero or equivalent. Schedule regular backups. Actually test restores. The day you need them, you'll be glad you did.
+                </p>
+
+                <h2>7. Deployment Strategy (Rollouts That Don't Break Things)</h2>
+                <p>
+                    Rolling updates are the default. They're also the most common source of self-inflicted outages.
+                </p>
+                <p><strong>Safe rollout config:</strong></p>
+                <pre><code>strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 0
+    maxSurge: 1
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 8080
+  initialDelaySeconds: 10
+  periodSeconds: 5
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 8080
+  initialDelaySeconds: 30
+  periodSeconds: 10</code></pre>
+                <p><strong>Why this matters:</strong></p>
+                <ul>
+                    <li><code>maxUnavailable: 0</code> ensures you always have capacity</li>
+                    <li>Proper readiness probes prevent routing traffic to pods that aren't ready</li>
+                    <li>Liveness probes restart unhealthy pods (but tune them — too aggressive kills healthy pods under load)</li>
+                </ul>
+
+                <h2>What You Can Skip (For Now)</h2>
+                <p>Kubernetes has a lot of features. You don't need all of them on day one.</p>
+                <p><strong>Save for later:</strong></p>
+                <ul>
+                    <li>Service mesh (Istio / Linkerd) — unless you have 50+ microservices, you don't need it yet</li>
+                    <li>Multi-cluster setups — get one cluster stable first</li>
+                    <li>Custom schedulers — the default works fine for most workloads</li>
+                    <li>Advanced workload types (DaemonSets, Jobs, CronJobs) — learn them as needed</li>
+                </ul>
+
+                <h2>The Real Production Readiness Checklist</h2>
+                <p>Here's what I check before calling a K8s cluster production-ready:</p>
+                <ol>
+                    <li>All pods have resource requests and limits set</li>
+                    <li>Network policies in place (default deny)</li>
+                    <li>RBAC configured (no cluster-admin in production)</li>
+                    <li>Monitoring and alerting configured and tested</li>
+                    <li>Log aggregation working</li>
+                    <li>Backup/restore tested for stateful workloads</li>
+                    <li>Readiness and liveness probes on all deployments</li>
+                    <li>PodDisruptionBudgets for critical services</li>
+                    <li>Cluster autoscaling tested under load</li>
+                    <li>Incident runbooks written for common failures</li>
+                </ol>
+
+                <h2>Final Thoughts</h2>
+                <p>
+                    Kubernetes is powerful, but it's not magic. It gives you the tools to run reliable systems, but you still have to use them properly. Start with the basics. Get monitoring right. Test your failure scenarios. Build your understanding incrementally.
+                </p>
+                <p>
+                    The best Kubernetes setup is the one that doesn't wake you up at 3am because DNS is down again.
+                </p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Dipo Oginni. All rights reserved.</p>
+            <div class="footer-social">
+                <a href="https://github.com/oginnidipo" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/dipo-oginni" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+            </div>
+            <p class="footer-tagline">Platform Engineering &middot; Cloud Architecture &middot; FinOps &middot; SRE</p>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggle = document.querySelector('.theme-toggle');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+        function setTheme(dark) {
+            document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+            themeToggle.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+            localStorage.setItem('theme', dark ? 'dark' : 'light');
+        }
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            setTheme(savedTheme === 'dark');
+        } else {
+            setTheme(prefersDark.matches);
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            setTheme(!isDark);
+        });
+
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            navToggle.classList.toggle('active');
+        });
+
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                navToggle.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
