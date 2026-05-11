@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "deploy:receipt-ai": "wrangler deploy",
+    "check:receipt-ai": "node --check workers/receipt-ai.js"
+  },
+  "devDependencies": {
+    "wrangler": "^4.90.0"
+  }
+}

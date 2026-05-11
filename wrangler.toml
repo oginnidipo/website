@@ -1,0 +1,10 @@
+name = "dipops-receipt-ai"
+main = "workers/receipt-ai.js"
+compatibility_date = "2025-12-01"
+
+routes = [
+  { pattern = "api.dipops.com/receipt-ai", zone_name = "dipops.com" }
+]
+
+[vars]
+RECEIPT_AI_MODEL = "gpt-4.1-nano"
