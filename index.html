@@ -14,23 +14,10 @@
   <meta name="twitter:card" content="summary_large_image">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"Person","name":"Dipo Oginni","jobTitle":"AI Platform Engineer and Senior SRE","url":"https://dipops.com/","sameAs":["https://www.linkedin.com/in/dipo-oginni","https://github.com/oginnidipo"]}
-    const themeToggle = document.querySelector(".theme-toggle");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
-    function setTheme(dark) {
-      document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
-      themeToggle.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
-      localStorage.setItem("theme", dark ? "dark" : "light");
-    }
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) { setTheme(savedTheme === "dark"); } else { setTheme(prefersDark.matches); }
-    themeToggle.addEventListener("click", () => {
-      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
-      setTheme(!isDark);
-    });
   </script>
   <title>Dipo Oginni | AI Platform Engineer & Senior SRE</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="stylesheet" href="styles.css?v=5">
+  <link rel="stylesheet" href="styles.css?v=6">
 </head>
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -39,10 +26,6 @@
     <div class="nav-container">
       <div class="nav-logo"><a href="#hero">Dipo Oginni</a></div>
       <button class="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
-      <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-      </button>
       <div class="nav-links">
         <a href="#about">About</a>
         <a href="#expertise">Expertise</a>
@@ -484,19 +467,6 @@
     document.querySelectorAll(".expertise-card, .ai-card, .project-card, .impact-card, .timeline-item, .cert-card").forEach(el => {
       el.classList.add("animate-target");
       observer.observe(el);
-    });
-    const themeToggle = document.querySelector(".theme-toggle");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
-    function setTheme(dark) {
-      document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
-      themeToggle.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
-      localStorage.setItem("theme", dark ? "dark" : "light");
-    }
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) { setTheme(savedTheme === "dark"); } else { setTheme(prefersDark.matches); }
-    themeToggle.addEventListener("click", () => {
-      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
-      setTheme(!isDark);
     });
   </script>
 </body>
