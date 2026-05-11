@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="What teams need before shipping AI agents to production — LLMOps, evals, observability, access control, and rollback.">
+    <meta name="author" content="Dipo Oginni">
+    <meta name="keywords" content="AI Platform Engineering, LLMOps, Agentic Automation, MLOps, AI Observability, Production AI, SRE, Platform Engineering">
+    <link rel="canonical" href="https://dipops.com/blog/ai-platform-engineering.html">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://dipops.com/blog/ai-platform-engineering.html">
+    <meta property="og:title" content="AI Platform Engineering: What Teams Need Before They Ship Agents">
+    <meta property="og:description" content="AI features fail in production for familiar platform reasons. Here's the operating model I use.">
+    <meta property="og:image" content="https://dipops.com/og-image.svg">
+    <meta name="twitter:card" content="summary_large_image">
+    <title>AI Platform Engineering: What Teams Need Before They Ship Agents | Dipo Oginni</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="stylesheet" href="../styles.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "AI Platform Engineering: What Teams Need Before They Ship Agents",
+        "description": "What teams need before shipping AI agents to production: LLMOps, evals, observability, access control, rollback, ownership, and cost guardrails.",
+        "author": {
+            "@type": "Person",
+            "name": "Dipo Oginni",
+            "url": "https://dipops.com/"
+        },
+        "datePublished": "2026-05-10",
+        "dateModified": "2026-05-11",
+        "mainEntityOfPage": "https://dipops.com/blog/ai-platform-engineering.html",
+        "image": "https://dipops.com/og-image.svg"
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="../index.html">Dipo Oginni</a>
+            </div>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-links">
+                <a href="../index.html#about">About</a>
+                <a href="../index.html#expertise">Expertise</a>
+                <a href="../index.html#ai-systems">AI Systems</a>
+                <a href="../index.html#experience">Experience</a>
+                <a href="../index.html#projects">Projects</a>
+                <a href="index.html">Blog</a>
+                <a href="../index.html#contact">Contact</a>
+                <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main id="main-content" class="blog-post">
+        <article>
+            <header class="post-header">
+                <a href="index.html" class="back-to-blog">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+                    Back to Blog
+                </a>
+                <span class="section-eyebrow">AI Platform Engineering</span>
+                <h1>AI Platform Engineering: What Teams Need Before They Ship Agents</h1>
+                <div class="post-meta">
+                    <time datetime="2026-05-10">May 10, 2026</time>
+                    <span class="blog-dot" aria-hidden="true"></span>
+                    <span>9 min read</span>
+                </div>
+            </header>
+
+            <div class="post-content">
+                <p class="lead">
+                    Every team I've watched ship an AI feature to production has hit the same wall: the model works in a notebook, but the system around it doesn't. Agents hallucinate, costs spike, latency degrades, and nobody knows who owns the incident. The failures are not model problems. They are platform problems. Here's the operating model I use to avoid them.
+                </p>
+
+                <h2>1. Define Ownership Before You Define Architecture</h2>
+                <p>
+                    In most companies, AI features sit in a no-man's land between the ML team, the platform team, and product engineering. When an AI endpoint starts returning garbage at 2am, the pager goes to the on-call SRE who has never seen a prompt template. The SRE restarts the pod, the problem goes away for 20 minutes, then it comes back worse.
+                </p>
+                <p>
+                    The fix is boring but non-negotiable: decide who owns the AI system's reliability, cost, security, and feature behavior <strong>before</strong> you build it. In practice, I split it like this:
+                </p>
+                <ul>
+                    <li><strong>Platform team:</strong> infrastructure, scaling, cost guardrails, observability, access control, model routing</li>
+                    <li><strong>Product engineering:</strong> prompt logic, retrieval pipelines, user-facing behavior, evaluation criteria</li>
+                    <li><strong>ML/AI team (if one exists):</strong> model selection, fine-tuning, benchmark evaluation, data pipelines</li>
+                </ul>
+                <p>
+                    Everyone gets a runbook. Everyone gets a dashboard. Everyone knows what they are allowed to change without approval and what requires a second set of eyes.
+                </p>
+
+                <h2>2. Evaluations Are Your Test Suite</h2>
+                <p>
+                    You would not deploy a microservice without unit tests. You should not deploy an AI feature without evals. An evaluation harness is not a research luxury; it is production infrastructure. I treat it exactly like CI: every prompt change, model swap, or retrieval pipeline update runs through the eval suite before it reaches staging.
+                </p>
+                <p>
+                    What I measure depends on the use case, but the baseline set is consistent:
+                </p>
+                <ul>
+                    <li><strong>Accuracy / correctness:</strong> Does the output match the expected answer on a held-out test set?</li>
+                    <li><strong>Hallucination rate:</strong> Does the model invent facts, URLs, or configuration values?</li>
+                    <li><strong>Latency distribution:</strong> P50, P95, P99 for token generation and end-to-end response time</li>
+                    <li><strong>Cost per request:</strong> Token count × model price, tracked per user, per feature, per team</li>
+                    <li><strong>Safety / policy:</strong> Does the output violate content, privacy, or security policies?</li>
+                </ul>
+                <p>
+                    I store eval results in the same system as deployment history so I can correlate a latency regression or cost spike with the exact code and model version that caused it. This sounds obvious, but most teams store evals in a spreadsheet and deployment history in GitHub Actions logs. Connect them.
+                </p>
+
+                <h2>3. Observability for AI Is Not Standard Observability</h2>
+                <p>
+                    Standard APM tells you that a request took 800ms and returned HTTP 200. It does not tell you that the model generated a dangerously wrong configuration snippet, burned 12,000 tokens on a simple question, or called an internal API with parameters it hallucinated. You need AI-specific telemetry:
+                </p>
+                <ul>
+                    <li><strong>Prompt traces:</strong> Log the full prompt, the model version, the temperature/top-p settings, and the tool-call history</li>
+                    <li><strong>Token usage:</strong> Input tokens, output tokens, and cost per request, aggregated by user, team, and feature</li>
+                    <li><strong>Tool-call audit:</strong> Every external API the agent touches, with parameters, response status, and latency</li>
+                    <li><strong>Retrieval context:</strong> What documents or data were fetched, their relevance scores, and whether they were actually used</li>
+                    <li><strong>Human feedback:</strong> Thumbs up/down, corrections, escalations — this becomes your next eval dataset</li>
+                </ul>
+                <p>
+                    I build this with OpenTelemetry where possible, because AI pipelines are just distributed systems with extra steps. The same tracing, correlation, and alerting patterns apply. The difference is the payload: prompts and embeddings instead of JSON request bodies.
+                </p>
+
+                <h2>4. Access Boundaries Keep Agents Safe</h2>
+                <p>
+                    The most dangerous AI system is the one with broad permissions and no review gate. I use a tiered access model that mirrors human role-based access control:
+                </p>
+                <ul>
+                    <li><strong>Read-only agents:</strong> Can inspect logs, metrics, and documentation. Cannot change infrastructure. This covers 70% of operational use cases.</li>
+                    <li><strong>Approved-action agents:</strong> Can propose changes — scaling events, config updates, deployment rollbacks — but a human must approve before execution. This covers 25% of use cases.</li>
+                    <li><strong>Autonomous agents:</strong> Can act within narrow, pre-approved guardrails with full audit logging and automatic rollback triggers. This covers the remaining 5% and requires the strongest observability and eval coverage.</li>
+                </ul>
+                <p>
+                    Every action is logged. Every tool call is traced. Every agent has a kill switch and a budget. If an agent's token spend exceeds its daily limit, it stops. If it makes three consecutive failed API calls, it stops and escalates. These are not constraints on innovation. They are the guardrails that let you sleep through the night.
+                </p>
+
+                <h2>5. You Need a Rollback Story</h2>
+                <p>
+                    Model providers update their APIs, deprecate versions, and change behavior without warning. A prompt that worked yesterday can break today because the underlying model was silently patched. Your rollback strategy cannot be "revert the code" if the problem is the model version, not the code.
+                </p>
+                <p>
+                    I version everything: prompts, model configs, retrieval indexes, and tool schemas. Each version is immutable. Each deployment references a specific version hash. Rollback means pointing at the previous hash, not editing files in production. This is GitOps for AI, and it is the only way to maintain sanity when you have multiple models, multiple prompts, and multiple teams shipping simultaneously.
+                </p>
+
+                <h2>6. Cost Guardrails Are Production Requirements</h2>
+                <p>
+                    AI costs are unpredictable. A bug in a loop can turn a $0.02 request into a $200 request. A misconfigured retry policy can 10× your bill overnight. I treat cost exactly like latency or error rate: it gets an SLO, an alert, and an owner.
+                </p>
+                <p>
+                    The controls I implement are simple and effective:
+                </p>
+                <ul>
+                    <li><strong>Per-user token budgets:</strong> Hard and soft limits with graceful degradation</li>
+                    <li><strong>Model routing:</strong> Route simple queries to cheaper models, reserve expensive models for complex tasks</li>
+                    <li><strong>Caching:</strong> Embed and cache frequent queries to avoid redundant token generation</li>
+                    <li><strong>Cost attribution:</strong> Tag every request with team, feature, and environment so finance can see who spent what</li>
+                </ul>
+                <p>
+                    These are not FinOps afterthoughts. They are architectural decisions made at design time. Retrofitting cost controls into a live AI system is painful. Building them in from day one is trivial.
+                </p>
+
+                <h2>The Bottom Line</h2>
+                <p>
+                    AI platform engineering is not fundamentally different from any other platform engineering. The same principles apply: clear ownership, strong testing, deep observability, tight access control, fast rollback, and cost discipline. The difference is that AI systems are less predictable, more expensive, and harder to debug when they go wrong. The margin for error is smaller, so the platform rigor must be higher.
+                </p>
+                <p>
+                    If you are building AI features today, ask yourself these six questions before you ship: Who owns this? How do we evaluate it? What do we observe? What can it access? How do we roll back? How do we control cost? Answer them honestly, build the answers into your platform, and you will avoid the 2am pages that every unprepared AI team eventually gets.
+                </p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Dipo Oginni. All rights reserved.</p>
+            <div class="footer-social">
+                <a href="https://github.com/oginnidipo" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/dipo-oginni" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+            </div>
+            <p class="footer-tagline">AI Platform Engineering &middot; Cloud Architecture &middot; FinOps &middot; SRE</p>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggle = document.querySelector('.theme-toggle');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+        function setTheme(dark) {
+            document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+            themeToggle.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+            localStorage.setItem('theme', dark ? 'dark' : 'light');
+        }
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) { setTheme(savedTheme === 'dark'); } else { setTheme(prefersDark.matches); }
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            setTheme(!isDark);
+        });
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            navToggle.classList.toggle('active');
+        });
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                navToggle.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
