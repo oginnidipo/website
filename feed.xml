@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dipo Oginni — AI Platform Engineering &amp; SRE</title>
+    <link>https://dipops.com</link>
+    <atom:link href="https://dipops.com/feed.xml" rel="self" type="application/rss+xml" />
+    <description>Practical guides on building reliable AI-enabled platforms, internal developer platforms, cloud systems, and cost-aware infrastructure.</description>
+    <language>en</language>
+    <lastBuildDate>Wed, 24 Jun 2026 22:17:00 +0000</lastBuildDate>
+
+    <item>
+      <title>AI Platform Engineering: What Teams Need Before They Ship Agents</title>
+      <link>https://dipops.com/blog/ai-platform-engineering.html</link>
+      <guid isPermaLink="true">https://dipops.com/blog/ai-platform-engineering.html</guid>
+      <pubDate>Sat, 10 May 2026 00:00:00 +0000</pubDate>
+      <description>AI features fail in production for familiar platform reasons: unclear ownership, weak observability, no evals, no access boundaries, and no rollback story. Here's the operating model I use.</description>
+      <category>AI Platform</category>
+      <category>LLMOps</category>
+      <category>SRE</category>
+    </item>
+
+    <item>
+      <title>Kubernetes Production Readiness: A Practical Checklist</title>
+      <link>https://dipops.com/blog/kubernetes-production-readiness.html</link>
+      <guid isPermaLink="true">https://dipops.com/blog/kubernetes-production-readiness.html</guid>
+      <pubDate>Sat, 10 May 2026 00:00:00 +0000</pubDate>
+      <description>A practical checklist for taking Kubernetes clusters from prototype to production: security, observability, scalability, and operational maturity.</description>
+      <category>Kubernetes</category>
+      <category>SRE</category>
+      <category>Platform Engineering</category>
+    </item>
+
+    <item>
+      <title>Cloud Cost Optimization: FinOps for Platform Engineers</title>
+      <link>https://dipops.com/blog/cloud-cost-optimization.html</link>
+      <guid isPermaLink="true">https://dipops.com/blog/cloud-cost-optimization.html</guid>
+      <pubDate>Sat, 10 May 2026 00:00:00 +0000</pubDate>
+      <description>FinOps strategies for platform engineers: rightsizing, commitment management, automated waste detection, and building a culture of cost accountability.</description>
+      <category>FinOps</category>
+      <category>Cloud</category>
+      <category>Cost Optimization</category>
+    </item>
+  </channel>
+</rss>
