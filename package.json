@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "og:build": "node scripts/generate-og-images.mjs",
     "deploy:receipt-ai": "wrangler deploy",
     "check:receipt-ai": "node --check workers/receipt-ai.js"
   },
