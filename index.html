@@ -3,26 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Dipo Oginni — AI Platform Engineer & Senior SRE building reliable cloud infrastructure, AI automation, and developer platforms at scale.">
+  <meta name="description" content="Dipo Oginni — Staff Platform Engineer and Senior SRE building reliable cloud infrastructure, developer platforms, observability, and production AI systems at scale.">
   <meta name="author" content="Dipo Oginni">
   <link rel="canonical" href="https://dipops.com/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://dipops.com/">
-  <meta property="og:title" content="Dipo Oginni | AI Platform Engineer & Senior SRE">
-  <meta property="og:description" content="Senior SRE and AI Platform Engineer building reliable infrastructure, AI automation, and cloud systems at scale.">
+  <meta property="og:title" content="Dipo Oginni | Staff Platform Engineer & Senior SRE">
+  <meta property="og:description" content="Staff-level platform engineer building reliable cloud infrastructure, developer platforms, observability, and production AI systems at scale.">
   <meta property="og:image" content="https://dipops.com/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Dipo Oginni — AI Platform Engineer &amp; Senior SRE, Toronto">
+  <meta property="og:image:alt" content="Dipo Oginni — Staff Platform Engineer &amp; Senior SRE, Toronto">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://dipops.com/og-image.png">
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"Person","name":"Dipo Oginni","jobTitle":"AI Platform Engineer and Senior SRE","url":"https://dipops.com/","sameAs":["https://www.linkedin.com/in/dipo-oginni","https://github.com/oginnidipo"]}
+  {
+    "@context":"https://schema.org",
+    "@type":"ProfilePage",
+    "mainEntity":{
+      "@type":"Person",
+      "name":"Dipo Oginni",
+      "jobTitle":"Staff Platform Engineer and Senior Site Reliability Engineer",
+      "url":"https://dipops.com/",
+      "email":"mailto:coginni@gmail.com",
+      "address":{"@type":"PostalAddress","addressLocality":"Hamilton","addressRegion":"Ontario","addressCountry":"CA"},
+      "knowsAbout":["Platform Engineering","Site Reliability Engineering","Kubernetes","Terraform","AWS","Azure","GCP","Developer Experience","Observability","FinOps","AI Infrastructure","LLMOps"],
+      "sameAs":["https://www.linkedin.com/in/dipo-oginni","https://github.com/oginnidipo"]
+    }
+  }
   </script>
-  <title>Dipo Oginni | AI Platform Engineer & Senior SRE</title>
+  <title>Dipo Oginni | Staff Platform Engineer & Senior SRE</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <link rel="stylesheet" href="styles.css?v=7">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="styles.css?v=8">
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
   <link rel="alternate" type="application/rss+xml" title="Dipo Oginni — AI Platform Engineering & SRE" href="https://dipops.com/feed.xml">
@@ -34,8 +49,8 @@
   <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="nav-container">
       <div class="nav-logo"><a href="#hero">Dipo Oginni</a></div>
-      <button class="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
-      <div class="nav-links">
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-navigation"><span></span><span></span><span></span></button>
+      <div class="nav-links" id="primary-navigation">
         <a href="#about">About</a>
         <a href="#expertise">Expertise</a>
         <a href="#experience">Experience</a>
@@ -52,13 +67,15 @@
     <section id="hero" class="hero" aria-label="Introduction">
       <div class="hero-bg"></div>
       <div class="hero-content">
-        <div class="hero-eyebrow">AI Platform Engineer &middot; Senior SRE &middot; Toronto</div>
+        <div class="hero-eyebrow">Staff Platform Engineer &middot; Senior SRE &middot; AI Infrastructure</div>
         <h1 class="hero-title">Dipo Oginni</h1>
-        <p class="hero-subtitle">Turning AI experiments into production-grade infrastructure leverage.</p>
+        <p class="hero-subtitle">I build reliable cloud and AI platforms that reduce incidents, infrastructure cost, and developer lead time.</p>
+        <p class="hero-location">Canada-based &middot; Authorized to work in Canada &middot; Remote or Toronto/GTA hybrid</p>
         <div class="hero-cta">
-          <a href="https://github.com/oginnidipo" target="_blank" rel="noopener" class="btn btn-primary">View GitHub &rarr;</a>
+          <a href="mailto:coginni@gmail.com?subject=Platform%20Engineering%20Opportunity" class="btn btn-primary">Start a conversation &rarr;</a>
+          <a href="resume.pdf" download="Dipo-Oginni-Resume.pdf" class="btn btn-secondary">Download resume</a>
           <a href="https://www.linkedin.com/in/dipo-oginni" target="_blank" rel="noopener" class="btn btn-secondary">LinkedIn</a>
-          <a href="resume.pdf" class="btn btn-secondary">Resume</a>
+          <a href="https://github.com/oginnidipo" target="_blank" rel="noopener" class="btn btn-secondary">GitHub</a>
         </div>
         <div class="hero-stats">
           <div class="stat"><div class="stat-number">70%</div><div class="stat-label">MTTD Reduction</div></div>
@@ -69,15 +86,32 @@
       </div>
     </section>
 
+    <section class="proof-strip" aria-label="Professional fit">
+      <div class="container proof-grid">
+        <article class="proof-item">
+          <span class="proof-label">Production ownership</span>
+          <strong>On-call, incident command, SLOs, DR, and security</strong>
+        </article>
+        <article class="proof-item">
+          <span class="proof-label">Platform leverage</span>
+          <strong>Golden paths, self-service, IaC, CI/CD, and GitOps</strong>
+        </article>
+        <article class="proof-item">
+          <span class="proof-label">Technical leadership</span>
+          <strong>Architecture, mentoring, and cross-team alignment</strong>
+        </article>
+      </div>
+    </section>
+
     <section id="about" class="section about">
       <div class="container">
         <div class="section-header">
           <span class="section-eyebrow">About</span>
-          <h2 class="section-title">Platform engineer with an AI lens.</h2>
+          <h2 class="section-title">Platform engineering grounded in production ownership.</h2>
         </div>
         <div class="about-text">
-          <p>I lead infrastructure and platform teams across fintech, crypto, and SaaS. My work spans Kubernetes at scale, Terraform-based automation, SRE practice, and production AI systems &mdash; from LLMOps guardrails to agentic operations copilots.</p>
-          <p>Currently at Euna Solutions, I run the platform that powers AI-enabled products for public-sector customers. Before that: BMO, Exodus, and Busha.</p>
+          <p>I lead infrastructure and platform work across fintech, crypto, financial services, and SaaS. My work spans Kubernetes at scale, Terraform-based automation, SRE practice, developer experience, and production AI systems &mdash; from LLMOps guardrails to agentic operations copilots.</p>
+          <p>Currently at Euna Solutions, I improve the shared platform and reliability foundations behind public-sector SaaS products. Previously, I built and operated critical systems at BMO, Exodus, and Busha.</p>
         </div>
       </div>
     </section>
@@ -417,9 +451,10 @@
       <div class="container">
         <span class="section-eyebrow">Get in Touch</span>
         <h2 class="section-title">Let&apos;s work together</h2>
-        <p class="section-desc" style="margin:0 auto">Open to AI platform, SRE, and infrastructure leadership roles. Always happy to talk shop.</p>
+        <p class="section-desc" style="margin:0 auto">Open to Staff/Senior Platform Engineering, SRE, developer infrastructure, and adjacent technical leadership roles across Canada.</p>
+        <a class="contact-email" href="mailto:coginni@gmail.com?subject=Platform%20Engineering%20Opportunity">coginni@gmail.com</a>
         <div class="contact-icons">
-          <a href="mailto:oginnidipo@gmail.com" class="contact-icon-link" aria-label="Email">
+          <a href="mailto:coginni@gmail.com?subject=Platform%20Engineering%20Opportunity" class="contact-icon-link" aria-label="Email Dipo Oginni">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
           </a>
           <a href="https://www.linkedin.com/in/dipo-oginni" target="_blank" rel="noopener" class="contact-icon-link" aria-label="LinkedIn">
@@ -456,11 +491,13 @@
     navToggle.addEventListener("click", () => {
       navLinks.classList.toggle("active");
       navToggle.classList.toggle("active");
+      navToggle.setAttribute("aria-expanded", navLinks.classList.contains("active") ? "true" : "false");
     });
     navLinks.querySelectorAll("a").forEach(link => {
       link.addEventListener("click", () => {
         navLinks.classList.remove("active");
         navToggle.classList.remove("active");
+        navToggle.setAttribute("aria-expanded", "false");
       });
     });
     const backToTop = document.querySelector(".back-to-top");
@@ -479,7 +516,7 @@
         if (entry.isIntersecting) entry.target.classList.add("animate-in");
       });
     }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
-    document.querySelectorAll(".expertise-card, .ai-card, .project-card, .impact-card, .timeline-item, .cert-card").forEach(el => {
+    document.querySelectorAll(".expertise-item, .ai-card, .project-card, .impact-card, .timeline-item, .cert-card").forEach(el => {
       el.classList.add("animate-target");
       observer.observe(el);
     });
