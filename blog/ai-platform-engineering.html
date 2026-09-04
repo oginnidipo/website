@@ -20,7 +20,8 @@
     <title>AI Platform Engineering: What Teams Need Before They Ship Agents | Dipo Oginni</title>
     <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-    <link rel="stylesheet" href="../styles.css?v=7">
+    <link rel="stylesheet" href="../styles.css?v=9">
+  <link rel="stylesheet" href="../revamp.css?v=1">
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -41,33 +42,22 @@
     <link rel="alternate" type="application/rss+xml" title="Dipo Oginni — AI Platform Engineering &amp; SRE" href="https://dipops.com/feed.xml">
     <script>(function(){try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');}catch(e){}})()</script>
 </head>
-<body>
+<body class="reading-page">
     <a href="#main-content" class="skip-link">Skip to main content</a>
-
-    <nav class="navbar" role="navigation" aria-label="Main navigation">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <a href="../index.html">Dipo Oginni</a>
-            </div>
-            <button class="nav-toggle" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <div class="nav-links">
-                <a href="../index.html#about">About</a>
-                <a href="../index.html#expertise">Expertise</a>
-                <a href="../index.html#ai-systems">AI Systems</a>
-                <a href="../index.html#experience">Experience</a>
-                <a href="../index.html#projects">Projects</a>
-                <a href="index.html">Blog</a>
-                <a href="../now.html">Now</a>
-                <a href="../index.html#contact">Contact</a>
-                <button class="theme-toggle" aria-label="Toggle dark mode" onclick="document.documentElement.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); localStorage.setItem('theme', document.documentElement.getAttribute('data-theme'));">
-<svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
-            </div>
-        </div>
-    </nav>
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-container">
+      <div class="nav-logo"><a href="../index.html" aria-label="Dipo Oginni, home">dipo<span class="logo-accent">/</span>ops<span class="logo-dot">.</span></a></div>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-navigation"><span></span><span></span><span></span></button>
+      <div class="nav-links" id="primary-navigation">
+        <a href="../index.html#projects">Selected work</a>
+        <a href="../index.html#experience">Experience</a>
+        <a href="../index.html#about">About</a>
+        <a href="../blog/index.html">Writing</a>
+        <a href="../index.html#contact" class="nav-contact">Let’s talk <span aria-hidden="true">↗</span></a>
+        <button class="theme-toggle" aria-label="Toggle dark mode"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+      </div>
+    </div>
+  </nav>
 
     <main id="main-content" class="blog-post">
         <article>
@@ -203,18 +193,7 @@
         </div>
     </footer>
 
-    <script>        const navToggle = document.querySelector('.nav-toggle');
-        const navLinks = document.querySelector('.nav-links');
-        navToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            navToggle.classList.toggle('active');
-        });
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                navToggle.classList.remove('active');
-            });
-        });
-    </script>
+
+  <script src="../site.js" defer></script>
 </body>
 </html>

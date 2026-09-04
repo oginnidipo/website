@@ -1,5 +1,8 @@
 {
   "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "node --test scripts/site.test.mjs",
     "og:build": "node scripts/generate-og-images.mjs",
     "deploy:receipt-ai": "wrangler deploy",
     "check:receipt-ai": "node --check workers/receipt-ai.js"
