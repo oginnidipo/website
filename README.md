@@ -2,15 +2,15 @@
 
 My personal portfolio — [dipops.com](https://dipops.com)
 
-Static site showcasing my work as a Staff Platform Engineer, Senior SRE, and AI infrastructure practitioner. Built with plain HTML/CSS and hosted on GitHub Pages.
+Static portfolio of software and infrastructure projects, with technical notes and a short introduction. Built with plain HTML/CSS and hosted on GitHub Pages.
 
 ## Stack
 
 - HTML5 + CSS3 (no frameworks)
 - GitHub Pages + custom domain
 - SEO-optimized with Open Graph, JSON-LD structured data
-- Recruiter-focused positioning, quantified outcomes, and clear work-authorization context
-- Platform/SRE case studies, production-AI operating model, and technical writing
+- Project-first home page with repository examples and direct source links
+- Technical writing, personal projects, and a secondary résumé link
 
 ## Development
 
@@ -20,9 +20,10 @@ Requires Node.js 22 or newer. The portfolio itself has no runtime dependencies.
 - `npm test` checks markup, local links, metadata, theme behavior, and navigation logic.
 - `npm run build` runs the checks and copies only public assets into `dist/`.
 
-The editorial redesign uses `revamp.css` for shared design tokens, responsive layouts,
-and the reading experience. `site.js` handles accessible navigation and the theme preference.
-Career outcomes are distinct from the public reference implementations linked in Selected Work.
+The site uses `styles.css` for a single system sans-serif type family, responsive layouts,
+and the reading experience. Monospace is reserved for code and repository artifacts.
+`site.js` handles accessible navigation and the theme preference. Employment history,
+certification lists, and résumé-style metric panels are intentionally absent from the home page.
 The résumé, article content, and existing social-preview images are preserved.
 
 The `.openai/hosting.json` registration is for the private redesign preview. It does

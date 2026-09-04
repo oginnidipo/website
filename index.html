@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Dipo Oginni — Staff Platform Engineer and Senior SRE building reliable cloud infrastructure, developer platforms, observability, and production AI systems at scale.">
+  <meta name="description" content="Projects and notes by Dipo Oginni. Software, Kubernetes tooling, infrastructure, and experiments in AI.">
   <meta name="author" content="Dipo Oginni">
   <link rel="canonical" href="https://dipops.com/">
   <meta property="og:type" content="website">
@@ -32,15 +32,12 @@
     }
   }
   </script>
-  <title>Dipo Oginni | Staff Platform Engineer & Senior SRE</title>
+  <title>Dipo Oginni — Projects &amp; Notes</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=9">
-  <link rel="stylesheet" href="revamp.css?v=1">
-  <meta name="theme-color" content="#fafbf9" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#13221d" media="(prefers-color-scheme: dark)">
+  <link rel="stylesheet" href="styles.css?v=10">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#151515" media="(prefers-color-scheme: dark)">
   <link rel="alternate" type="application/rss+xml" title="Dipo Oginni — AI Platform Engineering & SRE" href="https://dipops.com/feed.xml">
   <script>(function(){try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');}catch(e){}})()</script>
 </head>
@@ -49,117 +46,81 @@
 
   <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="nav-container">
-      <div class="nav-logo"><a href="#hero" aria-label="Dipo Oginni, home">dipo<span class="logo-accent">/</span>ops<span class="logo-dot">.</span></a></div>
+      <div class="nav-logo"><a href="#hero" aria-label="Dipo Oginni, home">Dipo Oginni<span class="logo-dot">.</span></a></div>
       <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-navigation"><span></span><span></span><span></span></button>
       <div class="nav-links" id="primary-navigation">
-        <a href="#projects">Selected work</a>
-        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
         <a href="#about">About</a>
         <a href="blog/index.html">Writing</a>
-        <a href="#contact" class="nav-contact">Let’s talk <span aria-hidden="true">↗</span></a>
+        <a href="#contact" class="nav-contact">Contact</a>
         <button class="theme-toggle" aria-label="Toggle dark mode"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
       </div>
     </div>
   </nav>
 
   <main id="main-content">
-    <section id="hero" class="hero" aria-label="Introduction">
-      <div class="hero-content">
-        <div class="hero-topline"><span>DIPO OGINNI / PLATFORM ENGINEER &amp; SRE</span><span class="availability"><i aria-hidden="true"></i> Open to the right opportunity</span></div>
-        <div class="hero-layout">
-          <div class="hero-copy">
-            <h1 class="hero-title">Less firefighting.<br>More <em>forward<br class="desktop-break"> motion.</em></h1>
-            <p class="hero-subtitle">I’m Dipo. I build reliable cloud platforms, simplify infrastructure, and help engineering teams ship with confidence.</p>
-            <div class="hero-cta">
-              <a href="#projects" class="btn btn-primary">Explore my work <span aria-hidden="true">↗</span></a>
-              <a href="resume.pdf" download="Dipo-Oginni-Resume.pdf" class="btn btn-secondary">Download résumé <span aria-hidden="true">↓</span></a>
-            </div>
-            <p class="hero-location">Based in Ontario, Canada <span aria-hidden="true">·</span> Remote &amp; Toronto/GTA hybrid</p>
-          </div>
-          <aside class="impact-panel" aria-label="Selected career outcomes">
-            <div class="panel-heading"><span>ENGINEERING, WITH IMPACT</span><span aria-hidden="true">↗</span></div>
-            <div class="panel-result"><strong>70<span>%</span></strong><div><h2>Faster detection.</h2><p>Reduction in mean time to detect incidents.</p></div></div>
-            <div class="panel-result"><strong>20<span>%</span></strong><div><h2>Leaner infrastructure.</h2><p>Cloud savings through FinOps and rightsizing.</p></div></div>
-            <div class="panel-result"><strong>2k<span>+</span></strong><div><h2>Less manual work.</h2><p>Servers managed through automation.</p></div></div>
-            <a href="#experience" class="panel-footer">Built in production. Across industries. <span aria-hidden="true">↘</span></a>
-          </aside>
+    <section id="hero" class="intro" aria-label="Introduction">
+      <div class="container intro-layout">
+        <div>
+          <p class="intro-label">Software &amp; infrastructure</p>
+          <h1>Dipo Oginni</h1>
+          <p class="intro-description">I’m an engineer based in Ontario. I build tools for working with cloud infrastructure, and occasionally something outside of it.</p>
+          <div class="intro-links"><a href="https://github.com/oginnidipo" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a><a href="mailto:coginni@gmail.com">Email me <span aria-hidden="true">↗</span></a></div>
         </div>
-        <div class="career-strip"><span>PLATFORMS BUILT AT</span><div><span>Euna Solutions</span><span>BMO</span><span>Exodus</span><span>Busha</span></div><a href="https://github.com/oginnidipo" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a></div>
+        <p class="intro-aside">A collection of projects,<br>experiments, and things<br>I’ve learned along the way.</p>
       </div>
     </section>
 
-    <section id="projects" class="section selected-work">
+    <section id="projects" class="section projects-section">
       <div class="container">
-        <div class="section-top">
-          <div><span class="section-eyebrow">01 / SELECTED WORK</span><h2 class="section-title">Good infrastructure.<br><em>Less friction.</em></h2></div>
-          <p class="section-desc work-intro">A look at how I approach reliability, automation, and cost. Public implementations you can explore, alongside my production experience.</p>
-        </div>
-        <article class="featured-work">
-          <div class="work-copy">
-            <span class="work-category">OBSERVABILITY / OPEN SOURCE</span>
-            <h3>Make the invisible<br>observable.</h3>
-            <p>A Kubernetes observability stack that brings metrics, SLO dashboards, and actionable alerting into one operating model.</p>
-            <ul class="work-points"><li>Golden signals and error-budget dashboards</li><li>Severity-based routing to PagerDuty and Slack</li><li>Shared telemetry through OpenTelemetry</li></ul>
-            <div class="work-tech"><span>Prometheus</span><span>Grafana</span><span>OpenTelemetry</span></div>
-            <a href="https://github.com/oginnidipo/k8s-observability-stack" target="_blank" rel="noopener" class="work-link">Explore the observability stack <span aria-hidden="true">↗</span></a>
-          </div>
-          <figure class="architecture">
-            <figcaption>FROM SIGNAL TO ACTION <span>01—03</span></figcaption>
-            <div class="flow-step"><span class="flow-number">01</span><div><strong>Collect</strong><p>Application &amp; infrastructure telemetry</p><span class="flow-tool">OpenTelemetry Collector</span></div></div>
-            <div class="flow-step"><span class="flow-number">02</span><div><strong>Understand</strong><p>Metrics, golden signals &amp; error budgets</p><span class="flow-tool">Prometheus + Grafana</span></div></div>
-            <div class="flow-step"><span class="flow-number">03</span><div><strong>Respond</strong><p>Route the right alert to the right team</p><span class="flow-tool">AlertManager → PagerDuty / Slack</span></div></div>
-            <p class="architecture-caption">Architecture overview · public reference stack</p>
+        <div class="section-heading"><h2>Selected projects</h2><a href="https://github.com/oginnidipo" target="_blank" rel="noopener">All repositories <span aria-hidden="true">↗</span></a></div>
+        <article class="project-feature">
+          <figure class="project-artifact terminal">
+            <figcaption><span>k8s-cost-radar</span><span>Demo output</span></figcaption>
+            <pre><code><span class="code-muted">$</span> python k8s_cost_radar.py demo
+
+<span class="code-bright">Cluster overview</span>
+────────────────────────────────
+Pods                          47
+Namespaces                     8
+CPU requests          23.4 cores
+Memory requests          45.2 GB
+
+<span class="code-bright">Estimated monthly cost</span>   $1,089.50
+Potential savings          $243.20
+Issues found                    18</code></pre>
+            <p>Sample data from the repository’s demo.</p>
           </figure>
+          <div class="project-body">
+            <span class="project-type">Python / Kubernetes</span>
+            <h3>k8s-cost-radar</h3>
+            <p>A command-line tool for finding waste in a Kubernetes cluster. It scans workloads, estimates request-based resource costs, and points out what to investigate.</p>
+            <p class="project-detail">Try the demo without a cluster, or export a scan as a table, JSON, or Markdown. Estimates use simplified pricing, not your cloud bill.</p>
+            <a href="https://github.com/oginnidipo/k8s-cost-radar" target="_blank" rel="noopener" class="project-source">View repository <span aria-hidden="true">↗</span></a>
+          </div>
         </article>
-        <div class="work-grid">
-          <article class="work-card">
-            <div class="work-card-top"><span class="work-category">FINOPS / PYTHON CLI</span><span class="work-index">02</span></div>
-            <h3>Find the waste.<br>Keep the performance.</h3>
-            <p><strong>k8s-cost-radar</strong> scans Kubernetes workloads, estimates request-based resource costs, and flags potential waste. Includes a demo mode that runs without a cluster.</p>
-            <div class="work-tech"><span>Python</span><span>Kubernetes</span><span>FinOps</span></div>
-            <a href="https://github.com/oginnidipo/k8s-cost-radar" target="_blank" rel="noopener" class="work-link">Explore Cost Radar <span aria-hidden="true">↗</span></a>
+        <div class="project-grid">
+          <article class="project-tile">
+            <figure class="project-artifact source-tree">
+              <figcaption>Inside the observability stack</figcaption>
+              <pre><code>charts/
+  observability-stack/
+dashboards/
+  <span class="code-accent">slo-overview.json</span>
+  golden-signals.json
+  kubernetes-cluster.json
+alerts/
+otel/
+  collector-config.yaml</code></pre>
+            </figure>
+            <div class="project-body"><span class="project-type">Helm / Prometheus / Grafana</span><h3>Kubernetes observability stack</h3><p>Metrics, SLO dashboards, alert routing, and OpenTelemetry configuration in a single reference stack.</p><a href="https://github.com/oginnidipo/k8s-observability-stack" target="_blank" rel="noopener" class="project-source">View repository <span aria-hidden="true">↗</span></a></div>
           </article>
-          <article class="work-card">
-            <div class="work-card-top"><span class="work-category">PLATFORM / INFRASTRUCTURE AS CODE</span><span class="work-index">03</span></div>
-            <h3>A repeatable foundation.<br>Not another snowflake.</h3>
-            <p><strong>EKS Demo</strong> provisions an AWS Kubernetes foundation with modular Terraform: private node groups, networking, autoscaler IAM, persistent storage, and access controls.</p>
-            <div class="work-tech"><span>Terraform</span><span>AWS EKS</span><span>Helm</span></div>
-            <a href="https://github.com/oginnidipo/eks-demo" target="_blank" rel="noopener" class="work-link">Explore the EKS foundation <span aria-hidden="true">↗</span></a>
-          </article>
-        </div>
-        <article class="ai-feature" id="ai-systems">
-          <div><span class="work-category">AI PLATFORM / ARCHITECTURE</span><h3>Agents need good infrastructure, too.</h3></div>
-          <div><p>My approach to AI operations copilots: bounded tool access, prompt and tool-call telemetry, evaluation, and human approval before risky actions.</p><a class="text-link" href="blog/ai-platform-engineering.html">Read my AI operating model <span aria-hidden="true">↗</span></a></div>
-        </article>
-      </div>
-    </section>
-
-    <section id="experience" class="section experience-section">
-      <div class="container">
-        <div class="section-top">
-          <div><span class="section-eyebrow">02 / EXPERIENCE</span><h2 class="section-title">Built for the real world.</h2></div>
-          <a class="text-link" href="resume.pdf" download="Dipo-Oginni-Resume.pdf">The full story, in my résumé <span aria-hidden="true">↓</span></a>
-        </div>
-        <div class="experience-list">
-          <article class="experience-row">
-            <div class="experience-company"><h3>Euna Solutions</h3><span class="current-role">Current</span></div>
-            <div><h4>AI Platform Engineer / Senior SRE</h4><p>Shared platform and reliability foundations for public-sector SaaS. Kubernetes, Terraform, observability, and AI infrastructure guardrails.</p></div>
-            <p class="experience-date">Jul 2024 — Present</p>
-          </article>
-          <article class="experience-row">
-            <div class="experience-company"><h3>BMO Financial Group</h3></div>
-            <div><h4>Senior Site Reliability Engineer</h4><p>Enterprise reliability across Azure and on-premises platforms, with observability, incident management, and operational ownership.</p></div>
-            <p class="experience-date">Sep 2023 — Jun 2024</p>
-          </article>
-          <article class="experience-row">
-            <div class="experience-company"><h3>Exodus</h3></div>
-            <div><h4>Senior DevOps / SRE Engineer</h4><p>Multi-tenant Kubernetes, self-service infrastructure, and FinOps for crypto wallet products. Making deployments and cloud spend easier to manage.</p></div>
-            <p class="experience-date">May 2021 — Oct 2023</p>
-          </article>
-          <article class="experience-row">
-            <div class="experience-company"><h3>Busha</h3></div>
-            <div><h4>Lead DevOps Engineer</h4><p>Infrastructure automation and compliance tooling as the business scaled from startup to regulated fintech. Automation across 2,000+ servers.</p></div>
-            <p class="experience-date">Dec 2018 — Apr 2021</p>
+          <article class="project-tile">
+            <figure class="project-artifact module-list">
+              <figcaption>EKS / Terraform modules</figcaption>
+              <dl><div><dt>vpc/</dt><dd>Network &amp; subnets</dd></div><div><dt>cluster/</dt><dd>Private node groups</dd></div><div><dt>autoscaler/</dt><dd>Scaling permissions</dd></div><div><dt>efs-csi/</dt><dd>Persistent storage</dd></div><div><dt>users/</dt><dd>IAM &amp; RBAC</dd></div></dl>
+            </figure>
+            <div class="project-body"><span class="project-type">Terraform / AWS / Helm</span><h3>EKS foundation</h3><p>A modular Terraform project for provisioning an Amazon EKS cluster, from networking to storage and access controls.</p><a href="https://github.com/oginnidipo/eks-demo" target="_blank" rel="noopener" class="project-source">View repository <span aria-hidden="true">↗</span></a></div>
           </article>
         </div>
       </div>
@@ -167,22 +128,14 @@
 
     <section id="about" class="section about-section">
       <div class="container about-layout">
-        <div><span class="section-eyebrow">03 / HOW I WORK</span><h2 class="section-title">Close to the systems.<br><em>Closer to the people.</em></h2><a href="now.html" class="text-link">What I’m focused on now <span aria-hidden="true">↗</span></a></div>
-        <div class="about-prose"><p>I’m Dipo Oginni, a platform engineer and SRE based in Ontario. I’ve built and operated infrastructure across financial services, crypto, fintech, and public-sector SaaS.</p><p>I care about what happens after a system ships: who gets paged, how quickly they can understand a failure, and whether the next deployment is easier than the last.</p><p>My work connects hands-on engineering with architecture, mentoring, and cross-team alignment. The goal is a platform that helps other engineers do their best work.</p></div>
-      </div>
-      <div class="container capability-layout" id="expertise">
-        <article class="capability"><span class="capability-number">01</span><h3>Reliable by design</h3><p>SLOs, observability, incident response, disaster recovery, and security built into everyday operations.</p><span class="capability-tools">Prometheus · Grafana · OpenTelemetry</span></article>
-        <article class="capability"><span class="capability-number">02</span><h3>A better path to production</h3><p>Self-service platforms, repeatable infrastructure, and GitOps workflows that reduce manual work.</p><span class="capability-tools">Kubernetes · Terraform · ArgoCD</span></article>
-        <article class="capability"><span class="capability-number">03</span><h3>Practical AI foundations</h3><p>Model routing, evaluations, guardrails, and cost visibility that make AI systems accountable.</p><span class="capability-tools">LLMOps · Python · Policy-as-code</span></article>
-      </div>
-      <div class="container" id="certifications">
-        <div class="credentials"><span>CERTIFICATIONS</span><ul><li>AWS Solutions Architect <small>Associate</small></li><li>CKA / CKAD <small>Kubernetes</small></li><li>Terraform Associate <small>HashiCorp</small></li><li>Security+ <small>CompTIA</small></li></ul></div>
+        <h2>A bit about me</h2>
+        <div><p>Most of my work is around Kubernetes, automation, and understanding what’s happening inside a running system. I like tools that are small enough to understand and useful enough to keep using.</p><p>I also work on app ideas: <strong>ReceiptVault</strong>, an iOS app for receipts and expenses, and <strong>EducateED</strong>, a tutor marketplace.</p><a href="now.html">More about what I’m building <span aria-hidden="true">↗</span></a></div>
       </div>
     </section>
 
     <section class="section writing-section" id="writing">
       <div class="container">
-        <div class="section-top"><div><span class="section-eyebrow">04 / FIELD NOTES</span><h2 class="section-title">Thinking out loud.</h2></div><a href="blog/index.html" class="text-link">All writing <span aria-hidden="true">↗</span></a></div>
+        <div class="section-heading"><h2>Notes</h2><a href="blog/index.html">All writing <span aria-hidden="true">↗</span></a></div>
         <div class="writing-list">
           <a class="writing-row" href="blog/ai-platform-engineering.html"><span class="writing-topic">AI PLATFORM</span><h3>What teams need before they ship agents</h3><span class="writing-read">9 min read <span aria-hidden="true">↗</span></span></a>
           <a class="writing-row" href="blog/kubernetes-production-readiness.html"><span class="writing-topic">KUBERNETES</span><h3>Production readiness: what actually matters</h3><span class="writing-read">8 min read <span aria-hidden="true">↗</span></span></a>
@@ -192,15 +145,12 @@
     </section>
 
     <section id="contact" class="section contact-section">
-      <div class="container contact-layout">
-        <div><span class="section-eyebrow">05 / WHAT’S NEXT</span><h2 class="section-title">Your next platform.<br><em>Let’s build it right.</em></h2><a class="contact-email" href="mailto:coginni@gmail.com?subject=Platform%20Engineering%20Opportunity">coginni@gmail.com <span aria-hidden="true">↗</span></a></div>
-        <div class="contact-fit"><span class="availability"><i aria-hidden="true"></i> OPEN TO OPPORTUNITIES</span><p>Staff / Senior Platform Engineering, SRE, developer infrastructure, and technical leadership.</p><p class="contact-location">Authorized to work in Canada.<br>Remote or Toronto/GTA hybrid.</p><div class="contact-links"><a href="resume.pdf" download="Dipo-Oginni-Resume.pdf">Résumé ↓</a><a href="https://www.linkedin.com/in/dipo-oginni" target="_blank" rel="noopener">LinkedIn ↗</a><a href="https://github.com/oginnidipo" target="_blank" rel="noopener">GitHub ↗</a></div></div>
-      </div>
+      <div class="container contact-layout"><h2>Say hello</h2><div><p>Have a question about a project, or want to work together?</p><a href="mailto:coginni@gmail.com" class="contact-email">coginni@gmail.com <span aria-hidden="true">↗</span></a></div></div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="container footer-inner"><a href="#hero" class="footer-brand">dipo/ops.</a><p>© 2026 Dipo Oginni</p><div><a href="now.html">Now</a><a href="blog/index.html">Writing</a><a href="feed.xml">RSS</a><a href="#hero">Back to top ↑</a></div></div>
+    <div class="container footer-inner"><p>© 2026 Dipo Oginni</p><div><a href="https://github.com/oginnidipo" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/dipo-oginni" target="_blank" rel="noopener">LinkedIn</a><a href="resume.pdf" download="Dipo-Oginni-Resume.pdf">Résumé</a><a href="feed.xml">RSS</a></div></div>
   </footer>
   <script src="site.js" defer></script>
 </body>

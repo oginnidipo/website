@@ -108,12 +108,22 @@ test('menu exposes expanded state and closes on Escape, destination, outside cli
     assert.equal(menu.getAttribute('aria-expanded'),'false');
   }
 });
-test('career outcomes stay distinct from public project implementations', () => {
+test('portfolio focuses on inspectable projects, not employment history', () => {
   const html=documents.get('index.html');
-  const work=html.slice(html.indexOf('<section id="projects"'),html.indexOf('<section id="experience"'));
+  const work=html.slice(html.indexOf('<section id="projects"'),html.indexOf('<section id="about"'));
   for (const repo of ['k8s-observability-stack','k8s-cost-radar','eks-demo']) assert.ok(work.includes(`https://github.com/oginnidipo/${repo}`));
   assert.doesNotMatch(work,/70%|2,000|40%|Zero.*Downtime/);
   assert.match(work,/request-based resource costs/);
+  assert.match(work,/Sample data from the repository/);
+  assert.doesNotMatch(html,/Euna|BMO|Exodus|Busha|experience-section|career-strip|impact-panel|CERTIFICATIONS/);
+  assert.equal((html.match(/href="resume.pdf"/g)||[]).length,1);
+  assert.ok(html.indexOf('href="resume.pdf"') > html.indexOf('<footer'));
+});
+test('one sans-serif type system, with no external font requests', () => {
+  const css=readFileSync(resolve(root,'styles.css'),'utf8');
+  assert.match(css,/--font:-apple-system/);
+  assert.doesNotMatch(css,/@import|Instrument|DM Sans|--serif/);
+  for(const html of documents.values()) assert.doesNotMatch(html,/revamp\.css|fonts\.googleapis|fonts\.gstatic/);
 });
 test('social previews and existing résumé remain available', () => {
   for (const path of ['og-image.png','resume.pdf','assets/og/ai-platform-engineering.png','assets/og/cloud-cost-optimization.png','assets/og/kubernetes-production-readiness.png']) assert.ok(existsSync(resolve(root,path)));
