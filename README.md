@@ -26,6 +26,7 @@ and the reading experience. Monospace is reserved for code and repository artifa
 certification lists, and résumé-style metric panels are intentionally absent from the home page.
 The résumé, article content, and existing social-preview images are preserved.
 
-The `.openai/hosting.json` registration is for the private redesign preview. It does
-not change the dipops.com domain or GitHub Pages deployment. Publishing to GitHub
-Pages remains an explicit follow-up action after review.
+The `.openai/hosting.json` registration is for the separate private preview. The
+public dipops.com domain remains on GitHub Pages. Pushes to `main` run the checks
+and build with Node.js 22, then deploy only `dist/`, excluding development files
+and preview configuration from the published website.
