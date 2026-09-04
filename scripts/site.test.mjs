@@ -125,6 +125,18 @@ test('one sans-serif type system, with no external font requests', () => {
   assert.doesNotMatch(css,/@import|Instrument|DM Sans|--serif/);
   for(const html of documents.values()) assert.doesNotMatch(html,/revamp\.css|fonts\.googleapis|fonts\.gstatic/);
 });
+test('brand wordmark and favicon set stay consistent', () => {
+  const home=documents.get('index.html');
+  assert.match(home,/dipo<span class="logo-slash">\/<\/span>ops<span class="logo-dot">\.<\/span>/);
+  const svg=readFileSync(resolve(root,'favicon.svg'),'utf8');
+  assert.match(svg,/fill="#10251e"/);
+  assert.match(svg,/>d<tspan fill="#b8ee75">\/<\/tspan>o</);
+  for(const html of documents.values()) {
+    assert.match(html,/rel="icon" type="image\/svg\+xml"/);
+    assert.match(html,/rel="icon" type="image\/png" sizes="32x32"/);
+    assert.match(html,/rel="apple-touch-icon" sizes="180x180"/);
+  }
+});
 test('social previews and existing résumé remain available', () => {
   for (const path of ['og-image.png','resume.pdf','assets/og/ai-platform-engineering.png','assets/og/cloud-cost-optimization.png','assets/og/kubernetes-production-readiness.png']) assert.ok(existsSync(resolve(root,path)));
   assert.match(documents.get('index.html'),/property="og:image" content="https:\/\/dipops.com\/og-image.png"/);
