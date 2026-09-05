@@ -6,7 +6,7 @@ import vm from 'node:vm';
 
 const root = resolve(import.meta.dirname, '..');
 const pages = ['index.html','now.html','404.html','blog/index.html','blog/ai-platform-engineering.html',
-  'blog/kubernetes-production-readiness.html','blog/cloud-cost-optimization.html'];
+  'blog/kubernetes-production-readiness.html','blog/cloud-cost-optimization.html','projects/k8s-cost-radar.html'];
 const documents = new Map(pages.map(path => [path, readFileSync(resolve(root,path),'utf8')]));
 const voidTags = new Set('area base br col embed hr img input link meta param source track wbr'.split(' '));
 
@@ -141,4 +141,28 @@ test('social previews and existing résumé remain available', () => {
   for (const path of ['og-image.png','resume.pdf','assets/og/ai-platform-engineering.png','assets/og/cloud-cost-optimization.png','assets/og/kubernetes-production-readiness.png']) assert.ok(existsSync(resolve(root,path)));
   assert.match(documents.get('index.html'),/property="og:image" content="https:\/\/dipops.com\/og-image.png"/);
   assert.match(documents.get('index.html'),/rel="canonical" href="https:\/\/dipops.com\/"/);
+});
+
+test('article publication metadata agrees across pages, indexes and RSS', () => {
+  const feed=readFileSync(resolve(root,'feed.xml'),'utf8');
+  const items=[...feed.matchAll(/<item>([\s\S]*?)<\/item>/g)].map(match=>match[1]);
+  const home=documents.get('index.html'), index=documents.get('blog/index.html');
+  for (const item of items) {
+    const title=item.match(/<title>(.*?)<\/title>/)[1];
+    const url=item.match(/<link>(.*?)<\/link>/)[1];
+    const html=documents.get(new URL(url).pathname.slice(1));
+    assert.ok(html,'RSS entry must point to a tested article');
+    const metadata=JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+    assert.equal(metadata.headline,title);
+    assert.ok(html.includes('<h1>'+title+'</h1>'));
+    assert.ok(home.includes(title),'homepage article title differs');
+    assert.ok(index.includes(title),'writing index article title differs');
+    assert.equal(new Date(metadata.datePublished+'T00:00:00Z').toUTCString(),item.match(/<pubDate>(.*?)<\/pubDate>/)[1]);
+    assert.ok(html.includes('datetime="'+metadata.datePublished+'"'));
+    assert.ok(metadata.dateModified >= metadata.datePublished);
+    const minutes=html.match(/\d+ min read/)[0];
+    const slug=new URL(url).pathname.split('/').pop();
+    const row=home.match(new RegExp('<a class="writing-row" href="blog/'+slug.replace('.', '\\.')+'">[\\s\\S]*?</a>'))[0];
+    assert.ok(row.includes(minutes),'homepage reading time differs');
+  }
 });

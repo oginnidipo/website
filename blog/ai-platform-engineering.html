@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="What teams need before shipping AI agents to production — LLMOps, evals, observability, access control, and rollback.">
+    <meta name="description" content="A practical design checklist for agent ownership, evaluations, tool access, observability, rollback, and cost controls.">
     <meta name="author" content="Dipo Oginni">
     <meta name="keywords" content="AI Platform Engineering, LLMOps, Agentic Automation, MLOps, AI Observability, Production AI, SRE, Platform Engineering">
     <link rel="canonical" href="https://dipops.com/blog/ai-platform-engineering.html">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://dipops.com/blog/ai-platform-engineering.html">
     <meta property="og:title" content="AI Platform Engineering: What Teams Need Before They Ship Agents">
-    <meta property="og:description" content="AI features fail in production for familiar platform reasons. Here's the operating model I use.">
+    <meta property="og:description" content="A practical design checklist for agent ownership, evaluations, tool access, observability, rollback, and cost controls.">
     <meta property="og:image" content="https://dipops.com/assets/og/ai-platform-engineering.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -21,20 +21,20 @@
     <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
-    <link rel="stylesheet" href="../styles.css?v=11">
+    <link rel="stylesheet" href="../styles.css?v=12">
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "AI Platform Engineering: What Teams Need Before They Ship Agents",
-        "description": "What teams need before shipping AI agents to production: LLMOps, evals, observability, access control, rollback, ownership, and cost guardrails.",
+        "description": "A practical design checklist for agent ownership, evaluations, tool access, observability, rollback, and cost controls.",
         "author": {
             "@type": "Person",
             "name": "Dipo Oginni",
             "url": "https://dipops.com/"
         },
         "datePublished": "2026-05-10",
-        "dateModified": "2026-05-11",
+        "dateModified": "2026-09-04",
         "mainEntityOfPage": "https://dipops.com/blog/ai-platform-engineering.html",
         "image": "https://dipops.com/assets/og/ai-platform-engineering.png"
     }
@@ -70,109 +70,31 @@
                 <div class="post-meta">
                     <time datetime="2026-05-10">May 10, 2026</time>
                     <span class="blog-dot" aria-hidden="true"></span>
-                    <span>9 min read</span>
+                    <span>3 min read</span>
                 </div>
+              <p class="post-updated">Updated September 4, 2026</p>
             </header>
 
             <div class="post-content">
-                <p class="lead">
-                    Every team I've watched ship an AI feature to production has hit the same wall: the model works in a notebook, but the system around it doesn't. Agents hallucinate, costs spike, latency degrades, and nobody knows who owns the incident. The failures are not model problems. They are platform problems. Here's the operating model I use to avoid them.
-                </p>
-
-                <h2>1. Define Ownership Before You Define Architecture</h2>
-                <p>
-                    In most companies, AI features sit in a no-man's land between the ML team, the platform team, and product engineering. When an AI endpoint starts returning garbage at 2am, the pager goes to the on-call SRE who has never seen a prompt template. The SRE restarts the pod, the problem goes away for 20 minutes, then it comes back worse.
-                </p>
-                <p>
-                    The fix is boring but non-negotiable: decide who owns the AI system's reliability, cost, security, and feature behavior <strong>before</strong> you build it. In practice, I split it like this:
-                </p>
-                <ul>
-                    <li><strong>Platform team:</strong> infrastructure, scaling, cost guardrails, observability, access control, model routing</li>
-                    <li><strong>Product engineering:</strong> prompt logic, retrieval pipelines, user-facing behavior, evaluation criteria</li>
-                    <li><strong>ML/AI team (if one exists):</strong> model selection, fine-tuning, benchmark evaluation, data pipelines</li>
-                </ul>
-                <p>
-                    Everyone gets a runbook. Everyone gets a dashboard. Everyone knows what they are allowed to change without approval and what requires a second set of eyes.
-                </p>
-
-                <h2>2. Evaluations Are Your Test Suite</h2>
-                <p>
-                    You would not deploy a microservice without unit tests. You should not deploy an AI feature without evals. An evaluation harness is not a research luxury; it is production infrastructure. I treat it exactly like CI: every prompt change, model swap, or retrieval pipeline update runs through the eval suite before it reaches staging.
-                </p>
-                <p>
-                    What I measure depends on the use case, but the baseline set is consistent:
-                </p>
-                <ul>
-                    <li><strong>Accuracy / correctness:</strong> Does the output match the expected answer on a held-out test set?</li>
-                    <li><strong>Hallucination rate:</strong> Does the model invent facts, URLs, or configuration values?</li>
-                    <li><strong>Latency distribution:</strong> P50, P95, P99 for token generation and end-to-end response time</li>
-                    <li><strong>Cost per request:</strong> Token count × model price, tracked per user, per feature, per team</li>
-                    <li><strong>Safety / policy:</strong> Does the output violate content, privacy, or security policies?</li>
-                </ul>
-                <p>
-                    I store eval results in the same system as deployment history so I can correlate a latency regression or cost spike with the exact code and model version that caused it. This sounds obvious, but most teams store evals in a spreadsheet and deployment history in GitHub Actions logs. Connect them.
-                </p>
-
-                <h2>3. Observability for AI Is Not Standard Observability</h2>
-                <p>
-                    Standard APM tells you that a request took 800ms and returned HTTP 200. It does not tell you that the model generated a dangerously wrong configuration snippet, burned 12,000 tokens on a simple question, or called an internal API with parameters it hallucinated. You need AI-specific telemetry:
-                </p>
-                <ul>
-                    <li><strong>Prompt traces:</strong> Log the full prompt, the model version, the temperature/top-p settings, and the tool-call history</li>
-                    <li><strong>Token usage:</strong> Input tokens, output tokens, and cost per request, aggregated by user, team, and feature</li>
-                    <li><strong>Tool-call audit:</strong> Every external API the agent touches, with parameters, response status, and latency</li>
-                    <li><strong>Retrieval context:</strong> What documents or data were fetched, their relevance scores, and whether they were actually used</li>
-                    <li><strong>Human feedback:</strong> Thumbs up/down, corrections, escalations — this becomes your next eval dataset</li>
-                </ul>
-                <p>
-                    I build this with OpenTelemetry where possible, because AI pipelines are just distributed systems with extra steps. The same tracing, correlation, and alerting patterns apply. The difference is the payload: prompts and embeddings instead of JSON request bodies.
-                </p>
-
-                <h2>4. Access Boundaries Keep Agents Safe</h2>
-                <p>
-                    The most dangerous AI system is the one with broad permissions and no review gate. I use a tiered access model that mirrors human role-based access control:
-                </p>
-                <ul>
-                    <li><strong>Read-only agents:</strong> Can inspect logs, metrics, and documentation. Cannot change infrastructure. This covers 70% of operational use cases.</li>
-                    <li><strong>Approved-action agents:</strong> Can propose changes — scaling events, config updates, deployment rollbacks — but a human must approve before execution. This covers 25% of use cases.</li>
-                    <li><strong>Autonomous agents:</strong> Can act within narrow, pre-approved guardrails with full audit logging and automatic rollback triggers. This covers the remaining 5% and requires the strongest observability and eval coverage.</li>
-                </ul>
-                <p>
-                    Every action is logged. Every tool call is traced. Every agent has a kill switch and a budget. If an agent's token spend exceeds its daily limit, it stops. If it makes three consecutive failed API calls, it stops and escalates. These are not constraints on innovation. They are the guardrails that let you sleep through the night.
-                </p>
-
-                <h2>5. You Need a Rollback Story</h2>
-                <p>
-                    Model providers update their APIs, deprecate versions, and change behavior without warning. A prompt that worked yesterday can break today because the underlying model was silently patched. Your rollback strategy cannot be "revert the code" if the problem is the model version, not the code.
-                </p>
-                <p>
-                    I version everything: prompts, model configs, retrieval indexes, and tool schemas. Each version is immutable. Each deployment references a specific version hash. Rollback means pointing at the previous hash, not editing files in production. This is GitOps for AI, and it is the only way to maintain sanity when you have multiple models, multiple prompts, and multiple teams shipping simultaneously.
-                </p>
-
-                <h2>6. Cost Guardrails Are Production Requirements</h2>
-                <p>
-                    AI costs are unpredictable. A bug in a loop can turn a $0.02 request into a $200 request. A misconfigured retry policy can 10× your bill overnight. I treat cost exactly like latency or error rate: it gets an SLO, an alert, and an owner.
-                </p>
-                <p>
-                    The controls I implement are simple and effective:
-                </p>
-                <ul>
-                    <li><strong>Per-user token budgets:</strong> Hard and soft limits with graceful degradation</li>
-                    <li><strong>Model routing:</strong> Route simple queries to cheaper models, reserve expensive models for complex tasks</li>
-                    <li><strong>Caching:</strong> Embed and cache frequent queries to avoid redundant token generation</li>
-                    <li><strong>Cost attribution:</strong> Tag every request with team, feature, and environment so finance can see who spent what</li>
-                </ul>
-                <p>
-                    These are not FinOps afterthoughts. They are architectural decisions made at design time. Retrofitting cost controls into a live AI system is painful. Building them in from day one is trivial.
-                </p>
-
-                <h2>The Bottom Line</h2>
-                <p>
-                    AI platform engineering is not fundamentally different from any other platform engineering. The same principles apply: clear ownership, strong testing, deep observability, tight access control, fast rollback, and cost discipline. The difference is that AI systems are less predictable, more expensive, and harder to debug when they go wrong. The margin for error is smaller, so the platform rigor must be higher.
-                </p>
-                <p>
-                    If you are building AI features today, ask yourself these six questions before you ship: Who owns this? How do we evaluate it? What do we observe? What can it access? How do we roll back? How do we control cost? Answer them honestly, build the answers into your platform, and you will avoid the 2am pages that every unprepared AI team eventually gets.
-                </p>
+<p class="lead">An agent that can answer a question still needs an operating model. Before giving it access to a production system, I want to know how a wrong answer becomes visible, who owns the response, and how to stop an action already in progress.</p>
+<h2>Start with one bounded job</h2>
+<p>“Help the on-call engineer” is too broad to evaluate. “Summarize this incident using these logs and link each finding to its source” is a more useful starting point. Define the inputs, the allowed tools, the expected output, and the conditions that require a person.</p>
+<p>Give the service an owner and a runbook. Product behavior, infrastructure reliability, and data access may belong to different teams, but the route from a failed request to the responsible person should be explicit.</p>
+<h2>Evaluate the whole task</h2>
+<p>Build a small evaluation set from representative tasks, including missing evidence, ambiguous requests, and tool failures. Check whether the answer is supported, whether the tool arguments are correct, and whether the system respects its access boundaries. Track latency and cost alongside task quality.</p>
+<p>Keep the evaluation inputs and results tied to the release: prompt version, model configuration, retrieval setup, and tool definitions. A change in any of those can alter behavior. Review failed examples as well as aggregate scores; an average can hide an unacceptable failure.</p>
+<h2>Observe without collecting everything</h2>
+<p>A successful HTTP response does not establish that an answer was useful. Record the task outcome, tool-call status, timings, token usage, and relevant version identifiers. Where a trace needs content, redact sensitive fields and decide who can access it and when it expires.</p>
+<p>Avoid logging full prompts and retrieved documents by default. They may contain customer data or secrets. <a href="https://opentelemetry.io/docs/specs/semconv/gen-ai/">OpenTelemetry’s GenAI conventions</a> are a useful reference when choosing how to represent these operations.</p>
+<h2>Make permissions enforceable</h2>
+<p>Use a read-only tool for inspection tasks. For changes, distinguish between actions requiring approval and narrowly bounded actions the system may take itself. Those are design choices for the task, not fixed percentages of all use cases.</p>
+<p>Enforce authorization in the tool or service handling the request. A sentence in a prompt cannot substitute for that boundary. For an approved action, bind the approval to the exact target and proposed change. Use idempotency where a retried call could otherwise perform the same mutation twice.</p>
+<h2>Plan the stop and recovery paths</h2>
+<p>Set a maximum number of tool calls, a time budget, and a cost budget. Repeated failures should produce a useful escalation with the last known state. Reaching a limit should not trigger another unbounded loop.</p>
+<p>Retain a known-good configuration and test how to restore it. Reverting a prompt does not undo an email, a payment, or an infrastructure change. Those actions need their own recovery procedure. Model availability and retrieval data can also constrain what a rollback can restore.</p>
+<h2>Keep a release checklist</h2>
+<ul><li>A named owner and an escalation path.</li><li>Representative evaluations, including failures and access violations.</li><li>Tool permissions and action approvals enforced outside the model.</li><li>Useful traces with intentional data handling.</li><li>Tested stop conditions and recovery procedures.</li></ul>
+<p>These are the questions I would bring to a design review. The answers should be concrete enough that another engineer can test them.</p>
             </div>
         </article>
     </main>

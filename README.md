@@ -24,7 +24,14 @@ The site uses `styles.css` for a single system sans-serif type family, responsiv
 and the reading experience. Monospace is reserved for code and repository artifacts.
 `site.js` handles accessible navigation and the theme preference. Employment history,
 certification lists, and résumé-style metric panels are intentionally absent from the home page.
-The résumé, article content, and existing social-preview images are preserved.
+The résumé and existing social-preview image files are retained. Articles include source links and distinguish measured results from assumptions. The cost article omits its old sharing image because that image contains a claim no longer made in the text.
+
+`projects/k8s-cost-radar.html` documents the public tool's implementation and limitations.
+Project workflow diagrams describe architecture; they are not screenshots or live data.
+ReceiptNest is the current name of the app formerly called ReceiptVault. Its public
+support page is linked; neither app is presented as publicly downloadable without a
+verified release link. Article titles, publication dates, and reading times must stay
+consistent across article pages, the homepage, writing index, and RSS.
 
 The `.openai/hosting.json` registration is for the separate private preview. The
 public dipops.com domain remains on GitHub Pages. Pushes to `main` run the checks

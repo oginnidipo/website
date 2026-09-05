@@ -3,39 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Proven strategies to reduce cloud costs by 20–30% without sacrificing performance. FinOps practices from a Senior Platform Engineer.">
+    <meta name="description" content="A practical approach to cloud costs: establish a baseline, investigate waste, test changes, and measure the result.">
     <link rel="canonical" href="https://dipops.com/blog/cloud-cost-optimization.html">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://dipops.com/blog/cloud-cost-optimization.html">
-    <meta property="og:title" content="How I Cut Cloud Costs by 30% Without Sacrificing Performance">
-    <meta property="og:description" content="Proven strategies to reduce cloud costs by 20–30% without sacrificing performance. FinOps practices from a Senior Platform Engineer.">
-    <meta property="og:image" content="https://dipops.com/assets/og/cloud-cost-optimization.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="How I Cut Cloud Costs by 30% Without Sacrificing Performance — Dipo Oginni">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="https://dipops.com/assets/og/cloud-cost-optimization.png">
-    <title>How I Cut Cloud Costs by 30% Without Sacrificing Performance | Dipo Oginni</title>
+    <meta property="og:title" content="Cloud Cost Optimization: Measure Before You Resize">
+    <meta property="og:description" content="A practical approach to cloud costs: establish a baseline, investigate waste, test changes, and measure the result.">
+    <meta name="twitter:card" content="summary">
+    <title>Cloud Cost Optimization: Measure Before You Resize | Dipo Oginni</title>
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "Article",
-        "headline": "How I Cut Cloud Costs by 30% Without Sacrificing Performance",
-        "description": "Proven strategies to reduce cloud costs by 20–30% without sacrificing performance. FinOps practices from a Senior Platform Engineer.",
+        "headline": "Cloud Cost Optimization: Measure Before You Resize",
+        "description": "A practical approach to cloud costs: establish a baseline, investigate waste, test changes, and measure the result.",
         "author": {
             "@type": "Person",
             "name": "Dipo Oginni",
             "url": "https://dipops.com/"
         },
         "datePublished": "2026-01-30",
-        "mainEntityOfPage": "https://dipops.com/blog/cloud-cost-optimization.html",
-        "image": "https://dipops.com/assets/og/cloud-cost-optimization.png"
+        "dateModified": "2026-09-04",
+        "mainEntityOfPage": "https://dipops.com/blog/cloud-cost-optimization.html"
     }
     </script>
     <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
-    <link rel="stylesheet" href="../styles.css?v=11">
+    <link rel="stylesheet" href="../styles.css?v=12">
     <link rel="alternate" type="application/rss+xml" title="Dipo Oginni — AI Platform Engineering &amp; SRE" href="https://dipops.com/feed.xml">
     <script>(function(){try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');}catch(e){}})()</script>
 </head>
@@ -63,141 +58,35 @@
                     Back to Blog
                 </a>
                 <span class="section-eyebrow">FinOps</span>
-                <h1>How I Cut Cloud Costs by 30% Without Sacrificing Performance</h1>
+                <h1>Cloud Cost Optimization: Measure Before You Resize</h1>
                 <div class="post-meta">
                     <time datetime="2026-01-30">January 30, 2026</time>
                     <span class="blog-dot" aria-hidden="true"></span>
-                    <span>10 min read</span>
+                    <span>3 min read</span>
                 </div>
+              <p class="post-updated">Updated September 4, 2026</p>
             </header>
 
             <div class="post-content">
-                <p class="lead">
-                    Most companies are throwing money away on cloud infrastructure. After working with dozens of organizations, I've seen the same pattern: rapid growth leads to sprawling infrastructure, and suddenly AWS/Azure bills are growing faster than revenue.
-                </p>
-
-                <blockquote>
-                    <strong>$1.2M</strong> saved annually for one client through systematic FinOps practices.
-                </blockquote>
-
-                <p>
-                    The good news? You can cut costs by 20–30% without impacting performance. Here's the systematic approach I use.
-                </p>
-
-                <h2>The Problem: How Cloud Waste Happens</h2>
-                <p>Cloud waste doesn't happen because engineers are careless. It happens because:</p>
-                <ul>
-                    <li><strong>Move fast, optimize later mentality:</strong> Teams spin up resources for a project, then never revisit sizing</li>
-                    <li><strong>No cost visibility:</strong> Engineers don't see the bill, so they over-provision "to be safe"</li>
-                    <li><strong>Zombie resources:</strong> Test environments, old backups, detached volumes nobody remembers</li>
-                    <li><strong>Wrong purchasing strategy:</strong> Everything on-demand when 70% of workloads are predictable</li>
-                    <li><strong>Kubernetes resource requests:</strong> Developers set requests way higher than actual usage</li>
-                </ul>
-
-                <h2>The Framework: 5-Step Cost Optimization</h2>
-
-                <h3>1. Visibility First (Week 1)</h3>
-                <p>You can't optimize what you can't measure. Start with:</p>
-                <ul>
-                    <li><strong>Tag everything:</strong> Environment, team, cost center, project. Non-negotiable.</li>
-                    <li><strong>Cost allocation dashboards:</strong> Break down spending by service, team, and environment</li>
-                    <li><strong>Set up anomaly detection:</strong> Get alerted when costs spike unexpectedly</li>
-                    <li><strong>Identify the top 20% of costs:</strong> This is where you'll focus first</li>
-                </ul>
-                <blockquote>
-                    <strong>Quick win:</strong> In most organizations, 80% of costs come from 20% of resources. Find those first.
-                </blockquote>
-
-                <h3>2. Kill the Zombies (Week 1–2)</h3>
-                <p>Dead resources are everywhere:</p>
-                <ul>
-                    <li>Unattached EBS volumes ($100–500/month each)</li>
-                    <li>Forgotten RDS snapshots</li>
-                    <li>Old load balancers with no targets</li>
-                    <li>NAT Gateways for deleted VPCs</li>
-                    <li>Elastic IPs not attached to instances</li>
-                    <li>Development environments running 24/7</li>
-                </ul>
-                <p>
-                    <strong>Action:</strong> Write scripts to find and report these. Get approval to delete. Typical savings: 5–10% immediately.
-                </p>
-
-                <h3>3. Rightsizing (Week 2–4)</h3>
-                <p>Most resources are over-provisioned by 40–60%. Here's how to fix it:</p>
-                <ul>
-                    <li><strong>EC2 instances:</strong> Check CloudWatch metrics. If CPU is under 40% for 30 days, downsize.</li>
-                    <li><strong>RDS databases:</strong> Look at connection counts and IOPS. Many are 2–3× larger than needed.</li>
-                    <li><strong>Kubernetes pods:</strong> Compare resource requests vs actual usage. Most are requesting 2–5× what they use.</li>
-                </ul>
-                <blockquote>
-                    <strong>Pro tip:</strong> Start with non-production first. Prove the approach works, then move to production with confidence.
-                </blockquote>
-
-                <h3>4. Commitment-Based Discounts (Week 3–5)</h3>
-                <p>If you're running predictable workloads on-demand, you're overpaying by 40–70%.</p>
-                <ul>
-                    <li><strong>AWS:</strong> Reserved Instances (1–3 year) or Savings Plans (more flexible)</li>
-                    <li><strong>Azure:</strong> Reserved VM Instances</li>
-                    <li><strong>Strategy:</strong> Commit to 60–70% of your baseline usage, keep 30–40% on-demand for burst</li>
-                </ul>
-                <p>
-                    <strong>Real example:</strong> Moved 70% of workloads to Savings Plans, saved $400K annually.
-                </p>
-
-                <h3>5. Architectural Improvements (Ongoing)</h3>
-                <p>Long-term, rethink your architecture:</p>
-                <ul>
-                    <li><strong>Spot instances:</strong> For batch jobs, CI/CD runners, non-critical workloads (60–90% discount)</li>
-                    <li><strong>Auto-scaling:</strong> Scale down during off-hours (dev/staging environments)</li>
-                    <li><strong>Serverless for bursty workloads:</strong> Lambda/Functions for infrequent tasks</li>
-                    <li><strong>Data transfer costs:</strong> Keep traffic within regions, use VPC endpoints</li>
-                    <li><strong>Storage tiering:</strong> Move cold data to cheaper storage classes</li>
-                </ul>
-
-                <h2>Kubernetes-Specific Cost Optimization</h2>
-                <p>If you're running Kubernetes, there's a whole additional layer:</p>
-                <ul>
-                    <li><strong>Vertical Pod Autoscaler (VPA):</strong> Automatically adjusts resource requests based on actual usage</li>
-                    <li><strong>Cluster autoscaling:</strong> Scale nodes down during low traffic</li>
-                    <li><strong>Spot instances for non-critical pods:</strong> Mix spot and on-demand nodes</li>
-                    <li><strong>Namespace resource quotas:</strong> Prevent teams from over-requesting resources</li>
-                    <li><strong>Monitoring:</strong> Track pod resource utilization vs requests</li>
-                </ul>
-                <blockquote>
-                    <strong>30%</strong> average reduction in Kubernetes costs through proper resource management.
-                </blockquote>
-
-                <h2>The Culture Shift: Making It Stick</h2>
-                <p>Technical fixes are easy. Making them stick requires culture change:</p>
-                <ul>
-                    <li><strong>Cost visibility to teams:</strong> Show engineers what their services cost</li>
-                    <li><strong>Cost in code reviews:</strong> "Why does this need 4GB of RAM?" should be a normal question</li>
-                    <li><strong>Monthly cost reviews:</strong> 30-minute team meeting to review trends</li>
-                    <li><strong>FinOps champion:</strong> One person (or rotation) owns cost optimization</li>
-                </ul>
-
-                <h2>Results You Can Expect</h2>
-                <p>With this systematic approach:</p>
-                <ul>
-                    <li><strong>Quick wins (Month 1):</strong> 5–10% savings from killing zombies</li>
-                    <li><strong>Medium-term (Month 2–3):</strong> 15–20% from rightsizing + commitments</li>
-                    <li><strong>Long-term (Month 4+):</strong> 25–35% through architectural improvements</li>
-                </ul>
-                <p>
-                    I've done this for companies spending $50K/month and $2M/month. The framework scales.
-                </p>
-
-                <h2>Key Takeaways</h2>
-                <ul>
-                    <li>Visibility must come first — you can't optimize what you don't measure</li>
-                    <li>Start with quick wins (zombies) to build momentum</li>
-                    <li>Rightsizing and commitments deliver the biggest immediate savings</li>
-                    <li>Make cost optimization a cultural practice, not a one-time project</li>
-                    <li>Track and report progress — celebrate wins publicly</li>
-                </ul>
-                <p>
-                    Cloud cost optimization isn't about suffering with less. It's about being smart with resources so you can invest more in features that matter.
-                </p>
+<p class="lead">A smaller cloud bill is only useful if the service still does its job. I approach cost work as an investigation: establish what a workload costs, understand why, change one thing, and measure both the bill and the service afterward.</p>
+<h2>Establish a comparable baseline</h2>
+<p>Choose a representative period and identify the owner of each major cost. Separate usage changes from rate changes, credits, and one-time charges. Where it makes sense, track cost per completed job, customer request, or another useful unit alongside total spend.</p>
+<p>Record service health at the same time. Latency, error rate, queue depth, and throughput help establish whether a cheaper configuration is still acceptable. Keep the assumptions visible so another person can reproduce the comparison.</p>
+<h2>Investigate idle resources</h2>
+<p>Look for unattached storage, obsolete environments, unused load balancers, and resources left behind by previous deployments. Treat the list as candidates for investigation. A detached volume might hold the only recoverable copy of something important.</p>
+<p>Confirm ownership and retention requirements before deleting anything. For an environment that is only needed during working hours, scheduling may be a better first change than resizing. Record a way to restore service if the assumption was wrong.</p>
+<h2>Resize against the bottleneck</h2>
+<p>Low average CPU alone is not enough evidence to choose a smaller instance. Check memory, burst behavior, storage throughput, network demand, and peak periods. A memory-bound workload can look idle in a CPU chart.</p>
+<p><a href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/view-ec2-recommendations.html">AWS Compute Optimizer recommendations</a> can help identify candidates, but their performance-risk estimates still need review against the workload and the available metrics. Trial a change on a controlled slice and compare it with the baseline before expanding it.</p>
+<h2>Understand what Kubernetes estimates mean</h2>
+<p>My <a href="../projects/k8s-cost-radar.html">k8s-cost-radar project</a> estimates request-based resource costs using configurable hourly rates. That makes a workload’s declared footprint easier to inspect. It does not measure actual utilization or reconcile the cloud invoice.</p>
+<p>A large request or a high limit-to-request ratio is a reason to look at measurements, not proof of waste. Reducing a Pod’s request does not automatically reduce the node bill. Savings depend on whether capacity can actually be removed or reused.</p>
+<h2>Compare commitments after usage review</h2>
+<p>Once the likely steady-state demand is understood, compare commitment options with the resources that are expected to remain. Model lower-demand scenarios and migration plans as well as the expected case. A discounted rate is less useful when the commitment covers capacity the service no longer needs.</p>
+<p>Keep rate savings separate from usage savings in the report. The two come from different decisions and have different risks.</p>
+<h2>Write down the result</h2>
+<p>A useful change record includes the original configuration, the new one, the measurement window, the observed cost difference, and the effect on service health. Label an annualized projection as a projection. Include any implementation or migration cost that affects the decision.</p>
+<p>There is no fixed percentage I would promise before inspecting a workload. The deliverable is a measured improvement with enough context to explain why it worked and when to revisit it.</p>
             </div>
         </article>
     </main>

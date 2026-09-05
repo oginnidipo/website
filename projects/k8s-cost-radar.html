@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>k8s-cost-radar — Project notes | Dipo Oginni</title>
+  <meta name="description" content="How k8s-cost-radar turns Kubernetes resource requests into an inspectable cost report, and what its estimates can and cannot tell you.">
+  <meta name="author" content="Dipo Oginni">
+  <link rel="canonical" href="https://dipops.com/projects/k8s-cost-radar.html">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://dipops.com/projects/k8s-cost-radar.html">
+  <meta property="og:title" content="k8s-cost-radar — Project notes">
+  <meta property="og:description" content="A small command-line tool, an explicit cost model, and the tradeoffs behind its recommendations.">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../styles.css?v=12">
+  <link rel="alternate" type="application/rss+xml" title="Dipo Oginni — Projects &amp; Notes" href="https://dipops.com/feed.xml">
+  <script>(function(){try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');}catch(e){}})()</script>
+</head>
+<body class="reading-page">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-container">
+      <div class="nav-logo"><a href="../index.html" aria-label="Dipo Oginni, home">dipo<span class="logo-slash">/</span>ops<span class="logo-dot">.</span></a></div>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-navigation"><span></span><span></span><span></span></button>
+      <div class="nav-links" id="primary-navigation">
+        <a href="../index.html#projects">Projects</a>
+        <a href="../index.html#about">About</a>
+        <a href="../blog/index.html">Writing</a>
+        <a href="../index.html#contact" class="nav-contact">Contact</a>
+        <button class="theme-toggle" aria-label="Toggle dark mode"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+      </div>
+    </div>
+  </nav>
+  <main id="main-content" class="blog-post">
+    <article>
+      <header class="post-header">
+        <a href="../index.html#projects" class="back-to-blog"><span aria-hidden="true">←</span> All projects</a>
+        <p class="section-eyebrow">Project notes / Python &amp; Kubernetes</p>
+        <h1>k8s-cost-radar</h1>
+        <p class="section-desc">Making a cluster’s declared resource costs easier to investigate.</p>
+        <dl class="case-facts">
+          <div><dt>Format</dt><dd>Command-line tool</dd></div>
+          <div><dt>Built with</dt><dd>Python, Click, Rich</dd></div>
+          <div><dt>Try it</dt><dd>Demo without a cluster</dd></div>
+        </dl>
+      </header>
+      <div class="post-content">
+        <p class="lead">A cluster can have a lot of resource requests without a clear explanation of what they add up to. I built k8s-cost-radar to make that footprint visible at the Pod, namespace, and cluster level.</p>
+        <p><a href="https://github.com/oginnidipo/k8s-cost-radar" target="_blank" rel="noopener">Explore the source on GitHub <span aria-hidden="true">↗</span></a></p>
+        <h2>The problem</h2>
+        <p>Before changing a workload, an engineer needs a useful starting point: which namespaces account for the declared capacity, which Pods have missing requests, and which settings deserve a closer look. That investigation should be possible without first operating another dashboard service.</p>
+        <h2>One report, three levels of detail</h2>
+        <ol class="pipeline" aria-label="Cost radar report pipeline">
+          <li><span class="step-number">01</span><div><strong>Read requests</strong><small>Load Pod resource configuration from Kubernetes, or use mock data in demo mode.</small></div></li>
+          <li><span class="step-number">02</span><div><strong>Estimate and flag</strong><small>Apply configurable CPU and memory rates; identify settings to investigate.</small></div></li>
+          <li><span class="step-number">03</span><div><strong>Summarize</strong><small>Group the results by Pod, namespace, and cluster.</small></div></li>
+          <li><span class="step-number">04</span><div><strong>Export</strong><small>Read a terminal table or take the report into JSON or Markdown.</small></div></li>
+        </ol>
+        <h2>The useful constraint: a small, explicit model</h2>
+        <p>The estimate multiplies CPU and memory requests by configurable hourly rates and a fixed 730-hour month. Keeping that calculation visible makes the assumptions easy to challenge.</p>
+        <pre><code>monthly estimate = 730 × (
+  CPU requested × CPU hourly rate
+  + memory requested × memory hourly rate
+)</code></pre>
+        <p>This attributes cost to declared capacity. It does not reconcile an invoice, account for instance packing, or measure actual utilization. The code also labels binary memory quantities as GB; rates need compatible units for a meaningful comparison.</p>
+        <h2>Why a command-line tool</h2>
+        <p>The CLI keeps the workflow close to the engineer’s existing tools. Rich renders the human-readable report; dataclasses carry the Pod and summary records; Click exposes the scan and export options. JSON and Markdown outputs make the findings easier to inspect or include in a review.</p>
+        <p>Demo mode creates mock workloads so the reporting flow can be explored without cluster access. Its data varies between runs, so a demo total is not a benchmark or evidence of achieved savings.</p>
+        <h2>Run the demo</h2>
+        <p>From a local checkout of the public repository:</p>
+        <pre><code>python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python k8s_cost_radar.py demo
+python k8s_cost_radar.py demo --output md</code></pre>
+        <p>The demo does not need kubeconfig. A real scan uses the local Kubernetes context, so check that context and its read permissions before running it.</p>
+        <h2>What the recommendations cannot prove</h2>
+        <p>The current heuristics flag large requests, missing requests, and large limit-to-request ratios. Those are investigation prompts. A high ratio does not establish that a request is excessive, and lowering a request without usage evidence can make scheduling less representative of actual demand.</p>
+        <p>The reported “potential savings” is a rough heuristic. It is not a measured saving or a reason to resize automatically. Storage, network charges, commitment discounts, and real utilization sit outside the current model.</p>
+        <h2>What I would improve next</h2>
+        <p>The next useful step is to connect historical utilization to the report, make unit handling more explicit, and separate configuration warnings from cost recommendations. That would let the tool explain why a proposed change is supported by measurements.</p>
+        <div class="related-work">
+          <p>Inspect the <a href="https://github.com/oginnidipo/k8s-cost-radar/blob/main/k8s_cost_radar.py">implementation</a> and <a href="https://github.com/oginnidipo/k8s-cost-radar#limitations">documented limitations</a>, or read my note on <a href="../blog/cloud-cost-optimization.html">measuring cloud cost changes</a>.</p>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="footer">
+    <div class="container footer-inner"><p>© 2026 Dipo Oginni</p><div><a href="https://github.com/oginnidipo" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/dipo-oginni" target="_blank" rel="noopener">LinkedIn</a><a href="../resume.pdf" download="Dipo-Oginni-Resume.pdf">Résumé</a><a href="../feed.xml">RSS</a></div></div>
+  </footer>
+  <script src="../site.js" defer></script>
+</body>
+</html>

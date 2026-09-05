@@ -8,8 +8,8 @@
   <link rel="canonical" href="https://dipops.com/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://dipops.com/">
-  <meta property="og:title" content="Dipo Oginni | Staff Platform Engineer & Senior SRE">
-  <meta property="og:description" content="Staff-level platform engineer building reliable cloud infrastructure, developer platforms, observability, and production AI systems at scale.">
+  <meta property="og:title" content="Dipo Oginni — Projects &amp; Notes">
+  <meta property="og:description" content="Infrastructure tools, receipt scanning, and a tutoring platform. Projects and engineering notes by Dipo Oginni.">
   <meta property="og:image" content="https://dipops.com/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -36,10 +36,10 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <link rel="stylesheet" href="styles.css?v=11">
+  <link rel="stylesheet" href="styles.css?v=12">
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#151515" media="(prefers-color-scheme: dark)">
-  <link rel="alternate" type="application/rss+xml" title="Dipo Oginni — AI Platform Engineering & SRE" href="https://dipops.com/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="Dipo Oginni — Projects &amp; Notes" href="https://dipops.com/feed.xml">
   <script>(function(){try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);else if(window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');}catch(e){}})()</script>
 </head>
 <body class="portfolio">
@@ -65,10 +65,10 @@
         <div>
           <p class="intro-label">Software &amp; infrastructure</p>
           <h1>Dipo Oginni</h1>
-          <p class="intro-description">I’m an engineer based in Ontario. I build tools for working with cloud infrastructure, and occasionally something outside of it.</p>
+          <p class="intro-description">I’m an engineer based in Ontario. I build infrastructure tools and apps—from Kubernetes cost analysis to receipt scanning.</p>
           <div class="intro-links"><a href="https://github.com/oginnidipo" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a><a href="mailto:coginni@gmail.com">Email me <span aria-hidden="true">↗</span></a></div>
         </div>
-        <p class="intro-aside">A collection of projects,<br>experiments, and things<br>I’ve learned along the way.</p>
+        <p class="intro-aside">Currently building<br><a href="#apps">ReceiptNest &amp; EducateED</a><br>alongside infrastructure tools.</p>
       </div>
     </section>
 
@@ -77,52 +77,78 @@
         <div class="section-heading"><h2>Selected projects</h2><a href="https://github.com/oginnidipo" target="_blank" rel="noopener">All repositories <span aria-hidden="true">↗</span></a></div>
         <article class="project-feature">
           <figure class="project-artifact terminal">
-            <figcaption><span>k8s-cost-radar</span><span>Demo output</span></figcaption>
-            <pre><code><span class="code-muted">$</span> python k8s_cost_radar.py demo
+            <figcaption><span>k8s-cost-radar</span><span>Demo excerpt</span></figcaption>
+            <pre><code><span class="code-muted">$</span> python k8s_cost_radar.py demo --output md
 
 <span class="code-bright">Cluster overview</span>
 ────────────────────────────────
-Pods                          47
-Namespaces                     8
-CPU requests          23.4 cores
-Memory requests          45.2 GB
+Pods                          30
+Namespaces                     5
+CPU requests         24.95 cores
+Memory requests          99.1 GB
 
-<span class="code-bright">Estimated monthly cost</span>   $1,089.50
-Potential savings          $243.20
-Issues found                    18</code></pre>
-            <p>Sample data from the repository’s demo.</p>
+<span class="code-bright">Estimated monthly cost</span>   $1,308.66
+Potential savings           $27.86
+Issues found                    46</code></pre>
+            <p>Sample data from the repository’s demo, run September 4, 2026. Reformatted excerpt; values vary between runs.</p>
           </figure>
           <div class="project-body">
             <span class="project-type">Python / Kubernetes</span>
             <h3>k8s-cost-radar</h3>
             <p>A command-line tool for finding waste in a Kubernetes cluster. It scans workloads, estimates request-based resource costs, and points out what to investigate.</p>
             <p class="project-detail">Try the demo without a cluster, or export a scan as a table, JSON, or Markdown. Estimates use simplified pricing, not your cloud bill.</p>
-            <a href="https://github.com/oginnidipo/k8s-cost-radar" target="_blank" rel="noopener" class="project-source">View repository <span aria-hidden="true">↗</span></a>
+            <div class="project-actions"><a href="projects/k8s-cost-radar.html" class="project-source">Read the case study <span aria-hidden="true">→</span></a><a href="https://github.com/oginnidipo/k8s-cost-radar" target="_blank" rel="noopener" class="project-source">Source <span aria-hidden="true">↗</span></a></div>
           </div>
         </article>
         <div class="project-grid">
           <article class="project-tile">
-            <figure class="project-artifact source-tree">
-              <figcaption>Inside the observability stack</figcaption>
-              <pre><code>charts/
-  observability-stack/
-dashboards/
-  <span class="code-accent">slo-overview.json</span>
-  golden-signals.json
-  kubernetes-cluster.json
-alerts/
-otel/
-  collector-config.yaml</code></pre>
+            <figure class="project-artifact">
+              <figcaption>From a request to an alert</figcaption>
+              <ol class="pipeline">
+                <li><span class="step-number">01</span><div><strong>Collect</strong><small>Application and cluster metrics</small></div></li>
+                <li><span class="step-number">02</span><div><strong>Understand</strong><small>Availability, latency, and error budgets</small></div></li>
+                <li><span class="step-number">03</span><div><strong>Respond</strong><small>Severity-based alert routing</small></div></li>
+              </ol>
+              <p class="project-note">Reference stack · Prometheus, Grafana, Alertmanager</p>
             </figure>
-            <div class="project-body"><span class="project-type">Helm / Prometheus / Grafana</span><h3>Kubernetes observability stack</h3><p>Metrics, SLO dashboards, alert routing, and OpenTelemetry configuration in a single reference stack.</p><a href="https://github.com/oginnidipo/k8s-observability-stack" target="_blank" rel="noopener" class="project-source">View repository <span aria-hidden="true">↗</span></a></div>
+            <div class="project-body"><span class="project-type">Helm / Prometheus / Grafana</span><h3>Kubernetes observability stack</h3><p>A reference stack that connects service health to the signals an on-call engineer needs. Includes SLO and golden-signals dashboards, alert definitions, and OpenTelemetry configuration.</p><a href="https://github.com/oginnidipo/k8s-observability-stack" target="_blank" rel="noopener" class="project-source">View repository <span aria-hidden="true">↗</span></a><details class="project-more"><summary>Design decisions &amp; limits</summary><p>Keep dashboards, alert rules, and environment values together so the monitoring configuration can be reviewed alongside infrastructure changes.</p><p>This is a reference configuration. Connect a Prometheus datasource, match the application metric labels, and validate the queries and alert receivers against your own services.</p><p><a href="https://github.com/oginnidipo/k8s-observability-stack/blob/main/dashboards/slo-overview.json" target="_blank" rel="noopener">Inspect the SLO dashboard definition ↗</a></p></details></div>
           </article>
           <article class="project-tile">
             <figure class="project-artifact module-list">
               <figcaption>EKS / Terraform modules</figcaption>
               <dl><div><dt>vpc/</dt><dd>Network &amp; subnets</dd></div><div><dt>cluster/</dt><dd>Private node groups</dd></div><div><dt>autoscaler/</dt><dd>Scaling permissions</dd></div><div><dt>efs-csi/</dt><dd>Persistent storage</dd></div><div><dt>users/</dt><dd>IAM &amp; RBAC</dd></div></dl>
             </figure>
-            <div class="project-body"><span class="project-type">Terraform / AWS / Helm</span><h3>EKS foundation</h3><p>A modular Terraform project for provisioning an Amazon EKS cluster, from networking to storage and access controls.</p><a href="https://github.com/oginnidipo/eks-demo" target="_blank" rel="noopener" class="project-source">View repository <span aria-hidden="true">↗</span></a></div>
+            <div class="project-body"><span class="project-type">Terraform / AWS / Helm</span><h3>EKS foundation</h3><p>A modular Terraform project for provisioning an Amazon EKS cluster, from networking to storage and access controls.</p><a href="https://github.com/oginnidipo/eks-demo" target="_blank" rel="noopener" class="project-source">View repository <span aria-hidden="true">↗</span></a><details class="project-more"><summary>Design decisions &amp; limits</summary><p>Separate networking, the cluster, storage, and access into modules with explicit dependencies. Worker nodes run in private subnets.</p><p>Apply modules in dependency order. Account-specific IAM, state storage, and environment values need review before deployment; this is a starting point for a platform.</p></details></div>
           </article>
+        </div>
+        <div class="products" id="apps">
+          <h3 class="products-heading">Apps I’m building</h3>
+          <div class="product-grid">
+            <article class="product-card">
+              <p class="project-kicker">iOS / SwiftUI / Vision</p>
+              <h3>ReceiptNest</h3>
+              <p>Receipt scanning and expense tracking, previously called ReceiptVault. Capture a receipt, check the extracted details, and export expenses as CSV or PDF.</p>
+              <ol class="pipeline" aria-label="ReceiptNest capture workflow">
+                <li><span class="step-number">01</span><div><strong>Read on device</strong><small>Recognize text from a photo or PDF.</small></div></li>
+                <li><span class="step-number">02</span><div><strong>Check the amounts</strong><small>Reconcile subtotal, tax, and total.</small></div></li>
+                <li><span class="step-number">03</span><div><strong>Review and file</strong><small>Correct uncertain fields before saving.</small></div></li>
+              </ol>
+              <p>The design decision: scanning works offline. Optional AI cleanup can help with unclear receipts, while the review step stays in the user’s hands.</p>
+              <a href="https://receiptnest.dipops.com/support" target="_blank" rel="noopener">How ReceiptNest works <span aria-hidden="true">↗</span></a>
+            </article>
+            <article class="product-card">
+              <p class="project-kicker">Web / Next.js / Supabase / Stripe</p>
+              <h3>EducateED</h3>
+              <p>A Canadian tutoring platform I’m developing, connecting students and parents with tutors for one-to-one online sessions.</p>
+              <ol class="pipeline" aria-label="EducateED intended booking workflow">
+                <li><span class="step-number">01</span><div><strong>Find a tutor</strong><small>Browse profiles and choose a session.</small></div></li>
+                <li><span class="step-number">02</span><div><strong>Book and pay</strong><small>Connect the booking to its payment status.</small></div></li>
+                <li><span class="step-number">03</span><div><strong>Meet online</strong><small>Join the booked video session.</small></div></li>
+              </ol>
+              <p>The engineering focus: keeping bookings, payments, and session access consistent when a request fails or an event arrives twice.</p>
+              <a href="mailto:coginni@gmail.com?subject=EducateED%20walkthrough">Ask me about the project <span aria-hidden="true">↗</span></a>
+            </article>
+          </div>
         </div>
       </div>
     </section>
@@ -130,7 +156,7 @@ otel/
     <section id="about" class="section about-section">
       <div class="container about-layout">
         <h2>A bit about me</h2>
-        <div><p>Most of my work is around Kubernetes, automation, and understanding what’s happening inside a running system. I like tools that are small enough to understand and useful enough to keep using.</p><p>I also work on app ideas: <strong>ReceiptVault</strong>, an iOS app for receipts and expenses, and <strong>EducateED</strong>, a tutor marketplace.</p><a href="now.html">More about what I’m building <span aria-hidden="true">↗</span></a></div>
+        <div><p>Most of my work is around Kubernetes, automation, and understanding what’s happening inside a running system. I like tools that are small enough to understand and useful enough to keep using.</p><p>Building apps brings the same questions into a different setting: what happens offline, how do you recover from a failed request, and how does someone know what to do next?</p><a href="now.html">More about what I’m building <span aria-hidden="true">↗</span></a></div>
       </div>
     </section>
 
@@ -138,15 +164,15 @@ otel/
       <div class="container">
         <div class="section-heading"><h2>Notes</h2><a href="blog/index.html">All writing <span aria-hidden="true">↗</span></a></div>
         <div class="writing-list">
-          <a class="writing-row" href="blog/ai-platform-engineering.html"><span class="writing-topic">AI PLATFORM</span><h3>What teams need before they ship agents</h3><span class="writing-read">9 min read <span aria-hidden="true">↗</span></span></a>
-          <a class="writing-row" href="blog/kubernetes-production-readiness.html"><span class="writing-topic">KUBERNETES</span><h3>Production readiness: what actually matters</h3><span class="writing-read">8 min read <span aria-hidden="true">↗</span></span></a>
-          <a class="writing-row" href="blog/cloud-cost-optimization.html"><span class="writing-topic">FINOPS</span><h3>Cut cloud costs without cutting corners</h3><span class="writing-read">Read article <span aria-hidden="true">↗</span></span></a>
+          <a class="writing-row" href="blog/ai-platform-engineering.html"><span class="writing-topic">AI PLATFORM</span><h3>AI Platform Engineering: What Teams Need Before They Ship Agents</h3><span class="writing-read">3 min read <span aria-hidden="true">→</span></span></a>
+          <a class="writing-row" href="blog/kubernetes-production-readiness.html"><span class="writing-topic">KUBERNETES</span><h3>Kubernetes Production Readiness: What Actually Matters</h3><span class="writing-read">3 min read <span aria-hidden="true">→</span></span></a>
+          <a class="writing-row" href="blog/cloud-cost-optimization.html"><span class="writing-topic">FINOPS</span><h3>Cloud Cost Optimization: Measure Before You Resize</h3><span class="writing-read">3 min read <span aria-hidden="true">→</span></span></a>
         </div>
       </div>
     </section>
 
     <section id="contact" class="section contact-section">
-      <div class="container contact-layout"><h2>Say hello</h2><div><p>Have a question about a project, or want to work together?</p><a href="mailto:coginni@gmail.com" class="contact-email">coginni@gmail.com <span aria-hidden="true">↗</span></a></div></div>
+      <div class="container contact-layout"><h2>Say hello</h2><div><p>For platform engineering, SRE, or infrastructure opportunities—or a question about something I’m building—send me a note.</p><a href="mailto:coginni@gmail.com" class="contact-email">coginni@gmail.com <span aria-hidden="true">↗</span></a></div></div>
     </section>
   </main>
 
