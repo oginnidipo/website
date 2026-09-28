@@ -1,11 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import vm from 'node:vm';
 
 const root = resolve(import.meta.dirname, '..');
-const pages = ['index.html','now.html','404.html','blog/index.html','blog/ai-platform-engineering.html',
+const pages = ['index.html','now.html','404.html','domain.html','blog/index.html','blog/ai-platform-engineering.html',
   'blog/kubernetes-production-readiness.html','blog/cloud-cost-optimization.html','projects/k8s-cost-radar.html'];
 const documents = new Map(pages.map(path => [path, readFileSync(resolve(root,path),'utf8')]));
 const voidTags = new Set('area base br col embed hr img input link meta param source track wbr'.split(' '));
@@ -165,4 +165,67 @@ test('article publication metadata agrees across pages, indexes and RSS', () => 
     const row=home.match(new RegExp('<a class="writing-row" href="blog/'+slug.replace('.', '\\.')+'">[\\s\\S]*?</a>'))[0];
     assert.ok(row.includes(minutes),'homepage reading time differs');
   }
+});
+
+test('every page counts visits, offers the theme toggle, and links to the domain sale page', () => {
+  for (const [path, html] of documents) {
+    assert.match(html,/<script src="[^"<>]*visits\.js" defer><\/script>/,`${path}: missing visits.js`);
+    assert.match(html,/class="theme-toggle"/,`${path}: missing theme toggle`);
+    assert.match(html,/<footer[\s\S]*href="[^"]*domain\.html" class="footer-domain">dipops\.com is for sale<\/a>/,`${path}: missing footer domain link`);
+  }
+});
+
+test('no public file shadows the analytics Worker routes', () => {
+  // workers/insights/wrangler.toml routes dipops.com/insights* and /api/ping to the Worker.
+  for (const name of readdirSync(root)) assert.doesNotMatch(name,/^(insights|api$)/,`${name} would be served by the Worker, not GitHub Pages`);
+});
+
+test('every social preview image referenced by a page exists', () => {
+  for (const [path, html] of documents) {
+    for (const [,url] of html.matchAll(/(?:property="og:image"|name="twitter:image") content="https:\/\/dipops\.com\/([^"]+)"/g)) {
+      assert.ok(existsSync(resolve(root,url)),`${path}: missing ${url}`);
+    }
+  }
+});
+
+test('social card text matches the pages it previews', async () => {
+  const { CARDS } = await import('./generate-og-images.mjs');
+  const pagesByCard = { 'assets/og/ai-platform-engineering.png':'blog/ai-platform-engineering.html',
+    'assets/og/kubernetes-production-readiness.png':'blog/kubernetes-production-readiness.html',
+    'assets/og/cloud-cost-optimization.png':'blog/cloud-cost-optimization.html' };
+  for (const card of CARDS) {
+    assert.ok(existsSync(resolve(root,card.file)),`run npm run og:build to create ${card.file}`);
+    const page = pagesByCard[card.file];
+    if (!page) continue;
+    const html = documents.get(page);
+    assert.ok(html.includes(`<h1>${card.title}</h1>`),`${card.file}: title differs from ${page}`);
+    for (const detail of card.footer.slice(1)) assert.ok(html.includes(detail),`${card.file}: "${detail}" not found in ${page}`);
+  }
+});
+
+test('the domain asking price is identical everywhere it appears', () => {
+  const html=documents.get('domain.html');
+  const amount=Number(html.match(/data-domain-price="(\d+)"/)[1]);
+  const price=`US$${amount.toLocaleString('en-US')}`;
+  assert.match(html,new RegExp(`data-domain-price="${amount}">${price.replace('$','\\$')}</p>`));
+  const product=JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+  assert.equal(Number(product.offers.price),amount);
+  assert.equal(product.offers.priceCurrency,'USD');
+  for (const label of ['<title>','name="description"','property="og:description"']) {
+    const line=html.split('\n').find(text => text.includes(label));
+    assert.ok(line.includes(price),`${label} must mention ${price}`);
+  }
+  const buy=html.match(/data-insights="domain-buy" href="([^"]+)"/)[1].replace(/&amp;/g,'&');
+  const mail=new URL(buy);
+  assert.equal(mail.protocol,'mailto:');
+  assert.ok(mail.searchParams.get('subject').includes(price),'buy email subject price differs');
+  assert.ok(mail.searchParams.get('body').includes(price),'buy email body price differs');
+});
+
+test('llms.txt lists every article and project page', () => {
+  const llms=readFileSync(resolve(root,'llms.txt'),'utf8');
+  const feed=readFileSync(resolve(root,'feed.xml'),'utf8');
+  for (const [,title] of feed.matchAll(/<item>\s*<title>(.*?)<\/title>/g)) assert.ok(llms.includes(title),`llms.txt is missing "${title}"`);
+  assert.ok(llms.includes('https://dipops.com/projects/k8s-cost-radar.html'));
+  for (const rule of ['Disallow: /insights','Disallow: /api/']) assert.ok(readFileSync(resolve(root,'robots.txt'),'utf8').includes(rule));
 });
