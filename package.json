@@ -2,8 +2,11 @@
   "scripts": {
     "dev": "node scripts/dev.mjs",
     "build": "node scripts/build.mjs",
-    "test": "node --test scripts/site.test.mjs",
+    "test": "node --test scripts/site.test.mjs scripts/insights.test.mjs",
     "og:build": "node scripts/generate-og-images.mjs",
+    "insights:dev": "wrangler dev -c workers/insights/wrangler.toml --local",
+    "insights:migrate": "wrangler d1 migrations apply dipops-insights -c workers/insights/wrangler.toml --remote",
+    "insights:deploy": "wrangler deploy -c workers/insights/wrangler.toml",
     "deploy:receipt-ai": "wrangler deploy",
     "check:receipt-ai": "node --check workers/receipt-ai.js"
   },

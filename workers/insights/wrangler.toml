@@ -1,0 +1,25 @@
+name = "dipops-insights"
+main = "worker.mjs"
+compatibility_date = "2025-12-01"
+
+# Same-origin endpoints on dipops.com. Every other path still goes to GitHub Pages,
+# so no public site file may start with /insights or /api/ping (scripts/site.test.mjs checks this).
+routes = [
+  { pattern = "dipops.com/api/ping", zone_name = "dipops.com" },
+  { pattern = "dipops.com/insights*", zone_name = "dipops.com" }
+]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "dipops-insights"
+database_id = "4f22c6e8-351e-4cb3-9104-0dce24cd37f8"
+migrations_dir = "migrations"
+
+# Daily cleanup: drops events past RETENTION_DAYS and deletes old visitor-hash salts.
+[triggers]
+crons = ["17 4 * * *"]
+
+[vars]
+ALLOWED_ORIGINS = "https://dipops.com,https://www.dipops.com"
+RETENTION_DAYS = "395"
+TIMEZONE = "America/Toronto"

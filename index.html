@@ -3,40 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Projects and notes by Dipo Oginni. Software, Kubernetes tooling, infrastructure, and experiments in AI.">
+  <meta name="description" content="Dipo Oginni is a platform engineer and SRE in Ontario, Canada. Kubernetes cost tooling, observability, Terraform on AWS, and notes on running reliable infrastructure.">
   <meta name="author" content="Dipo Oginni">
   <link rel="canonical" href="https://dipops.com/">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="profile">
+  <meta property="og:site_name" content="dipo/ops">
   <meta property="og:url" content="https://dipops.com/">
-  <meta property="og:title" content="Dipo Oginni — Projects &amp; Notes">
-  <meta property="og:description" content="Infrastructure tools, receipt scanning, and a tutoring platform. Projects and engineering notes by Dipo Oginni.">
+  <meta property="og:title" content="Dipo Oginni — Platform Engineer &amp; SRE">
+  <meta property="og:description" content="Infrastructure tools, observability, and notes on running reliable systems. Projects and engineering notes by Dipo Oginni.">
   <meta property="og:image" content="https://dipops.com/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Dipo Oginni — Staff Platform Engineer &amp; Senior SRE, Toronto">
+  <meta property="og:image:alt" content="Dipo Oginni — platform engineering and SRE, Ontario, Canada">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://dipops.com/og-image.png">
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
-    "@type":"ProfilePage",
-    "mainEntity":{
-      "@type":"Person",
-      "name":"Dipo Oginni",
-      "jobTitle":"Staff Platform Engineer and Senior Site Reliability Engineer",
-      "url":"https://dipops.com/",
-      "email":"mailto:coginni@gmail.com",
-      "address":{"@type":"PostalAddress","addressLocality":"Hamilton","addressRegion":"Ontario","addressCountry":"CA"},
-      "knowsAbout":["Platform Engineering","Site Reliability Engineering","Kubernetes","Terraform","AWS","Azure","GCP","Developer Experience","Observability","FinOps","AI Infrastructure","LLMOps"],
-      "sameAs":["https://www.linkedin.com/in/dipo-oginni","https://github.com/oginnidipo"]
-    }
+    "@graph":[
+      {
+        "@type":"ProfilePage",
+        "@id":"https://dipops.com/#profile",
+        "url":"https://dipops.com/",
+        "name":"Dipo Oginni — Platform Engineer & SRE",
+        "isPartOf":{"@id":"https://dipops.com/#website"},
+        "mainEntity":{"@id":"https://dipops.com/#person"}
+      },
+      {
+        "@type":"Person",
+        "@id":"https://dipops.com/#person",
+        "name":"Dipo Oginni",
+        "jobTitle":"Staff Platform Engineer and Senior Site Reliability Engineer",
+        "url":"https://dipops.com/",
+        "email":"mailto:coginni@gmail.com",
+        "address":{"@type":"PostalAddress","addressLocality":"Hamilton","addressRegion":"Ontario","addressCountry":"CA"},
+        "knowsAbout":["Platform Engineering","Site Reliability Engineering","Kubernetes","Terraform","AWS","Azure","GCP","Developer Experience","Observability","FinOps","AI Infrastructure","LLMOps"],
+        "sameAs":["https://www.linkedin.com/in/dipo-oginni","https://github.com/oginnidipo"]
+      },
+      {
+        "@type":"WebSite",
+        "@id":"https://dipops.com/#website",
+        "url":"https://dipops.com/",
+        "name":"dipo/ops",
+        "alternateName":"Dipo Oginni — Projects & Notes",
+        "inLanguage":"en",
+        "author":{"@id":"https://dipops.com/#person"}
+      }
+    ]
   }
   </script>
-  <title>Dipo Oginni — Projects &amp; Notes</title>
+  <title>Dipo Oginni — Platform Engineer &amp; SRE | Projects &amp; Notes</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <link rel="stylesheet" href="styles.css?v=12">
+  <link rel="stylesheet" href="styles.css?v=13">
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#151515" media="(prefers-color-scheme: dark)">
   <link rel="alternate" type="application/rss+xml" title="Dipo Oginni — Projects &amp; Notes" href="https://dipops.com/feed.xml">
@@ -63,12 +83,24 @@
     <section id="hero" class="intro" aria-label="Introduction">
       <div class="container intro-layout">
         <div>
-          <p class="intro-label">Software &amp; infrastructure</p>
+          <p class="intro-label">Platform engineering &amp; SRE <span aria-hidden="true">·</span> Ontario, Canada</p>
           <h1>Dipo Oginni</h1>
-          <p class="intro-description">I’m an engineer based in Ontario. I build infrastructure tools and apps—from Kubernetes cost analysis to receipt scanning.</p>
-          <div class="intro-links"><a href="https://github.com/oginnidipo" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a><a href="mailto:coginni@gmail.com">Email me <span aria-hidden="true">↗</span></a></div>
+          <p class="intro-description">I design and run cloud infrastructure—Kubernetes, Terraform, and observability—and build tools that make running systems easier to understand. On the side, I’m building two apps of my own.</p>
+          <div class="intro-actions">
+            <a href="#projects" class="btn btn-primary">See my work <span aria-hidden="true">↓</span></a>
+            <a href="mailto:coginni@gmail.com" class="btn">Email me</a>
+            <span class="intro-links"><a href="https://github.com/oginnidipo" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a><a href="https://www.linkedin.com/in/dipo-oginni" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a></span>
+          </div>
         </div>
-        <p class="intro-aside">Currently building<br><a href="#apps">ReceiptNest &amp; EducateED</a><br>alongside infrastructure tools.</p>
+        <aside class="now-card" aria-labelledby="now-card-title">
+          <p class="now-card-label"><span class="status-dot" aria-hidden="true"></span><span id="now-card-title">Now building</span></p>
+          <ul>
+            <li><a href="#apps">ReceiptNest</a><span>iOS receipt scanning · in development</span></li>
+            <li><a href="#apps">EducateED</a><span>Tutoring platform · in development</span></li>
+            <li><a href="projects/k8s-cost-radar.html">k8s-cost-radar</a><span>Kubernetes cost CLI · open source</span></li>
+          </ul>
+          <a href="now.html" class="now-card-more">What I’m focused on now <span aria-hidden="true">→</span></a>
+        </aside>
       </div>
     </section>
 
@@ -172,13 +204,21 @@ Issues found                    46</code></pre>
     </section>
 
     <section id="contact" class="section contact-section">
-      <div class="container contact-layout"><h2>Say hello</h2><div><p>For platform engineering, SRE, or infrastructure opportunities—or a question about something I’m building—send me a note.</p><a href="mailto:coginni@gmail.com" class="contact-email">coginni@gmail.com <span aria-hidden="true">↗</span></a></div></div>
+      <div class="container contact-layout">
+        <div><p class="contact-label">Contact</p><h2>Let’s talk.</h2></div>
+        <div>
+          <p>For platform engineering, SRE, or infrastructure opportunities—or a question about something I’m building—send me a note.</p>
+          <a href="mailto:coginni@gmail.com" class="contact-email">coginni@gmail.com <span aria-hidden="true">↗</span></a>
+          <p class="contact-links"><a href="https://www.linkedin.com/in/dipo-oginni" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a><a href="https://github.com/oginnidipo" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a></p>
+        </div>
+      </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="container footer-inner"><p>© 2026 Dipo Oginni</p><div><a href="https://github.com/oginnidipo" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/dipo-oginni" target="_blank" rel="noopener">LinkedIn</a><a href="resume.pdf" download="Dipo-Oginni-Resume.pdf">Résumé</a><a href="feed.xml">RSS</a></div></div>
+    <div class="container footer-inner"><p>© 2026 Dipo Oginni <span aria-hidden="true">·</span> <a href="domain.html" class="footer-domain">dipops.com is for sale</a></p><div><a href="https://github.com/oginnidipo" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/dipo-oginni" target="_blank" rel="noopener">LinkedIn</a><a href="resume.pdf" download="Dipo-Oginni-Resume.pdf">Résumé</a><a href="feed.xml">RSS</a></div></div>
   </footer>
   <script src="site.js" defer></script>
+  <script src="visits.js" defer></script>
 </body>
 </html>
