@@ -1,10 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import vm from 'node:vm';
 import worker, { normalizeEvent, classifySource, parseUserAgent, isBot, classifyOrg, csvCell, escapeHtml,
-  visitorId, authorized, renderDashboard } from '../workers/insights/worker.mjs';
+  visitorId, authorized, renderDashboard, SIGN_IN_LIMITS } from '../workers/insights/worker.mjs';
 
 const root = resolve(import.meta.dirname, '..');
 const SAFARI = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15';
@@ -195,3 +195,122 @@ test('visits.js labels the clicks that matter and reports reading time', () => {
   reader.hide();
   assert.equal(reader.sent.filter(event => event.t === 'engage').length,1,'time is reported once, not double-counted');
 });
+
+// Dashboard sign-in limits, run against the real migrations in an in-memory SQLite database.
+let DatabaseSync = null;
+try { ({ DatabaseSync } = await import('node:sqlite')); } catch { /* Older Node releases skip the SQL-backed tests. */ }
+const needsSqlite = { skip: !DatabaseSync && 'node:sqlite is not available in this Node.js version' };
+const migrationDir = resolve(root,'workers/insights/migrations');
+
+function sqliteD1() {
+  const sqlite = new DatabaseSync(':memory:');
+  for (const file of readdirSync(migrationDir).filter(name => name.endsWith('.sql')).sort()) sqlite.exec(readFileSync(resolve(migrationDir,file),'utf8'));
+  const returnsRows = sql => /^\s*(select|with)\b|\breturning\b/i.test(sql);
+  const statement = (sql, values=[]) => ({
+    bind:(...next) => statement(sql,next),
+    execute() {
+      const prepared = sqlite.prepare(sql);
+      return { results:returnsRows(sql) ? prepared.all(...values).map(row => ({ ...row })) : (prepared.run(...values), []) };
+    },
+    async run() { return { success:true, ...this.execute() }; },
+    async all() { return this.execute(); },
+    async first() { return this.execute().results[0] ?? null; }
+  });
+  return {
+    sqlite,
+    prepare:sql => statement(sql),
+    async batch(statements) {
+      sqlite.exec('BEGIN');
+      try { const results = statements.map(item => item.execute()); sqlite.exec('COMMIT'); return results; }
+      catch (error) { sqlite.exec('ROLLBACK'); throw error; }
+    }
+  };
+}
+
+const PASSWORD = 'correct horse battery staple';
+function dashboard(db) {
+  const env = { DB:db, DASHBOARD_PASSWORD:PASSWORD, ALLOWED_ORIGINS:'https://dipops.com', TIMEZONE:'America/Toronto' };
+  const pending = [];
+  const ctx = { waitUntil:promise => pending.push(promise) };
+  return {
+    env, pending,
+    signIn:(password, ip='203.0.113.5') => worker.fetch(new Request('https://dipops.com/insights',{
+      headers:{ 'CF-Connecting-IP':ip, ...(password === null ? {} : { Authorization:`Basic ${btoa(`owner:${password}`)}` }) } }), env, ctx),
+    ping:body => worker.fetch(new Request('https://dipops.com/api/ping',{ method:'POST', body:JSON.stringify(body),
+      headers:{ Origin:'https://dipops.com', 'User-Agent':SAFARI, 'CF-Connecting-IP':'198.51.100.7' } }), env, ctx)
+  };
+}
+async function atTime(start, run) {
+  const realNow = Date.now;
+  let now = start;
+  Date.now = () => now;
+  try { return await run(ms => { now += ms; }); } finally { Date.now = realNow; }
+}
+const NOON = Date.parse('2026-09-28T12:00:00Z');
+const attemptCount = db => db.sqlite.prepare('SELECT COUNT(*) AS n FROM sign_in_attempts').get().n;
+
+test('the dashboard renders real queries after a correct sign-in and clears the attempt', needsSqlite, () => atTime(NOON, async () => {
+  const db = sqliteD1();
+  const site = dashboard(db);
+  await site.ping({ t:'pageview', p:'/domain.html', r:'https://www.google.com/' });
+  await site.ping({ t:'action', p:'/domain.html', a:'domain-buy', h:'mailto:coginni@gmail.com' });
+  await Promise.all(site.pending);
+  const response = await site.signIn(PASSWORD);
+  assert.equal(response.status,200);
+  const html = await response.text();
+  assert.match(html,/Who visited, and what for/);
+  assert.match(html,/<code>\/domain\.html<\/code>/);
+  assert.match(html,/Domain: clicked buy now/);
+  assert.equal(attemptCount(db),0,'a successful sign-in leaves no attempts behind');
+}));
+
+test('wrong passwords lock a client out, without checking passwords, until the window passes', needsSqlite, () => atTime(NOON, async advance => {
+  const db = sqliteD1();
+  const site = dashboard(db);
+  for (let attempt = 1; attempt <= SIGN_IN_LIMITS.perClient; attempt++) {
+    assert.equal((await site.signIn(`guess-${attempt}`)).status,401);
+    advance(1000);
+  }
+  const blocked = await site.signIn(PASSWORD);
+  assert.equal(blocked.status,429,'even the right password is refused while locked out');
+  assert.equal(blocked.headers.get('WWW-Authenticate'),null);
+  const retryAfter = Number(blocked.headers.get('Retry-After'));
+  assert.ok(retryAfter > 890 && retryAfter <= 900,`Retry-After was ${retryAfter}`);
+  assert.match(await blocked.text(),/Try again in 15 minutes/);
+  for (let i = 0; i < 10; i++) assert.equal((await site.signIn(PASSWORD)).status,429);
+  assert.equal(attemptCount(db),SIGN_IN_LIMITS.perClient,'blocked attempts are not stored and do not extend the lockout');
+  assert.equal((await site.signIn(null)).status,401,'a request without credentials only asks to sign in');
+  assert.equal((await site.signIn(PASSWORD,'192.0.2.44')).status,200,'another client is not affected');
+  advance(retryAfter * 1000);
+  assert.equal((await site.signIn(PASSWORD)).status,200,'the lockout ends when the window passes');
+}));
+
+test('parallel guesses from one client cannot exceed the limit', needsSqlite, () => atTime(NOON, async () => {
+  const site = dashboard(sqliteD1());
+  const statuses = (await Promise.all(Array.from({ length:12 },(_, i) => site.signIn(`parallel-${i}`)))).map(response => response.status);
+  assert.equal(statuses.filter(status => status === 401).length,SIGN_IN_LIMITS.perClient);
+  assert.equal(statuses.filter(status => status === 429).length,12 - SIGN_IN_LIMITS.perClient);
+}));
+
+test('guessing spread across many clients hits the overall limit', needsSqlite, () => atTime(NOON, async advance => {
+  const site = dashboard(sqliteD1());
+  const clients = SIGN_IN_LIMITS.overall / SIGN_IN_LIMITS.perClient;
+  for (let client = 0; client < clients; client++) {
+    for (let attempt = 0; attempt < SIGN_IN_LIMITS.perClient; attempt++) assert.equal((await site.signIn('wrong',`198.51.100.${client + 10}`)).status,401);
+    advance(60_000);
+  }
+  const fresh = await site.signIn(PASSWORD,'203.0.113.200');
+  assert.equal(fresh.status,429,'a new client is refused once the overall limit is reached');
+  assert.equal(Number(fresh.headers.get('Retry-After')),50 * 60,'wait until the first guess leaves the one-hour window');
+  advance(SIGN_IN_LIMITS.overallWindowMs);
+  assert.equal((await site.signIn(PASSWORD,'203.0.113.200')).status,200);
+}));
+
+test('the daily cleanup removes old sign-in attempts', needsSqlite, () => atTime(NOON, async advance => {
+  const db = sqliteD1();
+  const site = dashboard(db);
+  await site.signIn('wrong');
+  advance(25 * 60 * 60_000);
+  await worker.scheduled({},site.env);
+  assert.equal(attemptCount(db),0);
+}));
