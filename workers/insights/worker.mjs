@@ -8,6 +8,8 @@ const MAX_BODY_BYTES = 2048;
 const DAY_MS = 86_400_000;
 const EVENT_TYPES = new Set(["pageview", "action", "engage"]);
 const RANGES = new Map([["1", "24 hours"], ["7", "7 days"], ["30", "30 days"], ["90", "90 days"]]);
+// Dashboard password checks allowed per client, and in total to slow guessing spread across many IPs.
+export const SIGN_IN_LIMITS = { perClient: 5, clientWindowMs: 15 * 60_000, overall: 50, overallWindowMs: 60 * 60_000 };
 
 const KNOWN_SOURCES = [
   [/(^|\.)gemini\.google\.com$/, "Gemini"],
@@ -62,7 +64,8 @@ export default {
     const today = new Date().toISOString().slice(0, 10);
     await env.DB.batch([
       env.DB.prepare("DELETE FROM events WHERE ts < ?").bind(Date.now() - retentionDays * DAY_MS),
-      env.DB.prepare("DELETE FROM salts WHERE day < ?").bind(today)
+      env.DB.prepare("DELETE FROM salts WHERE day < ?").bind(today),
+      env.DB.prepare("DELETE FROM sign_in_attempts WHERE ts < ?").bind(Date.now() - DAY_MS)
     ]);
   }
 };
@@ -226,9 +229,21 @@ function toHex(bytes) {
 async function handleDashboard(request, env) {
   if (request.method !== "GET" && request.method !== "HEAD") return new Response("Method not allowed", { status: 405, headers: { Allow: "GET" } });
   if (!env.DASHBOARD_PASSWORD) return new Response("Set the DASHBOARD_PASSWORD secret to enable the dashboard.", { status: 503 });
-  if (!(await authorized(request, env.DASHBOARD_PASSWORD))) {
-    return new Response("Authentication required", { status: 401, headers: { "WWW-Authenticate": 'Basic realm="dipops insights", charset="UTF-8"', "Cache-Control": "no-store" } });
+  const signIn = new Response("Authentication required", { status: 401, headers: { "WWW-Authenticate": 'Basic realm="dipops insights", charset="UTF-8"', "Cache-Control": "no-store" } });
+  if (!(request.headers.get("Authorization") || "").startsWith("Basic ")) return signIn;
+
+  const now = Date.now();
+  const client = await visitorId(await dailySalt(env.DB, new Date(now).toISOString().slice(0, 10)), request.headers.get("CF-Connecting-IP") || "", "dashboard sign-in");
+  const waitSeconds = await reserveSignInAttempt(env.DB, client, now);
+  if (waitSeconds) {
+    const minutes = Math.ceil(waitSeconds / 60);
+    return new Response(`Too many sign-in attempts. Try again in ${minutes} minute${minutes === 1 ? "" : "s"}.`, {
+      status: 429, headers: { "Retry-After": String(waitSeconds), "Cache-Control": "no-store" }
+    });
   }
+  if (!(await authorized(request, env.DASHBOARD_PASSWORD))) return signIn;
+  await env.DB.prepare("DELETE FROM sign_in_attempts WHERE client = ?").bind(client).run();
+
   const url = new URL(request.url);
   const days = RANGES.has(url.searchParams.get("days")) ? url.searchParams.get("days") : "7";
   const headers = {
@@ -250,6 +265,23 @@ async function handleDashboard(request, env) {
       "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
     }
   });
+}
+
+// Records the attempt before the password is checked, so parallel guesses count against the limit.
+// Returns the seconds to wait when a limit is exceeded; that attempt is dropped and its password never checked.
+export async function reserveSignInAttempt(db, client, now) {
+  const { perClient, clientWindowMs, overall, overallWindowMs } = SIGN_IN_LIMITS;
+  const [inserted, own, all] = await db.batch([
+    db.prepare("INSERT INTO sign_in_attempts (ts, client) VALUES (?, ?) RETURNING id").bind(now, client),
+    db.prepare("SELECT COUNT(*) AS attempts, MIN(ts) AS oldest FROM sign_in_attempts WHERE client = ? AND ts > ?").bind(client, now - clientWindowMs),
+    db.prepare("SELECT COUNT(*) AS attempts, MIN(ts) AS oldest FROM sign_in_attempts WHERE ts > ?").bind(now - overallWindowMs)
+  ]);
+  const waits = [];
+  if (own.results[0].attempts > perClient) waits.push(own.results[0].oldest + clientWindowMs - now);
+  if (all.results[0].attempts > overall) waits.push(all.results[0].oldest + overallWindowMs - now);
+  if (!waits.length) return 0;
+  await db.prepare("DELETE FROM sign_in_attempts WHERE id = ?").bind(inserted.results[0].id).run();
+  return Math.max(1, Math.ceil(Math.max(...waits) / 1000));
 }
 
 export async function authorized(request, expected) {

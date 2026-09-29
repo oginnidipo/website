@@ -45,6 +45,9 @@ The Worker, its D1 database (id in `workers/insights/wrangler.toml`), and the ta
 - `npm run insights:deploy` publishes Worker code changes; add a file under `workers/insights/migrations/` and run `npm run insights:migrate` for schema changes.
 - Open https://dipops.com/?no-insights once in each of your browsers so your own visits are not counted.
 
+Dashboard sign-in allows 5 password checks per client every 15 minutes and 50 per hour in total;
+further attempts get HTTP 429 with a `Retry-After` and are never checked against the password.
+
 No public file may start with `/insights` or `/api/ping`, because those paths go to the Worker.
 Add `?utm_source=linkedin&utm_campaign=<name>` to links you share to see which ones bring visitors.
 Locally, `npm run insights:dev` runs the Worker with a local database and `workers/insights/.dev.vars`;
