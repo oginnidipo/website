@@ -62,9 +62,9 @@ descriptions, and the buy email in `domain.html`; `npm test` fails if any of the
 
 `projects/k8s-cost-radar.html` documents the public tool's implementation and limitations.
 Project workflow diagrams describe architecture; they are not screenshots or live data.
-ReceiptNest is the current name of the app formerly called ReceiptVault. Its public
-support page is linked; neither app is presented as publicly downloadable without a
-verified release link. Article titles, publication dates, and reading times must stay
+Nestfold is the current name of the app formerly called ReceiptNest (and before that
+ReceiptVault). Its public site, nestfold.dipops.com, is linked; neither app is presented
+as publicly downloadable without a verified release link. Article titles, publication dates, and reading times must stay
 consistent across article pages, the homepage, writing index, and RSS.
 
 The `.openai/hosting.json` registration is for the separate private preview. The

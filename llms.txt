@@ -9,7 +9,7 @@ Contact: coginni@gmail.com · [GitHub](https://github.com/oginnidipo) · [Linked
 - [k8s-cost-radar](https://dipops.com/projects/k8s-cost-radar.html): a Python command-line tool that estimates request-based Kubernetes resource costs by Pod, namespace, and cluster, and flags settings to investigate. Source: https://github.com/oginnidipo/k8s-cost-radar
 - [Kubernetes observability stack](https://github.com/oginnidipo/k8s-observability-stack): a Helm reference stack with Prometheus, Grafana, Alertmanager, SLO and golden-signals dashboards, and OpenTelemetry configuration.
 - [EKS foundation](https://github.com/oginnidipo/eks-demo): modular Terraform for an Amazon EKS cluster, covering networking, private node groups, autoscaling, storage, and IAM/RBAC.
-- ReceiptNest (iOS, in development): on-device receipt scanning and expense tracking, formerly ReceiptVault. [Support page](https://receiptnest.dipops.com/support)
+- Nestfold (iOS, in beta): a budget app that reads receipts on the device, files purchases in budget envelopes, and logs Apple Pay taps through Shortcuts; formerly ReceiptNest and ReceiptVault. [App site](https://nestfold.dipops.com)
 - EducateED (web, in development): a Canadian tutoring platform connecting students and parents with tutors for one-to-one online sessions.
 
 ## Writing
