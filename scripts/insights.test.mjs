@@ -4,7 +4,8 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import vm from 'node:vm';
 import worker, { normalizeEvent, classifySource, parseUserAgent, isBot, classifyOrg, csvCell, escapeHtml,
-  visitorId, authorized, renderDashboard, SIGN_IN_LIMITS } from '../workers/insights/worker.mjs';
+  visitorId, authorized, renderDashboard, SIGN_IN_LIMITS, loadDashboard } from '../workers/insights/worker.mjs';
+import { inline, snapshotDatabase } from './insights-snapshot.mjs';
 
 const root = resolve(import.meta.dirname, '..');
 const SAFARI = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15';
@@ -51,8 +52,8 @@ test('user agents are summarized and bots are ignored', () => {
 
 test('networks are grouped into organizations, providers, and hosting', () => {
   for (const org of ['Shopify Inc.','University of Waterloo','Microsoft Corporation','Royal Bank of Canada']) assert.equal(classifyOrg(org),'org',org);
-  for (const org of ['Rogers Communications Canada Inc.','Bell Canada','TELUS Communications Inc.','Comcast Cable Communications, LLC','Distributel Communications Limited']) assert.equal(classifyOrg(org),'isp',org);
-  for (const org of ['Amazon.com, Inc.','DigitalOcean, LLC','Zscaler, Inc.','Hetzner Online GmbH']) assert.equal(classifyOrg(org),'hosting',org);
+  for (const org of ['Rogers Communications Canada Inc.','Bell Canada','TELUS Communications Inc.','Comcast Cable Communications, LLC','Distributel Communications Limited','Sympatico HSE']) assert.equal(classifyOrg(org),'isp',org);
+  for (const org of ['Amazon.com, Inc.','DigitalOcean, LLC','Zscaler, Inc.','Hetzner Online GmbH','LogicWeb Inc.']) assert.equal(classifyOrg(org),'hosting',org);
 });
 
 test('exports and the dashboard neutralize untrusted values', () => {
@@ -313,4 +314,36 @@ test('the daily cleanup removes old sign-in attempts', needsSqlite, () => atTime
   advance(25 * 60 * 60_000);
   await worker.scheduled({},site.env);
   assert.equal(attemptCount(db),0);
+}));
+
+test('the snapshot quotes query values as SQL literals', () => {
+  assert.equal(inline('SELECT * FROM events WHERE ts >= ? AND visitor IN (?, ?)',[1700000000000,'ab12',"o'neil"]),
+    "SELECT * FROM events WHERE ts >= 1700000000000 AND visitor IN ('ab12', 'o''neil')");
+  assert.equal(inline('SELECT ?',[null]),'SELECT NULL');
+  assert.throws(() => inline('SELECT ?, ?',[1]),/Expected 2 values, got 1/);
+});
+
+test('the snapshot reads the same data as the live dashboard, read-only, without range or CSV links', needsSqlite, () => atTime(NOON, async () => {
+  const db = sqliteD1();
+  const site = dashboard(db);
+  await site.ping({ t:'pageview', p:'/', r:'https://www.google.com/' });
+  await site.ping({ t:'action', p:'/', a:'resume', h:'https://dipops.com/resume.pdf' });
+  await Promise.all(site.pending);
+  const executed = [];
+  const snapshot = snapshotDatabase(statements => statements.map(sql => {
+    executed.push(sql);
+    return { results:db.sqlite.prepare(sql).all().map(row => ({ ...row })) };
+  }));
+  const data = await loadDashboard(snapshot,30);
+  assert.equal(data.summary.visits,1);
+  assert.equal(data.summary.views,1);
+  assert.equal(data.actions[0].name,'resume');
+  assert.ok(executed.every(sql => /^\s*SELECT\b/i.test(sql)),'snapshot queries must be read-only');
+  const html = renderDashboard(data,{ days:'30', timeZone:'America/Toronto', now:Date.now(), snapshot:true });
+  assert.doesNotMatch(html,/href="\?days=/);
+  assert.doesNotMatch(html,/format=csv/);
+  assert.match(html,/Snapshot taken .*npm run insights:snapshot/);
+  assert.match(html,/<span aria-current="page">30 days<\/span>/);
+  const live = renderDashboard(data,{ days:'30', timeZone:'America/Toronto', now:Date.now() });
+  assert.match(live,/href="\?days=7"/,'the live dashboard keeps its range links');
 }));

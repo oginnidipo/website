@@ -44,6 +44,8 @@ The Worker, its D1 database (id in `workers/insights/wrangler.toml`), and the ta
 - `npx wrangler secret put DASHBOARD_PASSWORD -c workers/insights/wrangler.toml` sets or changes the dashboard password.
 - `npm run insights:deploy` publishes Worker code changes; add a file under `workers/insights/migrations/` and run `npm run insights:migrate` for schema changes.
 - Open https://dipops.com/?no-insights once in each of your browsers so your own visits are not counted.
+- `npm run insights:snapshot` saves the dashboard from the live database and opens it, without the password
+  (read-only, through your Wrangler login). Add `-- --days 7` for another range; files go to a temp folder, not the repo.
 
 Dashboard sign-in allows 5 password checks per client every 15 minutes and 50 per hour in total;
 further attempts get HTTP 429 with a `Retry-After` and are never checked against the password.
