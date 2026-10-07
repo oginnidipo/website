@@ -39,8 +39,8 @@ const SOURCE_ALIASES = new Map([
   ["twitter", "X"], ["hn", "Hacker News"], ["ycombinator", "Hacker News"], ["newsletter", "Email"]
 ]);
 
-const HOSTING_PATTERN = /amazon|\baws\b|google cloud|digitalocean|linode|akamai|\bovh|hetzner|vultr|oracle cloud|alibaba|tencent|contabo|scaleway|leaseweb|choopa|m247|datacamp|cloudflare|fastly|zscaler|netskope|hosting|data ?center|\bvpn\b|proton|mullvad|nordvpn|private internet access|g-core|hostinger/i;
-const ISP_PATTERN = /\b(rogers|bell canada|bell mobility|telus|shaw|vid[eé]otron|cogeco|eastlink|sasktel|freedom mobile|fido|koodo|virgin|distributel|teksavvy|comcast|verizon|at&t|charter|spectrum|cox|t-mobile|sprint|frontier|centurylink|lumen|windstream|mediacom|altice|optimum|starlink|spacex|british telecommunications|vodafone|orange|deutsche telekom|telef[oó]nica|telstra|optus|jio|airtel|mtn|globacom|safaricom|claro|movistar)\b|telecom|broadband|wireless|\bmobile\b|\bcable|communications|internet service|\bisp\b/i;
+const HOSTING_PATTERN = /amazon|\baws\b|google cloud|digitalocean|linode|akamai|\bovh|hetzner|vultr|oracle cloud|alibaba|tencent|contabo|scaleway|leaseweb|choopa|m247|datacamp|cloudflare|fastly|zscaler|netskope|hosting|data ?center|\bvpn\b|proton|mullvad|nordvpn|private internet access|g-core|hostinger|logicweb/i;
+const ISP_PATTERN = /\b(rogers|bell canada|bell mobility|sympatico|telus|shaw|vid[eé]otron|cogeco|eastlink|sasktel|freedom mobile|fido|koodo|virgin|distributel|teksavvy|comcast|verizon|at&t|charter|spectrum|cox|t-mobile|sprint|frontier|centurylink|lumen|windstream|mediacom|altice|optimum|starlink|spacex|british telecommunications|vodafone|orange|deutsche telekom|telef[oó]nica|telstra|optus|jio|airtel|mtn|globacom|safaricom|claro|movistar)\b|telecom|broadband|wireless|\bmobile\b|\bcable|communications|internet service|\bisp\b/i;
 
 const ACTION_NAMES = new Map([
   ["resume", "Downloaded résumé"],
@@ -297,7 +297,7 @@ export async function authorized(request, expected) {
   return difference === 0;
 }
 
-async function loadDashboard(db, days) {
+export async function loadDashboard(db, days) {
   const since = Date.now() - days * DAY_MS;
   const query = sql => db.prepare(sql).bind(since);
   const results = await db.batch([
@@ -417,7 +417,8 @@ function dailyChart(daily, days, now) {
     <div class="chart-axis"><span>${escapeHtml(series[0].day)}</span><span>peak ${max} a day</span><span>${escapeHtml(series.at(-1).day)}</span></div>`;
 }
 
-export function renderDashboard(data, { days, timeZone, now }) {
+// snapshot: a saved copy (scripts/insights-snapshot.mjs), where range links and the CSV download can't work.
+export function renderDashboard(data, { days, timeZone, now, snapshot = false }) {
   const { summary, daily, pages, sources, referrers, campaigns, orgs, places, actions, devices, browsers, visits } = data;
   const when = new Intl.DateTimeFormat("en-CA", { timeZone, month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
   const grouped = { org: [], isp: [], hosting: [] };
@@ -427,7 +428,10 @@ export function renderDashboard(data, { days, timeZone, now }) {
     value: row => row.visits,
     empty: "No organizations yet."
   });
-  const tabs = [...RANGES].map(([value, name]) => `<a href="?days=${value}"${value === days ? ' aria-current="page"' : ""}>${name}</a>`).join("");
+  const tabs = [...RANGES].map(([value, name]) => {
+    const current = value === days ? ' aria-current="page"' : "";
+    return snapshot ? `<span${current}>${name}</span>` : `<a href="?days=${value}"${current}>${name}</a>`;
+  }).join("");
   const avgSeconds = summary.visits ? summary.seconds / summary.visits : 0;
   const visitRows = visits.map(visit => `<tr>
       <td>${escapeHtml(when.format(visit.last))}</td>
@@ -456,8 +460,8 @@ export function renderDashboard(data, { days, timeZone, now }) {
   .brand { font-weight: 700; font-size: 1.125rem; letter-spacing: -.03em; }
   .brand span { color: #b8ee75; }
   nav { display: flex; gap: .25rem; flex-wrap: wrap; }
-  nav a { color: #c6d2cd; text-decoration: none; font-size: .875rem; padding: .4rem .7rem; border-radius: 5px; }
-  nav a[aria-current] { background: #b8ee75; color: #10251e; font-weight: 600; }
+  nav a, nav span { color: #c6d2cd; text-decoration: none; font-size: .875rem; padding: .4rem .7rem; border-radius: 5px; }
+  nav [aria-current] { background: #b8ee75; color: #10251e; font-weight: 600; }
   main.wrap { padding-top: 2.25rem; padding-bottom: 3rem; }
   h1 { font-size: 1.5rem; letter-spacing: -.02em; margin: 0 0 .25rem; }
   h2 { font-size: 1rem; margin: 0 0 1rem; }
@@ -544,7 +548,9 @@ export function renderDashboard(data, { days, timeZone, now }) {
         <tbody>${visitRows}</tbody></table></div>` : '<p class="empty">No visits recorded yet. Page views appear here within seconds.</p>'}
     </section>
   </div>
-  <footer><span>No cookies or IP addresses are stored. Visitor hashes use a salt that is deleted after each day.</span><a href="?days=${days}&amp;format=csv">Download these ${escapeHtml(RANGES.get(days))} as CSV</a></footer>
+  <footer><span>No cookies or IP addresses are stored. Visitor hashes use a salt that is deleted after each day.</span>${snapshot
+    ? `<span>Snapshot taken ${escapeHtml(when.format(now))}. For another range, run <code>npm run insights:snapshot -- --days 7</code>.</span>`
+    : `<a href="?days=${days}&amp;format=csv">Download these ${escapeHtml(RANGES.get(days))} as CSV</a>`}</footer>
 </main>
 </body>
 </html>`;

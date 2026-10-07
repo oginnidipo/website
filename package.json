@@ -7,6 +7,7 @@
     "insights:dev": "wrangler dev -c workers/insights/wrangler.toml --local",
     "insights:migrate": "wrangler d1 migrations apply dipops-insights -c workers/insights/wrangler.toml --remote",
     "insights:deploy": "wrangler deploy -c workers/insights/wrangler.toml",
+    "insights:snapshot": "node scripts/insights-snapshot.mjs",
     "deploy:receipt-ai": "wrangler deploy",
     "check:receipt-ai": "node --check workers/receipt-ai.js"
   },
