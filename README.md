@@ -55,6 +55,10 @@ Add `?utm_source=linkedin&utm_campaign=<name>` to links you share to see which o
 Locally, `npm run insights:dev` runs the Worker with a local database and `workers/insights/.dev.vars`;
 set `localStorage['dipops:insights-endpoint']` to `http://127.0.0.1:8787/api/ping` in the preview to send it events.
 
+## Receipt AI endpoint
+
+The `api.dipops.com/receipt-ai` endpoint behind Nestfold's AI cleanup lives in the Nestfold repo (`backend/receipt-ai-proxy`), not here; never deploy it from this repo.
+
 ## Domain sale
 
 `domain.html` lists dipops.com for sale with an asking price, prefilled email links for buying or
