@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /insights
 Disallow: /api/
+Disallow: /domain.html
 
 Sitemap: https://dipops.com/sitemap.xml
