@@ -167,11 +167,13 @@ test('article publication metadata agrees across pages, indexes and RSS', () => 
   }
 });
 
-test('every page counts visits, offers the theme toggle, and links to the domain sale page', () => {
+test('every page counts visits, offers the theme toggle, and does not advertise the domain sale', () => {
   for (const [path, html] of documents) {
     assert.match(html,/<script src="[^"<>]*visits\.js" defer><\/script>/,`${path}: missing visits.js`);
     assert.match(html,/class="theme-toggle"/,`${path}: missing theme toggle`);
-    assert.match(html,/<footer[\s\S]*href="[^"]*domain\.html" class="footer-domain">dipops\.com is for sale<\/a>/,`${path}: missing footer domain link`);
+    if (path !== 'domain.html') {
+      assert.doesNotMatch(html,/domain\.html/,`${path}: domain sale page must not be advertised`);
+    }
   }
 });
 
