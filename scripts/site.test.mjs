@@ -231,3 +231,12 @@ test('llms.txt lists every article and project page', () => {
   assert.ok(llms.includes('https://dipops.com/projects/k8s-cost-radar.html'));
   for (const rule of ['Disallow: /insights','Disallow: /api/']) assert.ok(readFileSync(resolve(root,'robots.txt'),'utf8').includes(rule));
 });
+
+test('pages that say Nestfold is on the App Store link its verified listing', () => {
+  const listing = 'https://apps.apple.com/app/nestfold-expenses-receipts/id6761626007';
+  for (const [path, html] of documents) {
+    if (/App Store/.test(html)) assert.ok(html.includes(listing),`${path} mentions the App Store without linking the listing`);
+    assert.doesNotMatch(html,/in App Store review/,`${path} still says Nestfold is in review`);
+  }
+  assert.ok(readFileSync(resolve(root,'llms.txt'),'utf8').includes(listing));
+});
