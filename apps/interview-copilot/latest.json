@@ -1,0 +1,15 @@
+{
+  "version": "0.2.2",
+  "notes": "v2.2: race-hardened core, Groq/Ollama/Claude providers, system-design mode with design memory, auto-pilot screen watching, practice drills, session notes, in-app signed updates.",
+  "pub_date": "2026-11-09T03:51:37Z",
+  "platforms": {
+    "darwin-aarch64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTZ2JZdE1IWU94ckI0Qk5DZXB6aGRETjNyUmx5a1dmNEl0SndLSjRnVThmOEdUY1pHcUdFdit3a1FGRHF1bC9ydzBSZjJhTVAwRjhrOXRraGRyNisrT0N3SzVpQis1MGdNPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk0MTk2Mjk3CWZpbGU6SW50ZXJ2aWV3LUNvcGlsb3RfMC4yLjJfYWFyY2g2NC5hcHAudGFyLmd6CXZlcnNpb246MC4yLjIKUi9HSkF3SENGcndoYWh2SlJyanRRRmg1N0wzZ3VzaytuQnY0SVFxMzV5KzBqSk8wVkV0Si9LT0J2Q0ZLdGQ1NXRncEVISVFTY0ZQNkdOQ3RjMDFKQlE9PQo=",
+      "url": "https://dipops.com/apps/interview-copilot/0.2.2/Interview-Copilot_0.2.2_aarch64.app.tar.gz"
+    },
+    "darwin-aarch64-app": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTZ2JZdE1IWU94ckI0Qk5DZXB6aGRETjNyUmx5a1dmNEl0SndLSjRnVThmOEdUY1pHcUdFdit3a1FGRHF1bC9ydzBSZjJhTVAwRjhrOXRraGRyNisrT0N3SzVpQis1MGdNPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk0MTk2Mjk3CWZpbGU6SW50ZXJ2aWV3LUNvcGlsb3RfMC4yLjJfYWFyY2g2NC5hcHAudGFyLmd6CXZlcnNpb246MC4yLjIKUi9HSkF3SENGcndoYWh2SlJyanRRRmg1N0wzZ3VzaytuQnY0SVFxMzV5KzBqSk8wVkV0Si9LT0J2Q0ZLdGQ1NXRncEVISVFTY0ZQNkdOQ3RjMDFKQlE9PQo=",
+      "url": "https://dipops.com/apps/interview-copilot/0.2.2/Interview-Copilot_0.2.2_aarch64.app.tar.gz"
+    }
+  }
+}

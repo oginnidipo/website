@@ -9,6 +9,6 @@ execFileSync(process.execPath, ['--test', 'scripts/site.test.mjs', 'scripts/insi
 await rm(output, { recursive:true, force:true });
 await mkdir(output, { recursive:true });
 const publicPaths = ['index.html','now.html','404.html','domain.html','blog','projects','styles.css','site.js','visits.js',
-  'favicon.svg','favicon-32x32.png','apple-touch-icon.png','og-image.png','assets','resume.pdf','robots.txt','llms.txt','sitemap.xml','feed.xml','CNAME'];
+  'favicon.svg','favicon-32x32.png','apple-touch-icon.png','og-image.png','assets','resume.pdf','robots.txt','llms.txt','sitemap.xml','feed.xml','CNAME','apps'];
 for (const path of publicPaths) await cp(resolve(root,path), resolve(output,path), { recursive:true });
 console.log(`Built ${publicPaths.length} public entries → dist/`);
