@@ -1,15 +1,15 @@
 {
-  "version": "0.2.2",
-  "notes": "v2.2: race-hardened core, Groq/Ollama/Claude providers, system-design mode with design memory, auto-pilot screen watching, practice drills, session notes, in-app signed updates.",
-  "pub_date": "2026-11-09T03:51:37Z",
+  "version": "0.2.3",
+  "notes": "Coding rounds read the problem on your screen at full resolution and answer it, even when the question is vague, in the language you ask for. Answers fit the question: short for quick ones, fuller for open ones, with varied stories. The mic follows your default input, 1Password asks once, and one box takes typed questions.",
+  "pub_date": "2026-11-14T14:43:33Z",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTZ2JZdE1IWU94ckI0Qk5DZXB6aGRETjNyUmx5a1dmNEl0SndLSjRnVThmOEdUY1pHcUdFdit3a1FGRHF1bC9ydzBSZjJhTVAwRjhrOXRraGRyNisrT0N3SzVpQis1MGdNPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk0MTk2Mjk3CWZpbGU6SW50ZXJ2aWV3LUNvcGlsb3RfMC4yLjJfYWFyY2g2NC5hcHAudGFyLmd6CXZlcnNpb246MC4yLjIKUi9HSkF3SENGcndoYWh2SlJyanRRRmg1N0wzZ3VzaytuQnY0SVFxMzV5KzBqSk8wVkV0Si9LT0J2Q0ZLdGQ1NXRncEVISVFTY0ZQNkdOQ3RjMDFKQlE9PQo=",
-      "url": "https://dipops.com/apps/interview-copilot/0.2.2/Interview-Copilot_0.2.2_aarch64.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTZ2JZdE1IWU94ckRBbitUd3hDdnNGaGtpVGx3WHRmb3RCbTFFZllEc0ZiWEZaSjhJaEIvUUFOTGZBSFZ0SHAvOFRTdWdSSkl0UUlLYmtWbjVjL1RDMWtLZ0FBU1dFNUFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk0NjY3NDEzCWZpbGU6SW50ZXJ2aWV3LUNvcGlsb3RfMC4yLjNfYWFyY2g2NC5hcHAudGFyLmd6CXZlcnNpb246MC4yLjMKTndjNmM1SlVveWFVTVFibWlOdjE0VzErMGtkMzNhVzdtVEVobUR4MXBEbEdGNisxWWpSdVQ2SzJkalFUbEJORmFnMlk3NUlDcGNBQVVjcFpxc0NPRHc9PQo=",
+      "url": "https://dipops.com/apps/interview-copilot/0.2.3/Interview-Copilot_0.2.3_aarch64.app.tar.gz"
     },
     "darwin-aarch64-app": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTZ2JZdE1IWU94ckI0Qk5DZXB6aGRETjNyUmx5a1dmNEl0SndLSjRnVThmOEdUY1pHcUdFdit3a1FGRHF1bC9ydzBSZjJhTVAwRjhrOXRraGRyNisrT0N3SzVpQis1MGdNPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk0MTk2Mjk3CWZpbGU6SW50ZXJ2aWV3LUNvcGlsb3RfMC4yLjJfYWFyY2g2NC5hcHAudGFyLmd6CXZlcnNpb246MC4yLjIKUi9HSkF3SENGcndoYWh2SlJyanRRRmg1N0wzZ3VzaytuQnY0SVFxMzV5KzBqSk8wVkV0Si9LT0J2Q0ZLdGQ1NXRncEVISVFTY0ZQNkdOQ3RjMDFKQlE9PQo=",
-      "url": "https://dipops.com/apps/interview-copilot/0.2.2/Interview-Copilot_0.2.2_aarch64.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTZ2JZdE1IWU94ckRBbitUd3hDdnNGaGtpVGx3WHRmb3RCbTFFZllEc0ZiWEZaSjhJaEIvUUFOTGZBSFZ0SHAvOFRTdWdSSkl0UUlLYmtWbjVjL1RDMWtLZ0FBU1dFNUFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk0NjY3NDEzCWZpbGU6SW50ZXJ2aWV3LUNvcGlsb3RfMC4yLjNfYWFyY2g2NC5hcHAudGFyLmd6CXZlcnNpb246MC4yLjMKTndjNmM1SlVveWFVTVFibWlOdjE0VzErMGtkMzNhVzdtVEVobUR4MXBEbEdGNisxWWpSdVQ2SzJkalFUbEJORmFnMlk3NUlDcGNBQVVjcFpxc0NPRHc9PQo=",
+      "url": "https://dipops.com/apps/interview-copilot/0.2.3/Interview-Copilot_0.2.3_aarch64.app.tar.gz"
     }
   }
 }
